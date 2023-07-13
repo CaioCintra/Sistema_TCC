@@ -14,6 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { Paper } from "@mui/material";
 import MatricularTCC from "@/components/MatricularTCC";
+import MenuLateral from "@/components/MenuLateral";
 
 const drawerWidth: number = 280;
 
@@ -122,6 +123,8 @@ export default function Dashboard() {
             </IconButton>
           </Toolbar>
           <Divider />
+
+          <MenuLateral></MenuLateral>
         </Drawer>
         <Box
           component="main"
