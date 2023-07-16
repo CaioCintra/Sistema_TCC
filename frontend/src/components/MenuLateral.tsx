@@ -4,6 +4,10 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import ItemMenu from "./ItemMenu";
 
+function changePage(){
+
+}
+
 export default function SelectedListItem() {
   return (
     <>
@@ -19,13 +23,13 @@ export default function SelectedListItem() {
         sx={{ width: "100%", maxWidth: 360, bgcolor: "var(--secondary-color)" }}
       >
         <List component="nav" aria-label="main mailbox folders">
-          <ItemMenu titulo="Matrícula" />
+          <ItemMenu titulo="Matrícula" onClick={changePage()} />
           <ItemMenu titulo="Orientador" />
           <ItemMenu titulo="Banca" />
           <ItemMenu titulo="Defesa" />
         </List>
       </Box>
-      <text className="pt-2 text-2xl font-bold text-center justify-center align-middle">
+      <text className="pt-20 text-2xl font-bold text-center justify-center align-middle">
         TCC2
       </text>
       <Box
@@ -38,8 +42,8 @@ export default function SelectedListItem() {
           <ItemMenu titulo="Defesa" />
         </List>
       </Box>
-      <text className="p-6 text-2xl font-bold text-center justify-center align-middle">
-        Admin
+      <text className="pt-6 pb-4 text-2xl font-bold text-center justify-center align-middle">
+        ADM
       </text>
       <Box
         sx={{ width: "100%", maxWidth: 360, bgcolor: "var(--secondary-color)" }}

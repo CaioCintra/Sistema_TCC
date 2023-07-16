@@ -4,12 +4,12 @@ import LabelStatus from "./LabelStatus";
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 
-export default function LinhaAluno() {
+export default function LinhaMatricula() {
   return (
     <div className="px-4 bg-[var(--secondary-color)] h-16 flex items-center justify-between">
       <text>1234567</text>
       <text>João da Silva Medeiros</text>
-      <LabelStatus></LabelStatus>
+      <LabelStatus status='Matriculado TCC1'></LabelStatus>
       <text>10/07/2023</text>
       <div>
       <Tooltip title="Editar">
