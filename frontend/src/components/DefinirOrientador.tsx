@@ -1,4 +1,4 @@
-import LinhaMatricula from "./LinhaMatricula";
+import LinhaOrientador from "./LinhaOrientador";
 import ModalMatricula from "./ModalMatricula";
 
 export default function MatricularTCC() {
@@ -11,12 +11,12 @@ export default function MatricularTCC() {
             <text>RA</text>
             <text>Nome</text>
             <text>Status</text>
-            <text>Data</text>
+            <text>Orientador</text>
             <text>Ações</text>
             </div>
-        <LinhaMatricula></LinhaMatricula>
-        <LinhaMatricula></LinhaMatricula>
-        <LinhaMatricula></LinhaMatricula>
+        <LinhaOrientador></LinhaOrientador>
+        <LinhaOrientador></LinhaOrientador>
+        <LinhaOrientador></LinhaOrientador>
         
       </div>
     </div>
