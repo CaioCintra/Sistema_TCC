@@ -159,7 +159,7 @@ export default function MenuLateral(props: any) {
               </a>
             </List>
           </Box>
-          <text className="pt-10 text-2xl font-bold text-center justify-center align-middle">
+          <text className="pt-10 text-2xl leading-7 font-bold text-center justify-center align-middle">
             TCC2
           </text>
           <Box
