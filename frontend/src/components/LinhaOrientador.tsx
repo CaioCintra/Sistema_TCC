@@ -5,7 +5,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import EditIcon from '@mui/icons-material/Edit';
 
-export default function LinhaMatricula() {
+export default function LinhaOrientador() {
     return (
         <div className="px-4 bg-[var(--secondary-color)] h-16 flex items-center justify-between">
             <text>1234567</text>
