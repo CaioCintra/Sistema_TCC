@@ -1,13 +1,13 @@
 "use client";
-import DefinirOrientador from "@/components/DefinirOrientador";
+import RegistrarDefesa from "@/components/RegistrarDefesa";
 import { Box } from "@mui/material";
 
 import React from "react";
 
-export default function definirOrientadorTCC1() {
+export default function RegistrarDefesaTCC1() {
   return (
     <Box>
-      <DefinirOrientador></DefinirOrientador>
+      <RegistrarDefesa></RegistrarDefesa>
     </Box>
   );
 }
