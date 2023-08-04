@@ -1,30 +1,45 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
+import { z } from "zod";
 
-export async function rotasAlunos(app:FastifyInstance) {
-    app.get("/alunos", async () => {
-        const alunos = await prisma.aluno.findMany({
-            // orderBy: {
-            //     createdAt: 'asc'
-            // },
-        })
-
-        return alunos
-    })
-
-    app.get("/alunos/:ra", async () => {
-
+export async function rotasAlunos(app: FastifyInstance) {
+  app.get("/alunos", async () => {
+    const alunos = await prisma.aluno.findMany({
+      orderBy: {
+        ra: "asc",
+      },
     });
 
-    app.post("/alunos", async () => {
+    return alunos.map((aluno) => {
+      return {
+        ra: aluno.ra,
+        nome: aluno.nome,
+        email: aluno.email,
+        status: aluno.status,
+        periodo: aluno.periodo_matricula,
+      };
+    });
+  });
 
+  app.get("/alunos/:ra", async (request) => {
+    const paramsSchema = z.object({
+      ra: z.string(),
     });
 
-    app.put("/alunos/:ra", async () => {
+    const { ra } = paramsSchema.parse(request.params);
 
+    const aluno = await prisma.aluno.findUniqueOrThrow({
+      where: {
+        ra,
+      },
     });
 
-    app.delete("/alunos/:ra", async () => {
+    return aluno;
+  });
 
-    });
+  app.post("/alunos", async (request) => {});
+
+  app.put("/alunos/:ra", async () => {});
+
+  app.delete("/alunos/:ra", async () => {});
 }
