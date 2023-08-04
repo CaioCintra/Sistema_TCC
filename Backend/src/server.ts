@@ -1,14 +1,9 @@
 import fastify from "fastify";
-import { PrismaClient } from "@prisma/client";
+import { rotasAlunos } from "./routes/alunos";
 
 const app = fastify();
-const prisma = new PrismaClient()
 
-app.get("/alunos", async () => {
-    const alunos = await prisma.aluno.findMany()
-
-  return alunos
-});
+app.register(rotasAlunos)
 
 app
   .listen({

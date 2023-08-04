@@ -11,6 +11,9 @@ datasource db {
 }
 
 model Aluno {
-  ra String @unique
-  nome String
+  ra                String @unique
+  nome              String
+  email             String
+  status            String
+  periodo_matricula String
 }
