@@ -35,11 +35,23 @@ export default function MatricularTCC() {
           <text className="w-[5%]">Ações</text>
         </div>
         <div>
-      {data ?
-      data.map((aluno) => (
-        <LinhaMatricula ra={aluno.ra} nome={aluno.nome} status={aluno.status} matricula={aluno.periodo}/> 
-      )): <></>}
-    </div>
+          {data ? (
+            data.map((aluno) =>
+              aluno.status == "Matriculado_TCC1" ? (
+                <LinhaMatricula
+                  ra={aluno.ra}
+                  nome={aluno.nome}
+                  status={aluno.status}
+                  matricula={aluno.periodo}
+                />
+              ) : (
+                <></>
+              )
+            )
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </div>
   );
