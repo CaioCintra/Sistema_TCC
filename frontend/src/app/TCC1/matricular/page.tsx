@@ -7,7 +7,7 @@ import React from "react";
 export default function matricularTCC1() {
   return (
     <Box>
-      <MatricularTCC></MatricularTCC>;
+      <MatricularTCC></MatricularTCC>
     </Box>
   );
 }
