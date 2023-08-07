@@ -11,9 +11,18 @@ datasource db {
 }
 
 model Aluno {
-  ra                String @unique
-  nome              String
+  ra                String @unique @db.VarChar(7)
+  nome              String  
   email             String
-  status            String
+  status            String @default("Matriculado_TCC1")
   periodo_matricula String
+}
+
+enum Status {
+  Matriculado_TCC1
+  Orientador_Definido
+  Banca_TCC1_Agendada
+  Banca_TCC1_Confirmada
+  Aprovado_TCC1
+  Reprovado_TCC1
 }

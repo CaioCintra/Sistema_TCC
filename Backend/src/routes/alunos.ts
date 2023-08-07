@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify";
-import { prisma } from "../lib/prisma";
 import { z } from "zod";
+import { PrismaClient, Status } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function rotasAlunos(app: FastifyInstance) {
   app.get("/alunos", async () => {
@@ -15,7 +17,7 @@ export async function rotasAlunos(app: FastifyInstance) {
         ra: aluno.ra,
         nome: aluno.nome,
         email: aluno.email,
-        status: aluno.status,
+        status: aluno.status as Status,
         periodo: aluno.periodo_matricula,
       };
     });
