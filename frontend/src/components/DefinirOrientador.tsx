@@ -1,23 +1,56 @@
 import LinhaOrientador from "./LinhaOrientador";
 import ModalMatricula from "./ModalMatricula";
+import { useEffect, useState } from "react";
 
-export default function MatricularTCC() {
+export default function DefinirOrientador() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("http://localhost:3333/alunos");
+        if (!response.ok) {
+          throw new Error("Erro ao buscar dados da API");
+        }
+        const data = await response.json();
+        setData(data);
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <div>
       <ModalMatricula></ModalMatricula>
-
       <div className="m-10 mt-20 items-center space-y-1">
-        <div className="px-6 flex justify-between font-extrabold">
-            <text>RA</text>
-            <text>Nome</text>
-            <text>Status</text>
-            <text>Orientador</text>
-            <text>Ações</text>
-            </div>
-        <LinhaOrientador></LinhaOrientador>
-        <LinhaOrientador></LinhaOrientador>
-        <LinhaOrientador></LinhaOrientador>
-        
+        <div className="px-6 flex font-extrabold">
+          <text className="w-[13%]">RA</text>
+          <text className="w-[26%]">Nome</text>
+          <text className="w-[20%]">Status</text>
+          <text className="w-[32%]">Orientador</text>
+          <text className="w-[5%]">Ações</text>
+        </div>
+        <div>
+          {data ? (
+            data.map((aluno) =>
+              aluno.status == "Matriculado_TCC1" || aluno.status == "Orientador_Definido" ? (
+                <LinhaOrientador
+                  ra={aluno.ra}
+                  nome={aluno.nome}
+                  status={aluno.status}
+                  matricula={aluno.periodo}
+                  orientador = 'Scott Clarke'
+                />
+              ) : (
+                <></>
+              )
+            )
+          ) : (
+            <></>
+          )}
+        </div>
       </div>
     </div>
   );
