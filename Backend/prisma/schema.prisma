@@ -10,9 +10,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Professor {
+  nome         String @unique
+  email        String
+  departamento String
+  telefone     String
+}
 model Aluno {
   ra                String @unique @db.VarChar(7)
-  nome              String  
+  nome              String
   email             String
   status            String @default("Matriculado_TCC1")
   periodo_matricula String
@@ -26,3 +32,5 @@ enum Status {
   Aprovado_TCC1
   Reprovado_TCC1
 }
+
+
