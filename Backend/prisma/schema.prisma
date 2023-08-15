@@ -11,17 +11,21 @@ datasource db {
 }
 
 model Professor {
-  nome         String @unique
+  nome         String  @unique
   email        String
   departamento String
   telefone     String
+  alunos       Aluno[]
 }
+
 model Aluno {
-  ra                String @unique @db.VarChar(7)
+  ra                String     @unique @db.VarChar(7)
   nome              String
   email             String
-  status            String @default("Matriculado_TCC1")
+  status            Status
   periodo_matricula String
+  Professor         Professor? @relation(fields: [orientador], references: [nome])
+  orientador        String?
 }
 
 enum Status {
@@ -32,5 +36,3 @@ enum Status {
   Aprovado_TCC1
   Reprovado_TCC1
 }
-
-
