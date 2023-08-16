@@ -30,7 +30,34 @@ export async function rotasAlunos(app: FastifyInstance) {
     return alunos;
   });
 
-  app.post("/alunos", async (request) => {});
+  app.post("/alunos", async (request, reply) => {
+    try {
+      const alunoData = request.body as {
+        ra: string;
+        nome: string;
+        email: string;
+        status: string;
+        periodo_matricula: string;
+        orientador: string;
+      };
+
+      const novoAluno = await prisma.aluno.create({
+        data: {
+          ra: alunoData.ra,
+          nome: alunoData.nome,
+          email: alunoData.email,
+          status: alunoData.status,
+          periodo_matricula: alunoData.periodo_matricula,
+          orientador: alunoData.orientador,
+        },
+      });
+
+      reply.status(201).send(novoAluno);
+    } catch (error) {
+      console.error(error);
+      reply.status(400).send({ error: "Erro ao criar o aluno." });
+    }
+  });
 
   app.put("/alunos/:ra", async () => {});
 
