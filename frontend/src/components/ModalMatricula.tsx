@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import { useState } from 'react';
+import { useState } from "react";
 
 const style = {
   position: "absolute" as "absolute",
@@ -18,46 +18,31 @@ const style = {
   p: 5,
 };
 
-
 export default function ModalMatricula() {
-
-  const [formData, setFormData] = useState({
-    ra: '',
-    nome: '',
-    email: '',
-    status:''
+  const [content, setContent] = useState({
+    ra: "",
+    nome: "",
+    email: "",
+    status: "Matriculado_TCC1",
+    periodo_matricula: "2023/2",
   });
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onChangeInput = (e:any) =>
+    setContent({ ...content, [e.target.name]: e.target.value });
 
-    // Aqui você pode enviar os dados do formulário para o servidor usando o método POST
+  const cadastrarAluno = async (e:any) => {
+    e.preventDefault();
+    console.log(content);
+
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      await fetch("http://localhost:3333/alunos", {
+        method: "POST",
+        body: JSON.stringify(content),
+        headers: { "Content-Type": "application/json" },
       });
-
-      if (response.ok) {
-        // Tratar a resposta do servidor, se necessário
-        console.log('Formulário enviado com sucesso!');
-      } else {
-        console.error('Erro ao enviar o formulário.');
-      }
-    } catch (error) {
-      console.error('Erro ao enviar o formulário:', error);
+    } catch (err) {
+      console.log("Erro ao cadastrar aluno");
     }
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
   };
 
   const [open, setOpen] = React.useState(false);
@@ -89,12 +74,14 @@ export default function ModalMatricula() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <text className="mt-3 mb-3 text-2xl font-bold">Matricular Aluno</text>
+            <text className="mt-3 mb-3 text-2xl font-bold">
+              Matricular Aluno
+            </text>
             <p className="mt-5 mb-5 font-bold">
               Insira os alunos para matricular
             </p>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={cadastrarAluno}>
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
                   RA
@@ -104,6 +91,8 @@ export default function ModalMatricula() {
                   id="ra"
                   name="ra"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                  onChange={onChangeInput}
+                  value={content.ra}
                   required
                 />
               </div>
@@ -116,6 +105,8 @@ export default function ModalMatricula() {
                   id="nome"
                   name="nome"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                  onChange={onChangeInput}
+                  value={content.nome}
                   required
                 />
               </div>
@@ -128,6 +119,8 @@ export default function ModalMatricula() {
                   id="email"
                   name="email"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                  onChange={onChangeInput}
+                  value={content.email}
                   required
                 />
               </div>
@@ -136,9 +129,11 @@ export default function ModalMatricula() {
                   Período
                 </label>
                 <select
-                  id="periodo"
-                  name="periodo"
+                  id="periodo_matricula"
+                  name="periodo_matricula"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                  onChange={onChangeInput}
+                  value={content.periodo_matricula}
                   required
                 >
                   <option value="2023/2">2023/2</option>
