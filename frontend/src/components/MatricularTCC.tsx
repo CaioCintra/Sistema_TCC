@@ -14,8 +14,6 @@ export default function MatricularTCC() {
         }
         const data = await response.json();
         setData(data);
-        var alunos = data;
-        console.log(data[0].nome);
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
@@ -29,9 +27,9 @@ export default function MatricularTCC() {
       <div className="m-10 mt-20 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
           <text className="w-[14%]">RA</text>
-          <text className="w-[26%]">Nome</text>
-          <text className="w-[20%]">Status</text>
-          <text className="w-[36%]">Matrícula</text>
+          <text className="w-[28%]">Nome</text>
+          <text className="w-[18%]">Status</text>
+          <text className="w-[37%]">Matrícula</text>
           <text className="w-[5%]">Ações</text>
         </div>
         <div>
@@ -42,7 +40,7 @@ export default function MatricularTCC() {
                   ra={aluno.ra}
                   nome={aluno.nome}
                   status={aluno.status}
-                  matricula={aluno.periodo}
+                  matricula={aluno.periodo_matricula}
                 />
               ) : (
                 <></>
