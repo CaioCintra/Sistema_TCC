@@ -54,7 +54,7 @@ export default function ModalMatricula() {
       <text className="text-2xl font-bold">Matricular TCC1</text>
       <Button
         variant="contained"
-        className="uppercase bg-[var(--primary-color)] hover:bg-slate-800 float-right"
+        className="uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right"
         onClick={handleOpen}
       >
         Matricular
@@ -145,8 +145,7 @@ export default function ModalMatricula() {
               <Button
                 type="submit"
                 variant="contained"
-                className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-800 float-right bottom-0 right-0"
-                // onClick={handleClose}
+                className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right bottom-0 right-0"
               >
                 {" "}
                 Matricular

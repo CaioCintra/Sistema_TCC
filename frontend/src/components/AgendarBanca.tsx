@@ -27,19 +27,19 @@ export default function AgendarBanca() {
       </div>
       <div className="flex justify-center">
         <Button
-          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-800 rounded-lg min-w-8 h-8 w-8 m-2"
+          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-900 rounded-lg min-w-8 h-8 w-8 m-2"
           variant="contained"
         >
           1
         </Button>
         <Button
-          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-800 rounded-lg min-w-8 h-8 w-8 m-2"
+          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-900 rounded-lg min-w-8 h-8 w-8 m-2"
           variant="contained"
         >
           2
         </Button>
         <Button
-          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-800 rounded-lg min-w-8 h-8 w-8 m-2"
+          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-900 rounded-lg min-w-8 h-8 w-8 m-2"
           variant="contained"
         >
           3
@@ -67,19 +67,19 @@ export default function AgendarBanca() {
       </div>
       <div className="flex justify-center">
         <Button
-          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-800 rounded-lg min-w-8 h-8 w-8 m-2"
+          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-900 rounded-lg min-w-8 h-8 w-8 m-2"
           variant="contained"
         >
           1
         </Button>
         <Button
-          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-800 rounded-lg min-w-8 h-8 w-8 m-2"
+          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-900 rounded-lg min-w-8 h-8 w-8 m-2"
           variant="contained"
         >
           2
         </Button>
         <Button
-          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-800 rounded-lg min-w-8 h-8 w-8 m-2"
+          className="min-w-0 bg-[var(--primary-color)] hover:bg-slate-900 rounded-lg min-w-8 h-8 w-8 m-2"
           variant="contained"
         >
           3
