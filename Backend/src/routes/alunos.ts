@@ -8,7 +8,7 @@ export async function rotasAlunos(app: FastifyInstance) {
   app.get("/alunos", async () => {
     const alunos = await prisma.aluno.findMany({
       orderBy: {
-        ra: "asc",
+        nome: "asc",
       },
     });
     return alunos;
@@ -61,5 +61,17 @@ export async function rotasAlunos(app: FastifyInstance) {
 
   app.put("/alunos/:ra", async () => {});
 
-  app.delete("/alunos/:ra", async () => {});
+  app.delete("/alunos/:ra", async (request) => {
+    const paramsSchema = z.object({
+      ra: z.string(),
+    });
+
+    const { ra } = paramsSchema.parse(request.params);
+
+    await prisma.aluno.delete({
+      where: {
+        ra,
+      },
+    });
+  });
 }
