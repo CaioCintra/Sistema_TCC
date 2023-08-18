@@ -23,9 +23,10 @@ const style = {
 export default function ModalMatricula(props: any) {
   const deletarAluno = async (e: any) => {
     try {
-      await fetch("http://localhost:3333/alunos/${props.aluno}", {
+      await fetch(`http://localhost:3333/alunos/${props.aluno}`, {
         method: "DELETE",
       });
+      handleClose()
       location.reload()
     } catch (err) {
       console.log("Erro ao remover aluno");
