@@ -34,7 +34,7 @@ export default function MatricularTCC() {
         </div>
         <div>
           {data ? (
-            data.map((aluno) =>
+            data.map((aluno:any) =>
               aluno.status == "Matriculado_TCC1" ? (
                 <LinhaMatricula
                   ra={aluno.ra}
