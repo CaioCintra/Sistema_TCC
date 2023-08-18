@@ -5,6 +5,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const style = {
   position: "absolute" as "absolute",
@@ -27,19 +28,31 @@ export default function ModalMatricula() {
     periodo_matricula: "2023/2",
   });
 
-  const onChangeInput = (e:any) =>
+  function limparFormulario() {
+    setContent({
+      ra: "",
+      nome: "",
+      email: "",
+      status: "Matriculado_TCC1",
+      periodo_matricula: "2023/2",
+    });
+  }
+
+  const onChangeInput = (e: any) =>
     setContent({ ...content, [e.target.name]: e.target.value });
 
-  const cadastrarAluno = async (e:any) => {
-    e.preventDefault();
-    console.log(content);
 
+  const cadastrarAluno = async (e: any) => {
+    e.preventDefault();
     try {
       await fetch("http://localhost:3333/alunos", {
         method: "POST",
         body: JSON.stringify(content),
         headers: { "Content-Type": "application/json" },
       });
+      handleClose();
+      limparFormulario();
+      location.reload()
     } catch (err) {
       console.log("Erro ao cadastrar aluno");
     }
@@ -63,7 +76,10 @@ export default function ModalMatricula() {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          handleClose();
+          limparFormulario();
+        }}
         closeAfterTransition
         slots={{ backdrop: Backdrop }}
         slotProps={{
@@ -81,7 +97,7 @@ export default function ModalMatricula() {
               Insira os alunos para matricular
             </p>
 
-            <form onSubmit={cadastrarAluno}>
+            <form onSubmit={cadastrarAluno} id="form">
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
                   RA
@@ -90,6 +106,8 @@ export default function ModalMatricula() {
                   type="text"
                   id="ra"
                   name="ra"
+                  pattern="[0-9]{7}"
+                  maxLength={7}
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                   onChange={onChangeInput}
                   value={content.ra}
@@ -104,6 +122,7 @@ export default function ModalMatricula() {
                   type="text"
                   id="nome"
                   name="nome"
+                  pattern="^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                   onChange={onChangeInput}
                   value={content.nome}
@@ -118,6 +137,7 @@ export default function ModalMatricula() {
                   type="email"
                   id="email"
                   name="email"
+                  pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                   onChange={onChangeInput}
                   value={content.email}
@@ -146,7 +166,6 @@ export default function ModalMatricula() {
                 type="submit"
                 variant="contained"
                 className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-800 float-right bottom-0 right-0"
-                // onClick={handleClose}
               >
                 {" "}
                 Matricular
