@@ -4,6 +4,7 @@ import LabelStatus from "./LabelStatus";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import ModalDeletar from "./ModalDeletar";
+import ModalEditar from "./ModalEditar";
 
 export default function LinhaMatricula(props: any) {
   return (
@@ -13,13 +14,9 @@ export default function LinhaMatricula(props: any) {
       <LabelStatus className="w-1/4" status={props.status}></LabelStatus>
       <text className="w-1/6">{props.matricula}</text>
       <div />
-      <div>
-        <Tooltip title="Editar">
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-        <ModalDeletar aluno={props.ra}/>
+      <div className="inline-flex">
+        <ModalEditar ra={props.ra} nome={props.nome} status={props.status} email={props.email} periodo={props.matricula}/>
+        <ModalDeletar aluno={props.ra} />
       </div>
     </div>
   );

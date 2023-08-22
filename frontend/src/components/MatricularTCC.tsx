@@ -40,6 +40,7 @@ export default function MatricularTCC() {
                   ra={aluno.ra}
                   nome={aluno.nome}
                   status={aluno.status}
+                  email={aluno.email}
                   matricula={aluno.periodo_matricula}
                 />
               ) : (
