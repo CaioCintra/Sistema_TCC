@@ -4,8 +4,9 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Alert, AlertTitle } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
   position: "absolute" as "absolute",
@@ -20,6 +21,8 @@ const style = {
 };
 
 export default function ModalMatricula() {
+  const [error, setError] = useState(null);
+
   const [content, setContent] = useState({
     ra: "",
     nome: "",
@@ -41,20 +44,24 @@ export default function ModalMatricula() {
   const onChangeInput = (e: any) =>
     setContent({ ...content, [e.target.name]: e.target.value });
 
-
   const cadastrarAluno = async (e: any) => {
     e.preventDefault();
     try {
-      await fetch("http://localhost:3333/alunos", {
+      const response = await fetch("http://localhost:3333/alunos", {
         method: "POST",
         body: JSON.stringify(content),
         headers: { "Content-Type": "application/json" },
       });
-      handleClose();
-      limparFormulario();
-      location.reload()
+
+      if (response.status === 500) {
+        setError("RA já cadastrado");
+      } else if (response.ok) {
+        handleClose();
+        limparFormulario();
+        location.reload();
+      }
     } catch (err) {
-      console.log("Erro ao cadastrar aluno");
+      console.log("Erro ao cadastrar aluno:", err);
     }
   };
 
@@ -62,8 +69,34 @@ export default function ModalMatricula() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   return (
     <div>
+      {error && (
+        <Alert
+          className="z-50 absolute bottom-2 right-0"
+          severity="error"
+          variant="filled"
+          action={
+            <Button color="inherit" size="small" onClick={() => setError(null)}>
+              <CloseIcon />
+            </Button>
+          }
+          onClose={() => setError(null)}
+        >
+          <AlertTitle className="font-bold">Erro</AlertTitle>
+          {error}
+        </Alert>
+      )}
       <text className="text-2xl font-bold">Matricular TCC1</text>
       <Button
         variant="contained"
