@@ -29,8 +29,8 @@ export default function DefinirOrientador() {
           <text className="w-[13%]">RA</text>
           <text className="w-[26%]">Nome</text>
           <text className="w-[20%]">Status</text>
-          <text className="w-[32%]">Orientador</text>
-          <text className="w-[5%]">Ações</text>
+          <text className="w-[36%]">Orientador</text>
+          <text className="">Ações</text>
         </div>
         <div>
           {data ? (
@@ -41,7 +41,7 @@ export default function DefinirOrientador() {
                   nome={aluno.nome}
                   status={aluno.status}
                   matricula={aluno.periodo}
-                  orientador = 'Scott Clarke'
+                  orientador = {aluno.orientador}
                 />
               ) : (
                 <></>
