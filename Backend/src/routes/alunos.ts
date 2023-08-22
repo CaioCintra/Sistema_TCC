@@ -30,32 +30,25 @@ export async function rotasAlunos(app: FastifyInstance) {
     return alunos;
   });
 
-  app.post("/alunos", async (request, reply) => {
-    try {
-      const alunoData = request.body as {
-        ra: string;
-        nome: string;
-        email: string;
-        status: string;
-        periodo_matricula: string;
-        orientador: string;
-      };
+  app.post("/alunos", async (request) => {
+    const newAlunoData = request.body as {
+      ra: string;
+      nome: string;
+      email: string;
+      status: string;
+      periodo_matricula: string;
+      orientador: string;
+    };
 
-      const novoAluno = await prisma.aluno.create({
-        data: {
-          ra: alunoData.ra,
-          nome: alunoData.nome,
-          email: alunoData.email,
-          status: alunoData.status,
-          periodo_matricula: alunoData.periodo_matricula,
-          orientador: alunoData.orientador,
-        },
+    try {
+      const createdAluno = await prisma.aluno.create({
+        data: newAlunoData,
       });
 
-      reply.status(201).send(novoAluno);
+      return createdAluno;
     } catch (error) {
       console.error(error);
-      reply.status(400).send({ error: "Erro ao criar o aluno." });
+      throw new Error("Erro ao criar um novo aluno.");
     }
   });
 
@@ -63,32 +56,34 @@ export async function rotasAlunos(app: FastifyInstance) {
     const paramsSchema = z.object({
       ra: z.string(),
     });
-  
+
     const { ra } = paramsSchema.parse(request.params);
-  
     const updatedAlunoData = request.body as {
       nome: string;
       email: string;
       status: string;
       periodo_matricula: string;
-      // orientador: string;
+      orientador: string;
     };
-  
+
     try {
       const updatedAluno = await prisma.aluno.update({
         where: {
-          ra,
+          ra: ra,
         },
         data: updatedAlunoData,
       });
-  
+
+      if (!updatedAluno) {
+        throw new Error(`Aluno com RA ${ra} não encontrado.`);
+      }
+
       return updatedAluno;
     } catch (error) {
       console.error(error);
       throw new Error("Erro ao atualizar o aluno.");
     }
   });
-  
 
   app.delete("/alunos/:ra", async (request) => {
     const paramsSchema = z.object({
