@@ -5,7 +5,7 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Alert } from "@mui/material";
 
 const style = {
   position: "absolute" as "absolute",
@@ -20,6 +20,8 @@ const style = {
 };
 
 export default function ModalMatricula() {
+  const [error, setError] = useState(null);
+
   const [content, setContent] = useState({
     ra: "",
     nome: "",
@@ -41,20 +43,27 @@ export default function ModalMatricula() {
   const onChangeInput = (e: any) =>
     setContent({ ...content, [e.target.name]: e.target.value });
 
-
   const cadastrarAluno = async (e: any) => {
     e.preventDefault();
     try {
-      await fetch("http://localhost:3333/alunos", {
+      const response = await fetch("http://localhost:3333/alunos", {
         method: "POST",
         body: JSON.stringify(content),
         headers: { "Content-Type": "application/json" },
       });
-      handleClose();
-      limparFormulario();
-      location.reload()
+
+      if (response.status === 500) {
+        // Define o erro no estado para exibir na renderização.
+        setError("Erro interno do servidor");
+      } else if (response.ok) {
+        // Se a resposta for bem-sucedida, execute as ações desejadas.
+        handleClose();
+        limparFormulario();
+        location.reload();
+      }
     } catch (err) {
-      console.log("Erro ao cadastrar aluno");
+      // Se ocorrer um erro que não seja uma resposta 500, você pode escolher lidar com isso de alguma outra maneira, se necessário.
+      console.log("Erro ao cadastrar aluno:", err);
     }
   };
 
@@ -64,6 +73,18 @@ export default function ModalMatricula() {
 
   return (
     <div>
+      {error && (
+        <Alert
+          action={
+            <Button color="inherit" size="small" onClick={() => setError(null)}>
+              UNDO
+            </Button>
+          }
+          onClose={() => setError(null)}
+        >
+          {error}
+        </Alert>
+      )}
       <text className="text-2xl font-bold">Matricular TCC1</text>
       <Button
         variant="contained"
