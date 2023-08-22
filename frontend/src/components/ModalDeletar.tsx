@@ -74,7 +74,7 @@ export default function ModalMatricula(props: any) {
               </Button>
               <Button
                 variant="contained"
-                className="p-3 w-2/5 uppercase bg-[var(--alert-color)] hover:bg-red-600"
+                className="p-3 w-2/5 uppercase bg-[var(--alert-color)] hover:bg-red-500"
                 onClick={deletarAluno}
               >
                 Remover aluno
