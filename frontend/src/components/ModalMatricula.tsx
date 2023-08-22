@@ -4,8 +4,9 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import { useState } from "react";
-import { Alert } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Alert, AlertTitle } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
   position: "absolute" as "absolute",
@@ -53,16 +54,13 @@ export default function ModalMatricula() {
       });
 
       if (response.status === 500) {
-        // Define o erro no estado para exibir na renderização.
-        setError("Erro interno do servidor");
+        setError("RA já cadastrado");
       } else if (response.ok) {
-        // Se a resposta for bem-sucedida, execute as ações desejadas.
         handleClose();
         limparFormulario();
         location.reload();
       }
     } catch (err) {
-      // Se ocorrer um erro que não seja uma resposta 500, você pode escolher lidar com isso de alguma outra maneira, se necessário.
       console.log("Erro ao cadastrar aluno:", err);
     }
   };
@@ -71,17 +69,31 @@ export default function ModalMatricula() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
   return (
     <div>
       {error && (
         <Alert
+          className="z-50 absolute bottom-2 right-0"
+          severity="error"
+          variant="filled"
           action={
             <Button color="inherit" size="small" onClick={() => setError(null)}>
-              UNDO
+              <CloseIcon />
             </Button>
           }
           onClose={() => setError(null)}
         >
+          <AlertTitle className="font-bold">Erro</AlertTitle>
           {error}
         </Alert>
       )}
