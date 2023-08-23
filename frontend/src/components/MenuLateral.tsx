@@ -196,7 +196,7 @@ export default function MenuLateral(props: any) {
             className="inset-x-0 bottom-0"
           >
             <Divider />
-            <a href="/config">
+            <a href="/admin/menu">
               <ItemMenu titulo="Configurações" />
             </a>
           </Box>
