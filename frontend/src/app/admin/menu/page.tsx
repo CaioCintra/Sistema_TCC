@@ -11,7 +11,7 @@ export default function agendarBancaTCC1() {
       </text>
       <div className="flex flex-col items-center justify-center space-y-4">
         <Button
-        href="/admin/cadastroDatas"
+          href="/admin/cadastroDatas"
           className="w-2/3 h-36 uppercase bg-[var(--primary-color)] hover:bg-slate-900 text-2xl font-bold"
           variant="contained"
         >
@@ -19,7 +19,7 @@ export default function agendarBancaTCC1() {
         </Button>
         <br />
         <Button
-        href="/admin/cadastroProfessor"
+          href="/admin/cadastroProfessor"
           className="w-2/3 h-36 uppercase bg-[var(--primary-color)] hover:bg-slate-900 text-2xl font-bold"
           variant="contained"
         >
@@ -27,7 +27,7 @@ export default function agendarBancaTCC1() {
         </Button>
         <br />
         <Button
-        href="/admin/cadastroTextos"
+          href="/admin/cadastroTextos"
           className="w-2/3 h-36 uppercase bg-[var(--primary-color)] hover:bg-slate-900 text-2xl font-bold"
           variant="contained"
         >
