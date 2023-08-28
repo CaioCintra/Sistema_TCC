@@ -75,7 +75,7 @@ export async function rotasAlunos(app: FastifyInstance) {
       });
 
       if (!updatedAluno) {
-        throw new Error(`Aluno com RA ${ra} não encontrado.`);
+        throw new Error(`Aluno com RA: ${ra} não encontrado.`);
       }
 
       return updatedAluno;
