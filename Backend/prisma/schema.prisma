@@ -14,7 +14,7 @@ model Professor {
   nome         String  @unique
   email        String
   departamento String
-  telefone     String
+  telefone     String  @unique
   alunos       Aluno[]
 }
 

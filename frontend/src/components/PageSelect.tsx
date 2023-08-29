@@ -1,5 +1,5 @@
-import MatricularTCC from "./MatricularTCC"
-import DefinirOrientador from "./DefinirOrientador"
+import MatricularTCC from "./Matricula/MatricularTCC"
+import DefinirOrientador from "./Orientador/DefinirOrientador"
 
 export default function PageSelect(props: any) {
     switch (props.pagina) {
