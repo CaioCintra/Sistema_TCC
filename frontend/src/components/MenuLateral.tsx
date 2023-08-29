@@ -106,7 +106,7 @@ export default function MenuLateral(props: any) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Página Inicial
+              {/* Título do cabeçalho */}
             </Typography>
           </Toolbar>
         </AppBar>

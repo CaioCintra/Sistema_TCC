@@ -1,5 +1,5 @@
 import React from "react";
-import ModalMatricula from "./ModalMatricula";
+import ModalMatricula from "./Matricula/ModalMatricula";
 import LinhaBanca from "./LinhaBanca";
 import { Button } from "@mui/material";
 import LinhaBancaConfirmada from "./LinhaBancaConfirmada";

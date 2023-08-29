@@ -1,5 +1,5 @@
 "use client";
-import MatricularTCC from "@/components/MatricularTCC";
+import MatricularTCC from "@/components/Matricula/MatricularTCC";
 
 import React from "react";
 
