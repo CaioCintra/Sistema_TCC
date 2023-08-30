@@ -36,3 +36,15 @@ enum Status {
   Aprovado_TCC1
   Reprovado_TCC1
 }
+
+model Texto {
+  nome     String    @unique
+  tipo     TipoTexto
+  conteudo String
+}
+
+enum TipoTexto {
+  Email
+  Ata
+  Declaracao
+}

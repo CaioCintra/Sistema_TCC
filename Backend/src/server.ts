@@ -2,6 +2,7 @@ import fastify from "fastify";
 import cors from '@fastify/cors'
 import { rotasAlunos } from "./routes/alunos";
 import { rotasProfessores } from "./routes/professores";
+import { rotasTextos } from "./routes/textos";
 
 const app = fastify();
 
@@ -11,6 +12,7 @@ app.register(cors, {
 
 app.register(rotasAlunos)
 app.register(rotasProfessores)
+app.register(rotasTextos)
 
 app
   .listen({
