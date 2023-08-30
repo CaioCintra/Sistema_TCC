@@ -37,6 +37,12 @@ enum Status {
   Reprovado_TCC1
 }
 
+model Periodo {
+  nome                String   @unique
+  informar_orientador DateTime
+  agendar_banca       DateTime
+}
+
 model Texto {
   nome     String    @unique
   tipo     TipoTexto
