@@ -3,6 +3,7 @@ import cors from '@fastify/cors'
 import { rotasAlunos } from "./routes/alunos";
 import { rotasProfessores } from "./routes/professores";
 import { rotasTextos } from "./routes/textos";
+import { rotasPeriodos } from "./routes/periodos";
 
 const app = fastify();
 
@@ -13,6 +14,7 @@ app.register(cors, {
 app.register(rotasAlunos)
 app.register(rotasProfessores)
 app.register(rotasTextos)
+app.register(rotasPeriodos)
 
 app
   .listen({
