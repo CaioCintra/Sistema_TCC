@@ -1,4 +1,4 @@
-import ModalEditar from "../Matricula/ModalEditar";
+import ModalEditar from "../ConfigTexto/ModalEditar";
 import ModalDeletar from "../ConfigTexto/ModalDeletar";
 import ModalVisualizar from "../ConfigTexto/ModalVisualizar";
 
