@@ -1,5 +1,5 @@
 import ModalEditar from "../Matricula/ModalEditar";
-import ModalDeletar from "../Matricula/ModalDeletar";
+import ModalDeletar from "../ConfigTexto/ModalDeletar";
 import ModalVisualizar from "../ConfigTexto/ModalVisualizar";
 
 export default function LinhaTexto(props: any) {
