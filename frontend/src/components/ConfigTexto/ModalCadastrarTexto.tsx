@@ -134,7 +134,6 @@ export default function ModalCadastrarTexto() {
                   type="text"
                   id="nome"
                   name="nome"
-                  pattern="^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                   onChange={onChangeInput}
                   value={content.nome}
