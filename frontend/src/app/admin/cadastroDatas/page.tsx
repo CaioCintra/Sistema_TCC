@@ -15,7 +15,6 @@ export default function cadastroDatas() {
         }
         const data = await response.json();
         setData(data);
-        console.log(data);
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
