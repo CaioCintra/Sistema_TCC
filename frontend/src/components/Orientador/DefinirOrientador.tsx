@@ -1,6 +1,6 @@
 import LinhaOrientador from "./LinhaOrientador";
-import ModalMatricula from "../Matricula/ModalMatricula";
 import { useEffect, useState } from "react";
+import ModalOrientador from "./ModalOrientador";
 
 export default function DefinirOrientador() {
   const [data, setData] = useState(null);
@@ -23,7 +23,7 @@ export default function DefinirOrientador() {
   }, []);
   return (
     <div>
-      <ModalMatricula></ModalMatricula>
+      <text className="text-2xl font-bold">Definir Orientador TCC1</text>
       <div className="m-10 mt-20 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
           <text className="w-[13%]">RA</text>

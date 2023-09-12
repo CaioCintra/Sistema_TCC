@@ -1,7 +1,7 @@
 "use client";
 import LinhaDatas from "@/components/ConfigDatas/LinhaDatas";
-import { Box } from "@mui/material";
-
+import { Box, IconButton } from "@mui/material";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import React, { useEffect, useState } from "react";
 
 export default function cadastroDatas() {
@@ -15,7 +15,6 @@ export default function cadastroDatas() {
         }
         const data = await response.json();
         setData(data);
-        console.log(data)
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
@@ -26,20 +25,26 @@ export default function cadastroDatas() {
 
   return (
     <Box>
-      <text className="text-2xl font-bold">Cadastrar Datas de Período</text>
+      <div>
+        <IconButton href="/admin/menu" className="my-2">
+          <ArrowBackIosRoundedIcon />
+        </IconButton>
+        <text className="text-2xl font-bold inline-block align-middle">
+          Cadastrar Datas de Período
+        </text>
+      </div>
       <div className="p-6 flex flex-col items-center justify-center">
-    {/* <ModalCadastrarDatas/> */}
+        {/* <ModalCadastrarDatas/> */}
         <div className="mt-5 w-10/12">
-        <div className="px-16 mb-2 flex font-extrabold justify-between">
-        </div>
+          <div className="px-16 mb-2 flex font-extrabold justify-between"></div>
           {data ? (
-            data.map((periodo: any) =>
-                <LinhaDatas
-                  periodo={periodo.nome}
-                  orientador={periodo.informar_orientador}
-                  banca={periodo.agendar_banca}
-                />
-              )
+            data.map((periodo: any) => (
+              <LinhaDatas
+                periodo={periodo.nome}
+                orientador={periodo.informar_orientador}
+                banca={periodo.agendar_banca}
+              />
+            ))
           ) : (
             <></>
           )}

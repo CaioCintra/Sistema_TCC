@@ -1,7 +1,8 @@
 "use client";
 import LinhaProfessor from "@/components/ConfigProfessor/LinhaProfessor";
 import ModalCadastrarProfessor from "@/components/ConfigProfessor/ModalCadastrarProfessor";
-import { Box, Button } from "@mui/material";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
+import { Box, Button, IconButton } from "@mui/material";
 
 import React, { useEffect, useState } from "react";
 
@@ -26,26 +27,33 @@ export default function cadastroProfessor() {
 
   return (
     <Box>
-      <text className="text-2xl font-bold">Cadastrar Professor</text>
+      <div>
+        <IconButton href="/admin/menu" className="my-2">
+          <ArrowBackIosRoundedIcon />
+        </IconButton>
+        <text className="text-2xl font-bold inline-block align-middle">
+          Cadastrar Professor
+        </text>
+      </div>
       <div className="p-6 flex flex-col items-center justify-center">
-    <ModalCadastrarProfessor/>
+        <ModalCadastrarProfessor />
         <div className="mt-5 w-10/12">
-        <div className="px-16 mb-2 flex font-extrabold justify-between">
-          <text>Nome</text>
-          <text>Email</text>
-          <text>Departamento</text>
-          <text>Telefone</text>
-          <text>Ações</text>
-        </div>
+          <div className="px-16 mb-2 flex font-extrabold justify-between">
+            <text>Nome</text>
+            <text>Email</text>
+            <text>Departamento</text>
+            <text>Telefone</text>
+            <text>Ações</text>
+          </div>
           {data ? (
-            data.map((professor: any) =>
-                <LinhaProfessor 
-                  nome={professor.nome}
-                  email={professor.email}
-                  departamento={professor.departamento}
-                  telefone={professor.telefone}
-                />
-              )
+            data.map((professor: any) => (
+              <LinhaProfessor
+                nome={professor.nome}
+                email={professor.email}
+                departamento={professor.departamento}
+                telefone={professor.telefone}
+              />
+            ))
           ) : (
             <></>
           )}
