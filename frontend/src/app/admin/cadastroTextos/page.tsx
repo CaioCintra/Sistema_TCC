@@ -1,7 +1,8 @@
 "use client";
 import LinhaTexto from "@/components/ConfigTexto/LinhaTexto";
 import ModalCadastrarTexto from "@/components/ConfigTexto/ModalCadastrarTexto";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
+import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 
 import React, { useEffect, useState } from "react";
 
@@ -26,23 +27,30 @@ export default function cadastroTexto() {
 
   return (
     <Box>
-      <text className="text-2xl font-bold">Cadastrar Texto</text>
+      <div>
+        <IconButton href="/admin/menu" className="my-2">
+          <ArrowBackIosRoundedIcon />
+        </IconButton>
+        <text className="text-2xl font-bold inline-block align-middle">
+          Cadastrar Texto
+        </text>
+      </div>
       <div className="p-6 flex flex-col items-center justify-center">
-    <ModalCadastrarTexto/>
+        <ModalCadastrarTexto />
         <div className="mt-5 w-10/12">
-        <div className="px-16 mb-2 flex font-extrabold justify-between">
-          <text>Nome</text>
-          <text>Tipo</text>
-          <text>Ações</text>
-        </div>
+          <div className="px-16 mb-2 flex font-extrabold justify-between">
+            <text>Nome</text>
+            <text>Tipo</text>
+            <text>Ações</text>
+          </div>
           {data ? (
-            data.map((texto: any) =>
-                <LinhaTexto 
-                  nome={texto.nome}
-                  tipo={texto.tipo}
-                  conteudo={texto.conteudo}
-                />
-              )
+            data.map((texto: any) => (
+              <LinhaTexto
+                nome={texto.nome}
+                tipo={texto.tipo}
+                conteudo={texto.conteudo}
+              />
+            ))
           ) : (
             <></>
           )}
