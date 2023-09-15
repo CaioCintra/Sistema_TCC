@@ -1,6 +1,5 @@
 import LinhaOrientador from "./LinhaOrientador";
 import { useEffect, useState } from "react";
-import ModalOrientador from "./ModalOrientador";
 
 export default function DefinirOrientador() {
   const [data, setData] = useState(null);
@@ -34,7 +33,7 @@ export default function DefinirOrientador() {
         </div>
         <div>
           {data ? (
-            data.map((aluno) =>
+            data.map((aluno:any) =>
               aluno.status == "Matriculado_TCC1" || aluno.status == "Orientador_Definido" ? (
                 <LinhaOrientador
                   ra={aluno.ra}
