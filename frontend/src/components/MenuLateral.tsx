@@ -13,9 +13,13 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import List from "@mui/material/List";
-import ItemMenu from "@/components/ItemMenu";
-import page from "@/app/page";
-import PageSelect from "./PageSelect";
+import PersonAddRoundedIcon from "@mui/icons-material/PersonAddRounded";
+import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
+import InsertInvitationRoundedIcon from "@mui/icons-material/InsertInvitationRounded";
+import CoPresentRoundedIcon from "@mui/icons-material/CoPresentRounded";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 
 const drawerWidth: number = 280;
 
@@ -63,7 +67,7 @@ const Drawer = styled(MuiDrawer, {
       }),
       width: theme.spacing(7),
       [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
+        width: theme.spacing(8),
       },
     }),
   },
@@ -132,9 +136,15 @@ export default function MenuLateral(props: any) {
               bgcolor: "var(--secondary-color)",
             }}
           >
-            <ItemMenu titulo="Dashboard" />
+            <ListItemButton className="h-16">
+              <ListItemIcon>
+                <BarChartRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItemButton>
+            <Divider />
           </Box>
-          <text className="pt-4 text-2xl font-bold text-center justify-center align-middle">
+          <text className="pt-4 text-xl font-bold text-center justify-center align-middle text-[#4F4F4F]">
             TCC1
           </text>
           <Box
@@ -146,20 +156,44 @@ export default function MenuLateral(props: any) {
           >
             <List component="nav" aria-label="main mailbox folders">
               <a href="/TCC1/matricular">
-                <ItemMenu titulo="Matrícula" />
+                <ListItemButton className="h-16">
+                  <ListItemIcon>
+                    <PersonAddRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Matrícula" />
+                </ListItemButton>
+                <Divider />
               </a>
               <a href="/TCC1/definirOrientador">
-                <ItemMenu titulo="Orientador" />
+                <ListItemButton className="h-16">
+                  <ListItemIcon>
+                    <SupervisorAccountRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Orientador" />
+                </ListItemButton>
+                <Divider />
               </a>
               <a href="/TCC1/agendarBanca">
-                <ItemMenu titulo="Banca" />
+                <ListItemButton className="h-16">
+                  <ListItemIcon>
+                    <InsertInvitationRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Agendar Banca" />
+                </ListItemButton>
+                <Divider />
               </a>
               <a href="/TCC1/defesa">
-                <ItemMenu titulo="Defesa" />
+                <ListItemButton className="h-16">
+                  <ListItemIcon>
+                    <CoPresentRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Defesa" />
+                </ListItemButton>
+                <Divider />
               </a>
             </List>
           </Box>
-          <text className="pt-10 text-2xl leading-7 font-bold text-center justify-center align-middle">
+          <text className="pt-10 text-xl leading-7 font-bold text-center justify-center align-middle text-[#4F4F4F]">
             TCC2
           </text>
           <Box
@@ -171,20 +205,44 @@ export default function MenuLateral(props: any) {
           >
             <List component="nav" aria-label="main mailbox folders">
               <a href="/TCC2/matricular">
-                <ItemMenu titulo="Matrícula" />
+                <ListItemButton className="h-16">
+                  <ListItemIcon>
+                    <PersonAddRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Matrícula" />
+                </ListItemButton>
+                <Divider />
               </a>
               <a href="/TCC2/definirOrientador">
-                <ItemMenu titulo="Orientador" />
+                <ListItemButton className="h-16">
+                  <ListItemIcon>
+                    <SupervisorAccountRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Orientador" />
+                </ListItemButton>
+                <Divider />
               </a>
               <a href="/TCC2/agendarBanca">
-                <ItemMenu titulo="Banca" />
+                <ListItemButton className="h-16">
+                  <ListItemIcon>
+                    <InsertInvitationRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Agendar Banca" />
+                </ListItemButton>
+                <Divider />
               </a>
               <a href="/TCC2/defesa">
-                <ItemMenu titulo="Defesa" />
+                <ListItemButton className="h-16">
+                  <ListItemIcon>
+                    <CoPresentRoundedIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Defesa" />
+                </ListItemButton>
+                <Divider />
               </a>
             </List>
           </Box>
-          <text className="pt-6 pb-4 text-2xl font-bold text-center justify-center align-middle">
+          <text className="pt-6 pb-4 text-xl font-bold text-center justify-center align-middle text-[#4F4F4F]">
             ADM
           </text>
           <Box
@@ -197,7 +255,13 @@ export default function MenuLateral(props: any) {
           >
             <Divider />
             <a href="/admin/menu">
-              <ItemMenu titulo="Configurações" />
+              <ListItemButton className="h-16">
+                <ListItemIcon>
+                  <SettingsRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Configurações" />
+              </ListItemButton>
+              <Divider />
             </a>
           </Box>
         </Drawer>
@@ -215,9 +279,7 @@ export default function MenuLateral(props: any) {
         >
           <Toolbar />
           {/* Div principal */}
-          <div className="m-10">
-          {props.children}
-          </div>
+          <div className="m-10">{props.children}</div>
         </Box>
       </Box>
     </ThemeProvider>
