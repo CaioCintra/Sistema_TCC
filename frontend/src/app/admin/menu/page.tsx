@@ -7,7 +7,7 @@ import { Box, Button, ButtonGroup } from "@mui/material";
 
 import React from "react";
 
-export default function agendarBancaTCC1() {
+export default function menuAdmin() {
   return (
     <Box className="flex flex-col space-y-4">
       <text className="mt-5 mb-14 text-2xl font-bold">
