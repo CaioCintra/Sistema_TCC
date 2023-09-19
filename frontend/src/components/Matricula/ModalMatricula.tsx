@@ -200,7 +200,6 @@ export default function ModalMatricula() {
                 variant="contained"
                 className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right bottom-0 right-0"
               >
-                {" "}
                 Matricular
               </Button>
             </form>

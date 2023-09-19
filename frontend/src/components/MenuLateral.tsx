@@ -19,6 +19,7 @@ import InsertInvitationRoundedIcon from "@mui/icons-material/InsertInvitationRou
 import CoPresentRoundedIcon from "@mui/icons-material/CoPresentRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 
 const drawerWidth: number = 280;
@@ -112,6 +113,9 @@ export default function MenuLateral(props: any) {
             >
               {/* Título do cabeçalho */}
             </Typography>
+            <IconButton href="/" className="text-white">
+              <ExitToAppRoundedIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -126,7 +130,11 @@ export default function MenuLateral(props: any) {
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
+
+
+
           </Toolbar>
+
           <Divider />
 
           <Box
