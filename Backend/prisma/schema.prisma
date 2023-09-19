@@ -49,6 +49,11 @@ model Texto {
   conteudo String
 }
 
+model Admin{
+  login String @unique
+  senha String
+}
+
 enum TipoTexto {
   Email
   Ata
