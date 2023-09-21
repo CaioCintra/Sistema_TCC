@@ -4,7 +4,7 @@
 
 Garanta que em seu sistema estejam instalados o Node e o npm.
 
-Em seguida, na pasta raíz do projeto insira o comando:
+Em seguida, tanto na pasta raíz do projeto quanto nas pastas backend e frontend insira o comando:
 ```console
 npm install
 ```
