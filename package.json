@@ -4,7 +4,8 @@
         "start": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\""
     },
     "dependencies": {
-        "bcryptjs": "^2.4.3"
+        "bcryptjs": "^2.4.3",
+        "node-jose": "^2.2.0"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.4"

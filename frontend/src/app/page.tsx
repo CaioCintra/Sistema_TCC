@@ -1,10 +1,31 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { Button, TextField } from "@mui/material";
 import bcrypt from "bcryptjs";
+const jose = require("node-jose");
 
-async function fetchData(login:string) {
+async function gerarToken(login: string) {
+  try {
+    const keystore = jose.JWK.createKeyStore();
+    const key = await keystore.generate("oct", 256, { alg: "HS256" });
+    const payload = { login };
+    const headers = { alg: "HS256" };
+
+    const compactToken = await jose.JWS.createSign({ format: "compact" }, key)
+      .update(JSON.stringify(headers))
+      .update(".")
+      .update(JSON.stringify(payload))
+      .final();
+
+    return compactToken;
+  } catch (error) {
+    console.error("Erro ao gerar token:", error);
+    return null;
+  }
+}
+
+async function fetchData(login: string) {
   try {
     const response = await fetch(`http://localhost:3333/login/${login}`);
     if (!response.ok) {
@@ -17,15 +38,25 @@ async function fetchData(login:string) {
   }
 }
 
-async function loginSistema(login:string, senha:string) {
+async function loginSistema(login: string, senha: string) {
   try {
     const data = await fetchData(login);
 
-    bcrypt.compare(senha, data.senha, function(err, result) {
-      if(result) {
-        window.location.href = "/TCC1/matricular";
+    bcrypt.compare(senha, data.senha, async function (err, result) {
+      if (result) {
+        try {
+          const token = await gerarToken(login);
+          if (token == null) {
+            console.log("Erro ao gerar token");
+            return;
+          }
+          localStorage.setItem("token-login", token);
+          window.location.href = "/TCC1/matricular";
+        } catch (error) {
+          console.error("Erro ao gerar token:", error);
+        }
       } else {
-          console.log("A senha está incorreta.");
+        console.log("A senha está incorreta.");
       }
     });
   } catch (error) {
@@ -33,9 +64,7 @@ async function loginSistema(login:string, senha:string) {
   }
 }
 
-loginSistema('usuario', 'senha');
-
-
+loginSistema("usuario", "senha");
 
 export default function TelaLogin() {
   const [content, setContent] = useState({
@@ -48,12 +77,12 @@ export default function TelaLogin() {
     loginSistema(login, senha);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     setContent({ ...content, [event.target.name]: event.target.value });
   };
 
   return (
-    <Box className="mt-64 justify-center items-center flex flex-col space-y-4">
+    <Box className="mt-auto justify-center items-center flex flex-col space-y-4">
       <text className="font-semibold text-[var(--third-color)] text-6xl m-5">
         Login
       </text>
