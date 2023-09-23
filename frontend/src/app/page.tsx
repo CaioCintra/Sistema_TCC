@@ -14,7 +14,7 @@ export default function TelaLogin() {
   }
 
   return (
-    <Box className="mt-64 justify-center items-center flex flex-col space-y-4">
+    <Box className="mt-auto justify-center items-center flex flex-col space-y-4">
       <text className="font-semibold text-[var(--third-color)] text-6xl m-5">
         Login
       </text>

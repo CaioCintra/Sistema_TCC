@@ -10,7 +10,7 @@ import { getAPIClient } from "@/services/axios";
 import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
-
+let token: any;
 export const metadata: Metadata = {
   title: "Sistema TCC",
   description: "Sistema TCC",
