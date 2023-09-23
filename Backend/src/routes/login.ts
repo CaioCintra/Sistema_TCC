@@ -38,12 +38,28 @@ export async function rotasLogin(app: FastifyInstance) {
     try {
       const match = await bcrypt.compare(senha, admin.senha);
       if (match) {
-        return crypto.randomUUID();
+        return await bcrypt.hash("Senh4Ultr4Secret4", 10);
       } else {
         throw new Error("Senha Incorreta");
       }
     } catch (error) {
       throw error;
+    }
+  });
+
+  app.get("/login/:token", async (request) => {
+    const paramsSchema = z.object({
+      token: z.string(),
+    });
+
+    const { token } = paramsSchema.parse(request.params);
+
+    const match = await bcrypt.compare("Senh4Ultr4Secret4", token);
+
+    if(match) {
+      return true
+    }else{
+      return false
     }
   });
 

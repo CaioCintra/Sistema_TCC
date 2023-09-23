@@ -1,8 +1,8 @@
 "use client";
 import { createContext, useEffect, useState } from "react";
 import { setCookie, parseCookies } from 'nookies'
-import { recoverUserInformation, signInRequest } from "@/services/auth";
 import { api } from "../services/api";
+import axios from "axios";
 
 type SignInData = {
   login: string;

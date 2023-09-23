@@ -1,14 +1,13 @@
 "use client";
 import "../globals.css";
-import type { GetServerSideProps, Metadata } from "next";
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import MenuLateral from "@/components/MenuLateral";
-import { AuthContext, AuthProvider } from "@/contexts/AuthContext";
-import { useContext } from "react";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { useEffect } from "react";
 import { getAPIClient } from "@/services/axios";
-import { api } from "@/services/api";
+import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,10 +21,32 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = useContext(AuthContext);
-
   useEffect(() => {
-    api.get("/alunos");
+    const fetchData = async () => {
+      const { ["TCC.token"]: token } = parseCookies();
+      console.log(token);
+      const apiUrl = `http://localhost:3333/login/${token}`;
+      const response = await axios.get(apiUrl);
+      const verify = response.data;
+      console.log("verify: ", verify);
+      if (!verify) {
+        window.location.href = "/";
+        return;
+      }
+      if (!token) {
+        window.location.href = "/";
+        return;
+      }
+
+      const apiClient = getAPIClient();
+      try {
+        await apiClient.get("/alunos");
+      } catch (error) {
+        console.error("Erro ao obter dados:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -38,23 +59,3 @@ export default function RootLayout({
     </AuthProvider>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  console.log("sadofguihsdgiçsadhgpasdigjhasdfpoifgjsdflksdj");
-  const apiClient = getAPIClient(ctx);
-  const { ["TCC.token"]: token } = parseCookies(ctx);
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  await apiClient.get("/alunos");
-
-  return {
-    props: {},
-  };
-};
