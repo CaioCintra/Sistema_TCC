@@ -3,6 +3,7 @@ import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 const prisma = new PrismaClient();
 
 export async function rotasLogin(app: FastifyInstance) {
@@ -15,20 +16,35 @@ export async function rotasLogin(app: FastifyInstance) {
     return admins;
   });
 
-  app.get("/login/:login", async (request) => {
+  app.get("/login/:login/:senha", async (request) => {
     const paramsSchema = z.object({
       login: z.string(),
+      senha: z.string(),
     });
 
     const { login } = paramsSchema.parse(request.params);
+    const { senha } = paramsSchema.parse(request.params);
 
-    const admins = await prisma.admin.findUniqueOrThrow({
+    const admin = await prisma.admin.findUniqueOrThrow({
       where: {
         login,
       },
     });
 
-    return admins;
+    if (!admin) {
+      throw new Error(`Usuário não existe.`);
+    }
+
+    try {
+      const match = await bcrypt.compare(senha, admin.senha);
+      if (match) {
+        return crypto.randomUUID();
+      } else {
+        throw new Error("Senha Incorreta");
+      }
+    } catch (error) {
+      throw error;
+    }
   });
 
   app.post("/login", async (request) => {
