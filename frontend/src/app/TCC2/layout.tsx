@@ -7,7 +7,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { useEffect } from "react";
 import { getAPIClient } from "@/services/axios";
-import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +23,7 @@ export default function RootLayout({
   useEffect(() => {
     const fetchData = async () => {
       const { ["TCC.token"]: token } = parseCookies();
-      console.log(token);
-      const apiUrl = `http://localhost:3333/login/${token}`;
-      const response = await axios.get(apiUrl);
-      const verify = response.data;
-      console.log("verify: ", verify);
+      const verify = await fetch(`http://localhost:3333/login/${token}`);
       if (!verify) {
         window.location.href = "/";
         return;
