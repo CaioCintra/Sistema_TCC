@@ -5,6 +5,7 @@ import { rotasProfessores } from "./routes/professores";
 import { rotasTextos } from "./routes/textos";
 import { rotasPeriodos } from "./routes/periodos";
 import { rotasLogin } from "./routes/login";
+import { rotasAlunoAuth } from "./routes/alunoAuth";
 
 const app = fastify();
 
@@ -17,6 +18,7 @@ app.register(rotasAlunos)
 app.register(rotasProfessores)
 app.register(rotasTextos)
 app.register(rotasPeriodos)
+app.register(rotasAlunoAuth)
 
 app
   .listen({
