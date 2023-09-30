@@ -49,9 +49,14 @@ model Texto {
   conteudo String
 }
 
-model Admin{
+model tokenAluno {
+  token String @unique
+  ra    String @unique
+}
+
+model Admin {
   login String @unique
-  senha String
+  senha String @unique
 }
 
 enum TipoTexto {
