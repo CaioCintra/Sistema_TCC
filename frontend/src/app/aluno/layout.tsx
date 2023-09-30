@@ -22,8 +22,6 @@ export default function RootLayout({
 }) {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-  console.log(token);
-
   if (!token) {
     window.location.href = "/erro/404";
     return null;
