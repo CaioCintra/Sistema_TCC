@@ -14,6 +14,7 @@ export default function TelaLogin() {
   }
 
   return (
+    <body className="bg-[var(--primary-color)] flex justify-center">
       <Box className="bg-[var(--background-color)] w-[40%] top-1/3 rounded-lg p-10 absolute t-1/2 justify-center items-center flex shadow-lg shadow-black">
         <p className="font-semibold text-[var(--third-color)] text-6xl mr-24">
           Login
@@ -44,5 +45,6 @@ export default function TelaLogin() {
           </Button>
         </form>
       </Box>
+    </body>
   );
 }
