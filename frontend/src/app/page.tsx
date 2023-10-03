@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import { Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -14,7 +14,6 @@ export default function TelaLogin() {
   }
 
   return (
-    <body className="bg-slate-800 flex justify-center">
       <Box className="bg-[var(--background-color)] w-[40%] top-1/3 rounded-lg p-10 absolute t-1/2 justify-center items-center flex shadow-lg shadow-black">
         <p className="font-semibold text-[var(--third-color)] text-6xl mr-24">
           Login
@@ -45,6 +44,5 @@ export default function TelaLogin() {
           </Button>
         </form>
       </Box>
-    </body>
   );
 }
