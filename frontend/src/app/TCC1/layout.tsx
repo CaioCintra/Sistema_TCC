@@ -7,7 +7,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { parseCookies } from "nookies";
 import { useEffect } from "react";
 import { getAPIClient } from "@/services/axios";
-import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
 let token: any;
@@ -24,25 +23,27 @@ export default function RootLayout({
   useEffect(() => {
     const fetchData = async () => {
       const { ["TCC.token"]: token } = parseCookies();
-      console.log(token);
       const apiUrl = `http://localhost:3333/login/${token}`;
-      const response = await axios.get(apiUrl);
-      const verify = response.data;
-      console.log("verify: ", verify);
-      if (!verify) {
-        window.location.href = "/";
-        return;
-      }
-      if (!token) {
-        window.location.href = "/";
-        return;
-      }
-
-      const apiClient = getAPIClient();
       try {
-        await apiClient.get("/alunos");
+        const response = await fetch(apiUrl);
+        const verify = await response.json();
+        if (!verify) {
+          window.location.href = "/";
+          return;
+        }
+        if (!token) {
+          window.location.href = "/";
+          return;
+        }
+
+        const apiClient = getAPIClient();
+        try {
+          await apiClient.get("/alunos");
+        } catch (error) {
+          console.error("Erro ao obter dados:", error);
+        }
       } catch (error) {
-        console.error("Erro ao obter dados:", error);
+        console.error("Erro ao fazer a requisição:", error);
       }
     };
 

@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { getAPIClient } from "@/services/axios";
 
 const inter = Inter({ subsets: ["latin"] });
-
+let token: any;
 export const metadata: Metadata = {
   title: "Sistema TCC",
   description: "Sistema TCC",
@@ -23,21 +23,27 @@ export default function RootLayout({
   useEffect(() => {
     const fetchData = async () => {
       const { ["TCC.token"]: token } = parseCookies();
-      const verify = await fetch(`http://localhost:3333/login/${token}`);
-      if (!verify) {
-        window.location.href = "/";
-        return;
-      }
-      if (!token) {
-        window.location.href = "/";
-        return;
-      }
-
-      const apiClient = getAPIClient();
+      const apiUrl = `http://localhost:3333/login/${token}`;
       try {
-        await apiClient.get("/alunos");
+        const response = await fetch(apiUrl);
+        const verify = await response.json();
+        if (!verify) {
+          window.location.href = "/";
+          return;
+        }
+        if (!token) {
+          window.location.href = "/";
+          return;
+        }
+
+        const apiClient = getAPIClient();
+        try {
+          await apiClient.get("/alunos");
+        } catch (error) {
+          console.error("Erro ao obter dados:", error);
+        }
       } catch (error) {
-        console.error("Erro ao obter dados:", error);
+        console.error("Erro ao fazer a requisição:", error);
       }
     };
 

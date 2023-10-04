@@ -6,7 +6,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import React, { useEffect } from "react";
 import { getAPIClient } from "@/services/axios";
 import { useSearchParams } from "next/navigation";
-import axios from "axios";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,8 +30,15 @@ export default function RootLayout({
     const verifyToken = async () => {
       try {
         const apiUrl = `http://localhost:3333/alunoAuth/token/${token}`;
-        const response = await axios.get(apiUrl);
-        const verify = response.data;
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+          window.location.href = "/erro/404";
+          return;
+        }
+
+        const verify = await response.json();
+
         if (!verify) {
           window.location.href = "/erro/404";
         }
@@ -51,10 +57,13 @@ export default function RootLayout({
   } catch (error) {
     console.error("Erro ao obter dados:", error);
   }
+
   return (
     <AuthProvider>
       <html lang="en">
-        <body className="bg-[var(--primary-color)] flex justify-center">{children}</body>
+        <body className="bg-[var(--primary-color)] flex justify-center">
+          {children}
+        </body>
       </html>
     </AuthProvider>
   );
