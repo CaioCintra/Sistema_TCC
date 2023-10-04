@@ -32,7 +32,7 @@ export async function rotasBanca(app: FastifyInstance) {
         data: {
           Etapa: newBancaData.Etapa,
           Titulo: newBancaData.Titulo,
-          Data: new Date(newBancaData.Data),
+          Data: newBancaData.Data,
           Local: newBancaData.Local,
           Professores: {
             create: professores,
