@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Defesa" ALTER COLUMN "Nota" SET DATA TYPE DECIMAL(4,2);

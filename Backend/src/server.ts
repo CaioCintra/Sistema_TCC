@@ -1,24 +1,14 @@
 import fastify from "fastify";
-import cors from '@fastify/cors'
-import { rotasAlunos } from "./routes/alunos";
-import { rotasProfessores } from "./routes/professores";
-import { rotasTextos } from "./routes/textos";
-import { rotasPeriodos } from "./routes/periodos";
-import { rotasLogin } from "./routes/login";
-import { rotasAlunoAuth } from "./routes/alunoAuth";
+import cors from "@fastify/cors";
+import { registerRoutes } from "./routes/routes";
 
 const app = fastify();
 
 app.register(cors, {
-  origin: ['http://localhost:3000']
-})
+  origin: ["http://localhost:3000"],
+});
 
-app.register(rotasLogin)
-app.register(rotasAlunos)
-app.register(rotasProfessores)
-app.register(rotasTextos)
-app.register(rotasPeriodos)
-app.register(rotasAlunoAuth)
+registerRoutes(app);
 
 app
   .listen({
