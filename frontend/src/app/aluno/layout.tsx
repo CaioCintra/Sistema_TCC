@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <html lang="en">
-        <body className={inter.className}>{children}</body>
+        <body className="bg-[var(--primary-color)] flex justify-center">{children}</body>
       </html>
     </AuthProvider>
   );
