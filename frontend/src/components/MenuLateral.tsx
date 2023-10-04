@@ -78,6 +78,12 @@ const defaultTheme = createTheme();
 
 export default function MenuLateral(props: any) {
   const [open, setOpen] = React.useState(true);
+
+  const handleLogout = () => {
+    document.cookie = "TCC.token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = "/";
+  };
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -113,7 +119,7 @@ export default function MenuLateral(props: any) {
             >
               {/* Título do cabeçalho */}
             </Typography>
-            <IconButton href="/" className="text-white">
+            <IconButton onClick={handleLogout} className="text-white">
               <ExitToAppRoundedIcon />
             </IconButton>
           </Toolbar>
