@@ -13,11 +13,12 @@ export default function DefinirOrientador() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const urlRA = `http://localhost:3333/alunoAuth/ra-token/${token}`;
+  const linkAddProfessor = `/aluno/RequisitarProfessor?token=${token}`;
 
   const [aluno, setAluno] = useState(null);
   const [professor, setProfessores] = useState(null);
-
   const [orientador, setOrientador] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event: SelectChangeEvent) => {
     setOrientador(event.target.value as string);
@@ -46,6 +47,7 @@ export default function DefinirOrientador() {
   }, [urlRA]);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.put(
         `http://localhost:3333/alunos/${aluno.ra}`,
@@ -54,10 +56,12 @@ export default function DefinirOrientador() {
           status: "Orientador_Definido",
         }
       );
-      window.location.href = "/DadosConfirmados";
+      window.location.href = `/aluno/DadosConfirmados?token=${token}`;
       return response.data;
     } catch (error) {
       throw new Error("Erro ao editar o campo");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -96,7 +100,7 @@ export default function DefinirOrientador() {
         </Select>
         <div className="inline">
           <Button
-            href="/RequisitarProfessor"
+            href={linkAddProfessor}
             variant="contained"
             className="font-medium h-14 w-auto mt-8 bg-[var(--primary-color)] hover:bg-slate-900"
           >
@@ -107,8 +111,9 @@ export default function DefinirOrientador() {
             variant="contained"
             className="font-medium h-14 w-auto mt-8 bg-[var(--primary-color)] hover:bg-slate-900 float-right"
             onClick={handleSubmit}
+            disabled={isLoading}
           >
-            CONFIRMAR
+            {isLoading ? "CARREGANDO..." : "  CONFIRMAR  "}
           </Button>
         </div>
       </FormControl>
