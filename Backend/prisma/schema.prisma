@@ -11,11 +11,42 @@ datasource db {
 }
 
 model Professor {
-  nome         String  @unique
+  nome         String                @unique
   email        String
   departamento String
-  telefone     String  @unique
+  telefone     String                @unique
   alunos       Aluno[]
+  Banca        ProfessoresEmBancas[]
+  Bancas       Int?
+}
+
+model Banca {
+  id          Int                   @id @default(autoincrement())
+  Etapa       Etapas
+  Aluno       Aluno?                @relation(fields: [raAluno], references: [ra])
+  raAluno     String?
+  Professores ProfessoresEmBancas[]
+  Titulo      String
+  Data        DateTime
+  Local       String
+}
+
+model ProfessoresEmBancas {
+  Professores Professor @relation(fields: [Professor], references: [nome])
+  Professor   String
+  Bancas      Banca     @relation(fields: [Banca], references: [id])
+  Banca       Int
+
+  @@id([Professor, Banca])
+}
+
+model Defesa {
+  id         Int      @id @default(autoincrement())
+  Etapa      Etapas
+  Aluno      Aluno?   @relation(fields: [raAluno], references: [ra])
+  raAluno    String?
+  Nota       Decimal? @db.Decimal(4, 2)
+  Observacao String
 }
 
 model Aluno {
@@ -26,6 +57,8 @@ model Aluno {
   periodo_matricula String
   Professor         Professor? @relation(fields: [orientador], references: [nome])
   orientador        String?
+  Banca             Banca[]
+  Defesa            Defesa[]
 }
 
 enum Status {
@@ -35,6 +68,11 @@ enum Status {
   Banca_TCC1_Confirmada
   Aprovado_TCC1
   Reprovado_TCC1
+}
+
+enum Etapas {
+  TCC1
+  TCC2
 }
 
 model Periodo {
