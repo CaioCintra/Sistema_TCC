@@ -1,9 +1,6 @@
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
 import LabelStatus from "../LabelStatus";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import ModalOrientador from "./ModalOrientador";
+import ModalEmail from "./ModalEmail";
 
 export default function LinhaOrientador(props: any) {
   return (
@@ -17,17 +14,18 @@ export default function LinhaOrientador(props: any) {
       <div />
       <div>
         <div className="inline-flex">
-          <Tooltip title="Email">
-            <IconButton>
-              <MailOutlinedIcon />
-            </IconButton>
-          </Tooltip>
-          <ModalOrientador
+          <ModalEmail
             ra={props.ra}
             nome={props.nome}
             status={props.status}
             email={props.email}
             periodo={props.matricula}
+            orientador={props.orientador}
+          />
+          <ModalOrientador
+            ra={props.ra}
+            nome={props.nome}
+            status={props.status}
             orientador={props.orientador}
           />
           {/* <Tooltip title="Remover">
