@@ -7,6 +7,7 @@
         "@types/cookie": "^0.5.2",
         "axios": "^1.5.0",
         "bcryptjs": "^2.4.3",
+        "nodemailer": "^6.9.5",
         "nookies": "^2.5.2",
         "react-hook-form": "^7.46.2"
     },
