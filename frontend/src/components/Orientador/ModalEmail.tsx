@@ -36,10 +36,11 @@ export default function ModalEmail(props: any) {
     );
 
     setContent({
-      assunto: textoSelecionado.assunto,
+      assunto: content.assunto,
       corpo: textoSelecionado.conteudo,
     });
     setSelectedTexto(textoSelecionado);
+    onChangeInput
   }
 
   const onChangeInput = (e: any) =>
@@ -76,7 +77,7 @@ export default function ModalEmail(props: any) {
   async function enviarEmail() {
     try {
       const response = await fetch(
-        `http://localhost:3333/email/${email}/${selectedTexto.nome}/${selectedTexto.conteudo}`,
+        `http://localhost:3333/email/${email}/${selectedTexto.nome}/${content.corpo}`,
         {
           method: "POST",
           body: JSON.stringify(content),
