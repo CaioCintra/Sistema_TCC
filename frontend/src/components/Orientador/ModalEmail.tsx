@@ -117,7 +117,7 @@ export default function ModalEmail(props: any) {
       >
         <Fade in={open}>
           <Box sx={style}>
-          <text className="mt-3 mb-3 text-2xl font-bold">
+            <text className="mt-3 mb-3 text-2xl font-bold">
               Enviar email para {props.nome}
             </text>
             <label className="block text-gray-700 font-medium mt-3 mb-2">
