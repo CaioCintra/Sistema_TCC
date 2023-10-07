@@ -41,6 +41,7 @@ export default function DefinirOrientador() {
                   status={aluno.status}
                   matricula={aluno.periodo}
                   orientador = {aluno.orientador}
+                  email = {aluno.email}
                 />
               ) : (
                 <></>
