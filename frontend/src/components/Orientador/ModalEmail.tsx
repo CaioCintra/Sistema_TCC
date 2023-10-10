@@ -7,6 +7,8 @@ import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+import { Alert, AlertTitle } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
   position: "absolute" as "absolute",
@@ -14,7 +16,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1100,
-  height: 390,
+  height: 520,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 5,
@@ -24,8 +26,11 @@ export default function ModalEmail(props: any) {
   const email = props.email;
   const [data, setData] = useState(null);
   const [selectedTexto, setSelectedTexto] = useState(null);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const [content, setContent] = useState({
+    template: "",
     assunto: "",
     corpo: "",
   });
@@ -34,13 +39,13 @@ export default function ModalEmail(props: any) {
     const textoSelecionado = data.find(
       (texto) => texto.nome === e.target.value
     );
-
+    
     setContent({
-      assunto: content.assunto,
+      template: textoSelecionado.assunto,
+      assunto: e.target.value,
       corpo: textoSelecionado.conteudo,
     });
-    setSelectedTexto(textoSelecionado);
-    onChangeInput
+    onChangeInput;
   }
 
   const onChangeInput = (e: any) =>
@@ -69,15 +74,20 @@ export default function ModalEmail(props: any) {
 
   const resetarValores = () => {
     setContent({
+      template: "",
       assunto: "",
       corpo: "",
     });
   };
 
   async function enviarEmail() {
+    if (content.corpo === "") {
+      setError("Corpo de email vazio");
+      return;
+    }
     try {
       const response = await fetch(
-        `http://localhost:3333/email/${email}/${selectedTexto.nome}/${content.corpo}`,
+        `http://localhost:3333/email/${email}/${content.assunto}/${content.corpo}`,
         {
           method: "POST",
           body: JSON.stringify(content),
@@ -86,6 +96,8 @@ export default function ModalEmail(props: any) {
       );
       if (!response.ok) {
         throw new Error("Erro ao buscar dados da API");
+      } else {
+        setSuccess("Email enviado com sucesso");
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
@@ -96,6 +108,42 @@ export default function ModalEmail(props: any) {
 
   return (
     <div>
+      {error && (
+        <Alert
+          className="z-50 absolute bottom-2 right-0"
+          severity="error"
+          variant="filled"
+          action={
+            <Button color="inherit" size="small" onClick={() => setError(null)}>
+              <CloseIcon />
+            </Button>
+          }
+          onClose={() => setError(null)}
+        >
+          <AlertTitle className="font-bold">Erro</AlertTitle>
+          {error}
+        </Alert>
+      )}
+      {success && (
+        <Alert
+          className="z-50 absolute bottom-2 right-0"
+          severity="success"
+          variant="filled"
+          action={
+            <Button
+              color="inherit"
+              size="small"
+              onClick={() => setSuccess(null)}
+            >
+              <CloseIcon />
+            </Button>
+          }
+          onClose={() => setSuccess(null)}
+        >
+          <AlertTitle className="font-bold">Concluído</AlertTitle>
+          {success}
+        </Alert>
+      )}
       <Tooltip title="Email">
         <IconButton>
           <MailOutlinedIcon onClick={handleOpen} />
@@ -125,8 +173,8 @@ export default function ModalEmail(props: any) {
               Selecione o motivo do email
             </label>
             <select
-              id="assunto"
-              name="assunto"
+              id="template"
+              name="template"
               className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
               onChange={trocarTemplate}
               value={content.assunto}
@@ -143,7 +191,18 @@ export default function ModalEmail(props: any) {
                 <></>
               )}
             </select>
-
+            <label className="block text-gray-700 font-medium mt-3 mb-2">
+              Edite o assunto do email se necessário
+            </label>
+            <input
+              type="text"
+              id="assunto"
+              name="assunto"
+              placeholder={content.assunto}
+              className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+              onChange={onChangeInput}
+              value={content.assunto}
+            />
             <label className="block text-gray-700 font-medium mt-5 mb-2">
               Edite o corpo do email se necessário
             </label>
@@ -155,7 +214,6 @@ export default function ModalEmail(props: any) {
               className="w-full h-1/3 resize-none  border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
               onChange={onChangeInput}
               value={content.corpo}
-              required
             />
             <Button
               type="submit"
