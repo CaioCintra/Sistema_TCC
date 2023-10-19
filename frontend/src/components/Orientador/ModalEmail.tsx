@@ -23,9 +23,9 @@ const style = {
 };
 
 export default function ModalEmail(props: any) {
-  const email = props.email;
+  const ra = props.ra;
+
   const [data, setData] = useState(null);
-  const [selectedTexto, setSelectedTexto] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -39,7 +39,7 @@ export default function ModalEmail(props: any) {
     const textoSelecionado = data.find(
       (texto) => texto.nome === e.target.value
     );
-    
+
     setContent({
       template: textoSelecionado.assunto,
       assunto: e.target.value,
@@ -87,7 +87,7 @@ export default function ModalEmail(props: any) {
     }
     try {
       const response = await fetch(
-        `http://localhost:3333/email/${email}/${content.assunto}/${content.corpo}`,
+        `http://localhost:3333/email/${ra}/${content.assunto}/${content.corpo}`,
         {
           method: "POST",
           body: JSON.stringify(content),
