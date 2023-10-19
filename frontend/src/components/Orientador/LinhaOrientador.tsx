@@ -16,11 +16,6 @@ export default function LinhaOrientador(props: any) {
         <div className="inline-flex">
           <ModalEmail
             ra={props.ra}
-            nome={props.nome}
-            status={props.status}
-            email={props.email}
-            periodo={props.matricula}
-            orientador={props.orientador}
           />
           <ModalOrientador
             ra={props.ra}

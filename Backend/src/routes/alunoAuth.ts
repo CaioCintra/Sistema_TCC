@@ -56,7 +56,8 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
         console.error(error);
         throw new Error("Erro ao criar relação entre ra e token.");
       }
-      return url + token;
+      const link = url + token
+      return link
     }
   });
 
