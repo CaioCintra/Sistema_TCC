@@ -1,5 +1,5 @@
 "use client";
-import { Box } from "@mui/material";
+import { Alert, AlertTitle, Box } from "@mui/material";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { Button } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function DefinirOrientador() {
   const searchParams = useSearchParams();
@@ -19,6 +20,7 @@ export default function DefinirOrientador() {
   const [professor, setProfessores] = useState(null);
   const [orientador, setOrientador] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (event: SelectChangeEvent) => {
     setOrientador(event.target.value as string);
@@ -59,64 +61,86 @@ export default function DefinirOrientador() {
       window.location.href = `/aluno/DadosConfirmados?token=${token}`;
       return response.data;
     } catch (error) {
-      throw new Error("Erro ao editar o campo");
+      if (orientador == "") {
+        setError("Campo orientador vazio");
+      } else {
+        setError("Erro ao editar o campo");
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Box className="bg-[var(--background-color)] w-[70%] top-1/3 rounded-lg p-10 absolute t-1/2 shadow-lg shadow-black">
-      {aluno && (
-        <p className="font-semibold text-[var(--third-color)] text-3xl">
-          Olá {aluno.nome}
-        </p>
+    <>
+      {error && (
+        <Alert
+          className="z-50 absolute bottom-2 right-0"
+          severity="error"
+          variant="filled"
+          action={
+            <Button color="inherit" size="small" onClick={() => setError(null)}>
+              <CloseIcon />
+            </Button>
+          }
+          onClose={() => setError(null)}
+        >
+          <AlertTitle className="font-bold">Erro</AlertTitle>
+          {error}
+        </Alert>
       )}
-      <br />
-      <p className="font-semibold text-[var(--third-color)] text-xl">
-        Informe seu orientador de TCC
-      </p>
-      <FormControl fullWidth className="mt-8">
-        <InputLabel
-          id="demo-simple-select-helper-label"
-          className="font-bold text-xl"
-        >
-          Orientador
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-helper"
-          id="demo-simple-select"
-          value={orientador}
-          label="--Orientador--"
-          onChange={handleChange}
-        >
-          {professor ? (
-            professor.map((professor: any) => (
-              <MenuItem value={professor.nome}>{professor.nome}</MenuItem>
-            ))
-          ) : (
-            <></>
-          )}
-        </Select>
-        <div className="inline">
-          <Button
-            href={linkAddProfessor}
-            variant="contained"
-            className="font-medium h-14 w-auto mt-8 bg-[var(--primary-color)] hover:bg-slate-900"
+      <Box className="bg-[var(--background-color)] w-[70%] top-1/3 rounded-lg p-10 absolute t-1/2 shadow-lg shadow-black">
+        {aluno && (
+          <p className="font-semibold text-[var(--third-color)] text-3xl">
+            Olá {aluno.nome}
+          </p>
+        )}
+        <br />
+        <p className="font-semibold text-[var(--third-color)] text-xl">
+          Informe seu orientador de TCC
+        </p>
+        <FormControl fullWidth className="mt-8">
+          <InputLabel
+            id="demo-simple-select-helper-label"
+            className="font-bold text-xl"
           >
-            MEU PROFESSOR NÃO ESTÁ NA LISTA
-          </Button>
-          <Button
-            type="submit"
-            variant="contained"
-            className="font-medium h-14 w-auto mt-8 bg-[var(--primary-color)] hover:bg-slate-900 float-right"
-            onClick={handleSubmit}
-            disabled={isLoading}
+            Orientador
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-helper"
+            id="demo-simple-select"
+            value={orientador}
+            label="--Orientador--"
+            onChange={handleChange}
           >
-            {isLoading ? "CARREGANDO..." : "  CONFIRMAR  "}
-          </Button>
-        </div>
-      </FormControl>
-    </Box>
+            {professor ? (
+              professor.map((professor: any) => (
+                <MenuItem value={professor.nome}>{professor.nome}</MenuItem>
+              ))
+            ) : (
+              <></>
+            )}
+          </Select>
+          <div className="inline">
+            <Button
+              href={linkAddProfessor}
+              variant="contained"
+              className="font-medium h-14 w-auto mt-8 bg-[var(--primary-color)] hover:bg-slate-900"
+            >
+              MEU PROFESSOR NÃO ESTÁ NA LISTA
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              className="font-medium h-14 w-auto mt-8 bg-[var(--primary-color)] hover:bg-slate-900 float-right"
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? "CARREGANDO..." : "  CONFIRMAR  "}
+            </Button>
+          </div>
+        </FormControl>
+      </Box>
+    </>
   );
 }
