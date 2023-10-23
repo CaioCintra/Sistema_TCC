@@ -6,6 +6,11 @@ const nodemailer = require("nodemailer");
 
 const prisma = new PrismaClient();
 
+// <link>       Link de autenticação
+// <aluno>      Nome do aluno
+// <orientador> Nome do orientador do aluno
+
+
 export async function rotasEmail(app: FastifyInstance) {
   app.post("/email/:ra/:subject/:body", async (request) => {
     const paramsSchema = z.object({
