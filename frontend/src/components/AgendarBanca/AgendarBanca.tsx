@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
 import LinhaBanca from "./LinhaBanca";
+import ModalAgendarBanca from "./ModalAgendarBanca";
 
 export default function AgendarBanca() {
   const [data, setData] = useState(null);
@@ -40,8 +41,8 @@ export default function AgendarBanca() {
 
   return (
     <div>
-      <h2 className="text-xl -mt-5 mb-4 font-bold">Agendar Banca TCC1</h2>
-      <div className="items-center space-y-1">
+      <ModalAgendarBanca/>
+      <div className="mt-4 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
           <text className="w-[15%]">RA</text>
           <text className="w-[27%]">Nome</text>
