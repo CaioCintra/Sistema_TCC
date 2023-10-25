@@ -25,7 +25,8 @@ const style = {
 export default function ModalIndividualAgendarBanca(props: any) {
   const [error, setError] = useState(null);
   const [professores, setProfessores] = useState([]);
-  const [alunos, setAlunos] = useState([]);
+  const [banca, setBanca] = useState([]);
+  const [bancaExiste, setBancaExiste] = useState(false);
   const [selectedProfessores, setSelectedProfessores] = useState([""]);
 
   useEffect(() => {
@@ -37,8 +38,26 @@ export default function ModalIndividualAgendarBanca(props: any) {
         console.error("Erro na requisição:", error);
       }
       try {
-        const response = await axios.get(`http://localhost:3333/alunos`);
-        setAlunos(response.data);
+        const response = await axios.get(
+          `http://localhost:3333/bancas/${props.ra}`
+        );
+        if (response === null) {
+          setBancaExiste(false);
+        } else {
+          setBancaExiste(true);
+          setBanca(response.data);
+          const data = new Date(response.data.Data);
+          const formattedData = data.toISOString().split("T")[0];
+          const hora = data.toISOString().split("T")[1].split(".")[0];
+          setContent({
+            aluno: props.ra,
+            tituloTrabalho: response.data.Titulo,
+            data: formattedData,
+            horario: hora,
+            local: response.data.Local,
+          });
+          setSelectedProfessores(response.data.Professores);
+        }
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
@@ -187,7 +206,8 @@ export default function ModalIndividualAgendarBanca(props: any) {
                 <label className="block text-gray-700 font-medium mb-2">
                   Aluno
                 </label>
-                <input type="text"
+                <input
+                  type="text"
                   id="aluno"
                   name="aluno"
                   className="w-full border border-gray-300 px-3 py-2 mr-2 rounded-md focus:ring focus:ring-gray-400"
@@ -199,34 +219,35 @@ export default function ModalIndividualAgendarBanca(props: any) {
                 Banca
               </label>
               <div className="relative mb-4 flex items-center">
-                {selectedProfessores.map((professorId, index) => (
-                  <div key={index} className="flex items-center">
-                    <select
-                      id={`professor-${index}`}
-                      name={`professor-${index}`}
-                      className="w-56 border border-gray-300 px-3 py-2 mr-2 rounded-md focus:ring focus:ring-gray-400"
-                      onChange={(e) => handleProfessorChange(e, index)}
-                      value={professorId}
-                      required
-                    >
-                      <option value="">Selecione um professor</option>
-                      {professores.map((prof, index) => (
-                        <option key={index} value={prof.id}>
-                          {prof.nome}
-                        </option>
-                      ))}
-                    </select>
-                    {index !== 0 && (
-                      <button
-                        type="button"
-                        className="text-red-500 hover:text-red-700 mr-2 font-bold"
-                        onClick={() => removerNovoCampo(index)}
+                {selectedProfessores &&
+                  selectedProfessores.map((professorId, index) => (
+                    <div key={index} className="flex items-center">
+                      <select
+                        id={`professor-${index}`}
+                        name={`professor-${index}`}
+                        className="w-56 border border-gray-300 px-3 py-2 mr-2 rounded-md focus:ring focus:ring-gray-400"
+                        onChange={(e) => handleProfessorChange(e, index)}
+                        value={professorId}
+                        required
                       >
-                        X
-                      </button>
-                    )}
-                  </div>
-                ))}
+                        <option value="">Selecione um professor</option>
+                        {professores.map((prof, index) => (
+                          <option key={index} value={prof.id}>
+                            {prof.nome}
+                          </option>
+                        ))}
+                      </select>
+                      {index !== 0 && (
+                        <button
+                          type="button"
+                          className="text-red-500 hover:text-red-700 mr-2 font-bold"
+                          onClick={() => removerNovoCampo(index)}
+                        >
+                          X
+                        </button>
+                      )}
+                    </div>
+                  ))}
                 <button
                   type="button"
                   className="relative top-0 right-0 bg-[var(--primary-color)] hover:bg-slate-900 text-white font-bold py-2 px-4 ml-2 rounded"
