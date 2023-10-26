@@ -59,9 +59,9 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
         console.error(error);
         throw new Error("Erro ao criar relação entre ra e token.");
       }
-      const link = url + token;
-      return link;
     }
+    const link = url + token;
+    return link;
   });
 
   app.get("/alunoAuth/token/:token", async (request) => {
