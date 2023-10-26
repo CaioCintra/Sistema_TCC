@@ -6,6 +6,7 @@ import { rotasLogin } from "./login";
 import { rotasAlunoAuth } from "./alunoAuth";
 import { rotasBanca } from "./banca";
 import { rotasEmail } from "./email";
+import { rotasDefesa } from "./defesa";
 
 export const registerRoutes = (app: any) => {
   app.register(rotasAlunos);
@@ -15,5 +16,6 @@ export const registerRoutes = (app: any) => {
   app.register(rotasLogin);
   app.register(rotasAlunoAuth);
   app.register(rotasBanca);
+  app.register(rotasDefesa);
   app.register(rotasEmail);
 };
