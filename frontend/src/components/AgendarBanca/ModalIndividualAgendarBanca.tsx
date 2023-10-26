@@ -106,6 +106,18 @@ export default function ModalIndividualAgendarBanca(props: any) {
   const onChangeInput = (e) =>
     setContent({ ...content, [e.target.name]: e.target.value });
 
+  const excluirBanca = async () => {
+    await axios.delete(`http://localhost:3333/bancas/${banca.id}`);
+    await fetch(`http://localhost:3333/alunos/${content.aluno}`, {
+      method: "PUT",
+      body: JSON.stringify({ status: "Orientador_Definido" }),
+      headers: { "Content-Type": "application/json" },
+    });
+    handleClose();
+    limparFormulario();
+    location.reload();
+  };
+
   const cadastrarBanca = async (e) => {
     e.preventDefault();
     console.log("selectedProfessores:", selectedProfessores);
@@ -321,6 +333,13 @@ export default function ModalIndividualAgendarBanca(props: any) {
                   required
                 />
               </div>
+              <Button
+                variant="contained"
+                className="mt-3 uppercase bg-[var(--alert-color)] hover:bg-red-700 float-left bottom-0 left-0"
+                onClick={excluirBanca}
+              >
+                Excluir Banca
+              </Button>
               <Button
                 type="submit"
                 variant="contained"

@@ -7,12 +7,14 @@ const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 
 export async function rotasAlunoAuth(app: FastifyInstance) {
-  app.get("/alunoAuth/:ra", async (request) => {
+  app.get("/alunoAuth/:ra/:pagina", async (request) => {
     const paramsSchema = z.object({
       ra: z.string(),
+      pagina: z.string(),
     });
 
     const { ra } = paramsSchema.parse(request.params);
+    const { pagina } = paramsSchema.parse(request.params);
 
     const aluno = await prisma.aluno.findUniqueOrThrow({
       where: {
@@ -23,14 +25,16 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
     if (!aluno) {
       throw new Error(`Usuário não existe.`);
     }
-    const url = "http://localhost:3000/aluno/DefinirOrientador?token=";
+
+    const url = `http://localhost:3000/aluno/${pagina}?token=`;
     const token = await bcrypt.hash("4luno5enha", 10);
-    const alunoToken = await prisma.tokenAluno.findUniqueOrThrow({
-      where: {
-        ra,
-      },
-    });
-    if (!alunoToken) {
+    try {
+      await prisma.tokenAluno.findUniqueOrThrow({
+        where: {
+          ra,
+        },
+      });
+    } catch (error) {
       try {
         await prisma.tokenAluno.create({
           data: {
@@ -42,7 +46,6 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
         console.error(error);
         throw new Error("Erro ao criar relação entre ra e token.");
       }
-    } else {
       try {
         await prisma.tokenAluno.update({
           where: {
@@ -56,8 +59,8 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
         console.error(error);
         throw new Error("Erro ao criar relação entre ra e token.");
       }
-      const link = url + token
-      return link
+      const link = url + token;
+      return link;
     }
   });
 

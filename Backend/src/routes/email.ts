@@ -6,13 +6,14 @@ const nodemailer = require("nodemailer");
 
 const prisma = new PrismaClient();
 
-// <link>       Link de autenticação
-// <aluno>      Nome do aluno
-// <orientador> Nome do orientador do aluno
+// <linkOrientador>   Link de autenticação tela definirOrientador
+// <linkBanca>        Link de autenticação tela AgendarBanca
+// <aluno>            Nome do aluno
+// <orientador>       Nome do orientador do aluno
 
 
 export async function rotasEmail(app: FastifyInstance) {
-  app.post("/email/:ra/:subject/:body", async (request) => {
+  app.post("/email/:ra/:subject/:body/", async (request) => {
     const paramsSchema = z.object({
       ra: z.string(),
       subject: z.string(),
@@ -47,19 +48,37 @@ export async function rotasEmail(app: FastifyInstance) {
     body = body.replace(/<orientador>/g, orientador);
 
     var link;
+    var pagina;
 
-    try {
-      const response = await fetch(`http://localhost:3333/alunoAuth/${ra}`);
-
-      if (!response.ok) {
-        throw new Error("Erro ao buscar dados da API");
+    if(body.includes("<linkOrientador>")){
+      pagina = "DefinirOrientador"
+      try {
+        const response = await fetch(`http://localhost:3333/alunoAuth/${ra}/${pagina}`);
+        
+        if (!response.ok) {
+          throw new Error("Erro ao buscar dados da API");
+        }
+        link = await response.text();
+        body = body.replace(/<linkOrientador>/g, link);
+      } catch (error) {
+        console.error("Erro ao verificar token:", error);
       }
-      link = await response.text();
-      body = body.replace(/<link>/g, link);
-    } catch (error) {
-      console.error("Erro ao verificar token:", error);
     }
-    console.log("=============================", link);
+
+    if(body.includes("<linkBanca>")){
+      pagina = "AgendarBanca"
+      try {
+        const response = await fetch(`http://localhost:3333/alunoAuth/${ra}/${pagina}`);
+        
+        if (!response.ok) {
+          throw new Error("Erro ao buscar dados da API");
+        }
+        link = await response.text();
+        body = body.replace(/<linkBanca>/g, link);
+      } catch (error) {
+        console.error("Erro ao verificar token:", error);
+      }
+    }
 
     transport
       .sendMail({
