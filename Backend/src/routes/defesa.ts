@@ -10,21 +10,24 @@ export async function rotasDefesa(app: FastifyInstance) {
     return defesas;
   });
 
-  app.get("/defesas/:id", async (request) => {
+  app.get("/defesas/:ra/:etapa", async (request) => {
     const paramsSchema = z.object({
-      id: z.number(),
+      ra: z.string(),
+      etapa: z.string(),
     });
 
-    const { id } = paramsSchema.parse(request.params);
+    const { ra } = paramsSchema.parse(request.params);
+    const { etapa } = paramsSchema.parse(request.params);
 
-    const defesa = await prisma.defesa.findUnique({
+    const defesa = await prisma.defesa.findFirstOrThrow({
       where: {
-        id,
+        raAluno: ra,
+        Etapa: etapa,
       },
     });
 
     if (!defesa) {
-      throw new Error(`Defesa com ID: ${id} não encontrada.`);
+      throw new Error(`Defesa com RA: ${ra} não encontrada.`);
     }
 
     return defesa;
@@ -56,6 +59,7 @@ export async function rotasDefesa(app: FastifyInstance) {
     });
 
     const { id } = paramsSchema.parse(request.params);
+
     const updatedDefesaData = request.body as {
       Etapa: string;
       raAluno: string;
@@ -72,7 +76,7 @@ export async function rotasDefesa(app: FastifyInstance) {
       });
 
       if (!updatedDefesa) {
-        throw new Error(`Defesa com ID: ${id} não encontrada.`);
+        throw new Error(`Defesa com id: ${id} não encontrada.`);
       }
 
       return updatedDefesa;
@@ -82,16 +86,19 @@ export async function rotasDefesa(app: FastifyInstance) {
     }
   });
 
-  app.delete("/defesas/:id", async (request) => {
+  app.delete("/defesas/:ra/:etapa", async (request) => {
     const paramsSchema = z.object({
-      id: z.string(),
+      ra: z.string(),
+      etapa: z.string(),
     });
 
-    const { id } = paramsSchema.parse(request.params);
+    const { ra } = paramsSchema.parse(request.params);
+    const { etapa } = paramsSchema.parse(request.params);
 
-    await prisma.defesa.delete({
+    await prisma.defesa.deleteMany({
       where: {
-        id: parseInt(id),
+        raAluno: ra,
+        Etapa: etapa,
       },
     });
   });

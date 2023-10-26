@@ -1,5 +1,5 @@
 "use client";
-import RegistrarDefesa from "@/components/RegistrarDefesa";
+import RegistrarDefesa from "@/components/Defesa/RegistrarDefesa";
 import { Box } from "@mui/material";
 
 import React from "react";
