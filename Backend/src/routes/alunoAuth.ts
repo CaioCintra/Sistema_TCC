@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
+import { randomUUID } from "crypto";
 
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
@@ -13,8 +14,7 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
       pagina: z.string(),
     });
 
-    const { ra } = paramsSchema.parse(request.params);
-    const { pagina } = paramsSchema.parse(request.params);
+    const { ra, pagina } = paramsSchema.parse(request.params);
 
     const aluno = await prisma.aluno.findUniqueOrThrow({
       where: {
@@ -27,39 +27,39 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
     }
 
     const url = `http://localhost:3000/aluno/${pagina}?token=`;
-    const token = await bcrypt.hash("4luno5enha", 10);
+    const token = randomUUID();
+
     try {
-      await prisma.tokenAluno.findUniqueOrThrow({
+      const existingToken = await prisma.tokenAluno.findUnique({
         where: {
           ra,
         },
       });
-    } catch (error) {
-      try {
-        await prisma.tokenAluno.create({
-          data: {
-            ra: ra,
-            token: token,
-          },
-        });
-      } catch (error) {
-        console.error(error);
-        throw new Error("Erro ao criar relação entre ra e token.");
-      }
-      try {
-        await prisma.tokenAluno.update({
+
+      if (existingToken) {
+        await prisma.tokenAluno.delete({
           where: {
-            ra: ra,
-          },
-          data: {
-            token: token,
+            ra,
           },
         });
-      } catch (error) {
-        console.error(error);
-        throw new Error("Erro ao criar relação entre ra e token.");
       }
+    } catch (error) {
+      console.error(error);
+      throw new Error("Erro ao atualizar relação entre ra e token.");
     }
+
+    try {
+      await prisma.tokenAluno.create({
+        data: {
+          ra,
+          token,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      throw new Error("Erro ao criar relação entre ra e token.");
+    }
+
     const link = url + token;
     return link;
   });
@@ -70,7 +70,11 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
     });
 
     const { token } = paramsSchema.parse(request.params);
-    const match = await bcrypt.compare("4luno5enha", token);
+    const match = await prisma.tokenAluno.findUniqueOrThrow({
+      where: {
+        token,
+      },
+    });
 
     if (match) {
       return true;
