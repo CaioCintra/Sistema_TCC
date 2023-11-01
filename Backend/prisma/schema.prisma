@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,55 +7,103 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Aluno {
+  ra              Int               @unique
+  nome            String
+  email           String
+  Banca           Banca[]
+  Banca_Professor Banca_Professor[]
+  Instancias      Instancias[]
+  TCC             TCC[]
+}
+
 model Professor {
-  nome         String                @unique
-  email        String
-  departamento String
-  telefone     String                @unique
-  alunos       Aluno[]
-  Banca        ProfessoresEmBancas[]
-  Bancas       Int?
+  id              Int               @id @default(autoincrement())
+  nome            String
+  email           String
+  departamento    String
+  celular         String            @unique
+  Banca_Professor Banca_Professor[]
+}
+
+model Workspace {
+  id              Int               @id @default(autoincrement())
+  periodo         String
+  observacoes     String
+  Banca           Banca[]
+  Banca_Professor Banca_Professor[]
+  TCC             TCC[]
+}
+
+model TCC {
+  id              Int       @id @default(autoincrement())
+  workspace       Int
+  ra              Int
+  etapa           Etapas
+  titulo          String?
+  orientador_id   Int?
+  coorientador_id Int?
+  status          Status    @default(Matriculado_TCC1)
+  aluno_ra        Aluno     @relation(fields: [ra], references: [ra])
+  workspace_id    Workspace @relation(fields: [workspace], references: [id])
 }
 
 model Banca {
-  id          Int                   @id @default(autoincrement())
-  Etapa       Etapas
-  Aluno       Aluno?                @relation(fields: [raAluno], references: [ra])
-  raAluno     String?
-  Professores ProfessoresEmBancas[]
-  Titulo      String
-  Data        DateTime
-  Local       String
+  id                 Int       @id @default(autoincrement())
+  TCC_etapa          Etapas
+  data               DateTime
+  local              String
+  nota               String
+  observacao         String
+  ra                 Int
+  status_confirmacao String
+  workspace          Int
+  aluno_ra           Aluno     @relation(fields: [ra], references: [ra])
+  workspace_id       Workspace @relation(fields: [workspace], references: [id])
 }
 
-model ProfessoresEmBancas {
-  Professores Professor @relation(fields: [Professor], references: [nome])
-  Professor   String
-  Bancas      Banca     @relation(fields: [Banca], references: [id])
-  Banca       Int
-
-  @@id([Professor, Banca])
+model Banca_Professor {
+  id           Int       @id @default(autoincrement())
+  workspace    Int
+  ra           Int
+  etapa        Etapas
+  professor    Int
+  Professor_id Professor @relation(fields: [professor], references: [id])
+  aluno_ra     Aluno     @relation(fields: [ra], references: [ra])
+  workspace_id Workspace @relation(fields: [workspace], references: [id])
 }
 
-model Defesa {
-  id         Int      @id @default(autoincrement())
-  Etapa      Etapas
-  Aluno      Aluno?   @relation(fields: [raAluno], references: [ra])
-  raAluno    String?
-  Nota       Decimal? @db.Decimal(4, 2)
-  Observacao String
+model Instancias {
+  id              Int      @id @default(autoincrement())
+  aluno           Int
+  workspace       String
+  Etapa           Etapas
+  orientador      String
+  status_processo String
+  status_TCC1     String
+  banca_TCC1      String
+  defesa_TCC1     String
+  status_TCC2     String
+  banca_TCC2      String
+  defesa_TCC2     String
+  timestamp       DateTime
+  aluno_ra        Aluno    @relation(fields: [aluno], references: [ra])
 }
 
-model Aluno {
-  ra                String     @unique @db.VarChar(7)
-  nome              String
-  email             String
-  status            Status
-  periodo_matricula String
-  Professor         Professor? @relation(fields: [orientador], references: [nome])
-  orientador        String?
-  Banca             Banca[]
-  Defesa            Defesa[]
+model Texto {
+  nome     String    @unique
+  tipo     TipoTexto
+  conteudo String
+}
+
+model tokenAluno {
+  ra    String @unique
+  token String @unique
+}
+
+model Admin {
+  login String @unique
+  senha String @unique
 }
 
 enum Status {
@@ -73,28 +118,6 @@ enum Status {
 enum Etapas {
   TCC1
   TCC2
-}
-
-model Periodo {
-  nome                String   @unique
-  informar_orientador DateTime
-  agendar_banca       DateTime
-}
-
-model Texto {
-  nome     String    @unique
-  tipo     TipoTexto
-  conteudo String
-}
-
-model tokenAluno {
-  token String @unique
-  ra    String @unique
-}
-
-model Admin {
-  login String @unique
-  senha String @unique
 }
 
 enum TipoTexto {

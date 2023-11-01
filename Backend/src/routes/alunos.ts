@@ -16,33 +16,33 @@ export async function rotasAlunos(app: FastifyInstance) {
 
   app.get("/alunos/:ra", async (request) => {
     const paramsSchema = z.object({
-      ra: z.string(),
+      ra: z.string(), // Altere para z.string()
     });
 
     const { ra } = paramsSchema.parse(request.params);
 
-    const alunos = await prisma.aluno.findUniqueOrThrow({
+    const aluno = await prisma.aluno.findUniqueOrThrow({
       where: {
-        ra,
+        ra: Number(ra), // Certifique-se de converter para número aqui
       },
     });
 
-    return alunos;
+    return aluno;
   });
 
   app.post("/alunos", async (request) => {
     const newAlunoData = request.body as {
-      ra: string;
+      ra: number;
       nome: string;
       email: string;
-      status: string;
-      periodo_matricula: string;
-      orientador: string;
     };
 
     try {
       const createdAluno = await prisma.aluno.create({
-        data: newAlunoData,
+        data: {
+          ...newAlunoData,
+          ra: Number(newAlunoData.ra), // Certifique-se de converter para número aqui
+        },
       });
 
       return createdAluno;
@@ -54,22 +54,19 @@ export async function rotasAlunos(app: FastifyInstance) {
 
   app.put("/alunos/:ra", async (request) => {
     const paramsSchema = z.object({
-      ra: z.string(),
+      ra: z.string(), // Altere para z.string()
     });
 
     const { ra } = paramsSchema.parse(request.params);
     const updatedAlunoData = request.body as {
       nome: string;
       email: string;
-      status: string;
-      periodo_matricula: string;
-      orientador: string;
     };
 
     try {
       const updatedAluno = await prisma.aluno.update({
         where: {
-          ra: ra,
+          ra: Number(ra), // Certifique-se de converter para número aqui
         },
         data: updatedAlunoData,
       });
@@ -87,15 +84,22 @@ export async function rotasAlunos(app: FastifyInstance) {
 
   app.delete("/alunos/:ra", async (request) => {
     const paramsSchema = z.object({
-      ra: z.string(),
+      ra: z.string(), // Altere para z.string()
     });
 
     const { ra } = paramsSchema.parse(request.params);
 
-    await prisma.aluno.delete({
-      where: {
-        ra,
-      },
-    });
+    try {
+      await prisma.aluno.delete({
+        where: {
+          ra: Number(ra), // Certifique-se de converter para número aqui
+        },
+      });
+
+      return { message: `Aluno com RA: ${ra} deletado com sucesso.` };
+    } catch (error) {
+      console.error(error);
+      throw new Error("Erro ao deletar o aluno.");
+    }
   });
 }

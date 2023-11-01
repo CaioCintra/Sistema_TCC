@@ -7,6 +7,8 @@ import { rotasAlunoAuth } from "./alunoAuth";
 import { rotasBanca } from "./banca";
 import { rotasEmail } from "./email";
 import { rotasDefesa } from "./defesa";
+import { rotasWorkspace } from "./workspace";
+import { rotasTCC } from "./TCC";
 
 export const registerRoutes = (app: any) => {
   app.register(rotasAlunos);
@@ -18,4 +20,6 @@ export const registerRoutes = (app: any) => {
   app.register(rotasBanca);
   app.register(rotasDefesa);
   app.register(rotasEmail);
+  app.register(rotasWorkspace);
+  app.register(rotasTCC);
 };
