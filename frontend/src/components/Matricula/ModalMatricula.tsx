@@ -14,7 +14,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1100,
-  height: 580,
+  height: 500,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 5,
@@ -27,8 +27,6 @@ export default function ModalMatricula() {
     ra: "",
     nome: "",
     email: "",
-    status: "Matriculado_TCC1",
-    periodo_matricula: "2023/2",
   });
 
   function limparFormulario() {
@@ -36,8 +34,6 @@ export default function ModalMatricula() {
       ra: "",
       nome: "",
       email: "",
-      status: "Matriculado_TCC1",
-      periodo_matricula: "2023/2",
     });
   }
 
@@ -56,6 +52,20 @@ export default function ModalMatricula() {
       if (response.status === 500) {
         setError("RA já cadastrado");
       } else if (response.ok) {
+        await fetch("http://localhost:3333/tcc", {
+          method: "POST",
+          body: JSON.stringify({
+            workspace: 2,
+            ra: parseInt(content.ra),
+            etapa: "TCC1",
+            titulo: "",
+            orientador_id: 0,
+            coorientador_id: 0,
+            status: "Matriculado_TCC1"
+          }
+          ),
+          headers: { "Content-Type": "application/json" },
+        });
         handleClose();
         limparFormulario();
         location.reload();
@@ -176,24 +186,6 @@ export default function ModalMatricula() {
                   value={content.email}
                   required
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
-                  Período
-                </label>
-                <select
-                  id="periodo_matricula"
-                  name="periodo_matricula"
-                  className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
-                  onChange={onChangeInput}
-                  value={content.periodo_matricula}
-                  required
-                >
-                  <option value="2023/2">2023/2</option>
-                  <option value="2023/1">2023/1</option>
-                  <option value="2022/2">2022/2</option>
-                  <option value="2022/1">2022/1</option>
-                </select>
               </div>
               <Button
                 type="submit"

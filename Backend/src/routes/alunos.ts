@@ -102,4 +102,37 @@ export async function rotasAlunos(app: FastifyInstance) {
       throw new Error("Erro ao deletar o aluno.");
     }
   });
+
+  app.get("/alunos/matricula", async (req, res) => {
+    try {
+      const alunos = await prisma.aluno.findMany({
+        orderBy: {
+          nome: "asc",
+        },
+      });
+  
+      const alunosComTCCs = await Promise.all(
+        alunos.map(async (aluno) => {
+          const tcc = await prisma.tCC.findUnique({
+            where: {
+              ra: aluno.ra,
+            },
+          });
+  
+          return {
+            ra: aluno.ra,
+            nome: aluno.nome,
+            status: tcc ? tcc.status : null,
+          };
+        })
+      );
+  
+      return alunosComTCCs;
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      res.status(500).json({ error: "Erro ao buscar dados da API" });
+    }
+  });
+  
+
 }

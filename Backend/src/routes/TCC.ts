@@ -20,7 +20,7 @@ export async function rotasTCC(app: FastifyInstance) {
 
   app.get("/tcc/:id", async (request) => {
     const paramsSchema = z.object({
-      id: z.string(), // Mantenha como string
+      id: z.string(),
     });
 
     const { id } = paramsSchema.parse(request.params);
@@ -75,7 +75,7 @@ export async function rotasTCC(app: FastifyInstance) {
       etapa: string;
       titulo: string;
       orientador_id: number;
-      coorientador_id: number | null; // Agora pode ser nulo
+      coorientador_id: number | null;
       status: string;
     };
 
@@ -104,7 +104,7 @@ export async function rotasTCC(app: FastifyInstance) {
 
   app.delete("/tcc/:id", async (request) => {
     const paramsSchema = z.object({
-      id: z.string(), // Mantenha como string
+      id: z.string(),
     });
 
     const { id } = paramsSchema.parse(request.params);

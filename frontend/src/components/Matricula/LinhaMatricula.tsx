@@ -8,7 +8,6 @@ export default function LinhaMatricula(props: any) {
       <text className="w-1/8">{props.ra}</text>
       <text className="w-1/6">{props.nome}</text>
       <LabelStatus className="w-1/4" status={props.status}></LabelStatus>
-      <text className="w-1/6">{props.matricula}</text>
       <div />
       <div className="inline-flex">
         <ModalEditar ra={props.ra} nome={props.nome} status={props.status} email={props.email} periodo={props.matricula}/>
