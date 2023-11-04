@@ -1,6 +1,6 @@
-import { PrismaClient } from "@prisma/client";
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -14,16 +14,16 @@ export async function rotasProfessores(app: FastifyInstance) {
     return professores;
   });
 
-  app.get("/professores/:nome", async (request) => {
+  app.get("/professores/:id", async (request) => {
     const paramsSchema = z.object({
-      nome: z.string(),
+      id: z.string(), // Altere para z.string()
     });
 
-    const { nome } = paramsSchema.parse(request.params);
+    const { id } = paramsSchema.parse(request.params);
 
     const professor = await prisma.professor.findUniqueOrThrow({
       where: {
-        nome,
+        id: Number(id), // Certifique-se de converter para número aqui
       },
     });
 
@@ -35,7 +35,7 @@ export async function rotasProfessores(app: FastifyInstance) {
       nome: string;
       email: string;
       departamento: string;
-      telefone: string;
+      celular: string;
     };
 
     try {
@@ -50,29 +50,29 @@ export async function rotasProfessores(app: FastifyInstance) {
     }
   });
 
-  app.put("/professores/:nome", async (request) => {
+  app.put("/professores/:id", async (request) => {
     const paramsSchema = z.object({
-      nome: z.string(),
+      id: z.string(), // Altere para z.string()
     });
 
-    const { nome } = paramsSchema.parse(request.params);
+    const { id } = paramsSchema.parse(request.params);
     const updatedProfessorData = request.body as {
       nome: string;
       email: string;
       departamento: string;
-      telefone: string;
+      celular: string;
     };
 
     try {
       const updatedProfessor = await prisma.professor.update({
         where: {
-          nome: nome,
+          id: Number(id), // Certifique-se de converter para número aqui
         },
         data: updatedProfessorData,
       });
 
       if (!updatedProfessor) {
-        throw new Error(`Professor com nome: ${nome} não encontrado.`);
+        throw new Error(`Professor com ID: ${id} não encontrado.`);
       }
 
       return updatedProfessor;
@@ -82,17 +82,24 @@ export async function rotasProfessores(app: FastifyInstance) {
     }
   });
 
-  app.delete("/professores/:nome", async (request) => {
+  app.delete("/professores/:id", async (request) => {
     const paramsSchema = z.object({
-      nome: z.string(),
+      id: z.string(), // Altere para z.string()
     });
 
-    const { nome } = paramsSchema.parse(request.params);
+    const { id } = paramsSchema.parse(request.params);
 
-    await prisma.professor.delete({
-      where: {
-        nome,
-      },
-    });
+    try {
+      await prisma.professor.delete({
+        where: {
+          id: Number(id), // Certifique-se de converter para número aqui
+        },
+      });
+
+      return { message: `Professor com ID: ${id} deletado com sucesso.` };
+    } catch (error) {
+      console.error(error);
+      throw new Error("Erro ao deletar o professor.");
+    }
   });
 }

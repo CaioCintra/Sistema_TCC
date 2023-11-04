@@ -8,7 +8,7 @@ export default function MatricularTCC() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3333/alunos");
+        const response = await fetch("http://localhost:3333/alunos/matricula");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }
@@ -21,27 +21,25 @@ export default function MatricularTCC() {
 
     fetchData();
   }, []);
+
   return (
     <div>
       <ModalMatricula></ModalMatricula>
       <div className="m-10 mt-20 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
-          <text className="w-[14%]">RA</text>
-          <text className="w-[28%]">Nome</text>
-          <text className="w-[18%]">Status</text>
-          <text className="w-[37%]">Matrícula</text>
+          <text className="w-[20%]">RA</text>
+          <text className="w-[34%]">Nome</text>
+          <text className="w-[42%]">Status</text>
           <text className="w-[5%]">Ações</text>
         </div>
         <div>
           {data ? (
-            data.map((aluno:any) =>
-              aluno.status == "Matriculado_TCC1" ? (
+            data.map((aluno: any) =>
+              aluno.status === "Matriculado_TCC1" ? (
                 <LinhaMatricula
                   ra={aluno.ra}
                   nome={aluno.nome}
                   status={aluno.status}
-                  email={aluno.email}
-                  matricula={aluno.periodo_matricula}
                 />
               ) : (
                 <></>

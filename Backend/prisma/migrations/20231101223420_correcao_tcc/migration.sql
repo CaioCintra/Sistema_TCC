@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "TCC" ALTER COLUMN "titulo" DROP NOT NULL,
+ALTER COLUMN "orientador_id" DROP NOT NULL,
+ALTER COLUMN "coorientador_id" DROP NOT NULL;
