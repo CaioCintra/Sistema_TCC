@@ -14,7 +14,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1100,
-  height: 580,
+  height: 500,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 5,
@@ -25,8 +25,6 @@ export default function ModalEditar(props: any) {
     ra: props.ra,
     nome: props.nome,
     email: props.email,
-    status: props.status,
-    periodo_matricula: props.periodo,
   });
 
   function limparFormulario() {
@@ -34,8 +32,6 @@ export default function ModalEditar(props: any) {
       ra: props.ra,
       nome: props.nome,
       email: props.email,
-      status: props.status,
-      periodo_matricula: props.periodo,
     });
   }
 
@@ -107,6 +103,7 @@ export default function ModalEditar(props: any) {
                   onChange={onChangeInput}
                   value={content.ra}
                   required
+                  disabled
                 />
               </div>
               <div className="mb-4">
@@ -139,25 +136,6 @@ export default function ModalEditar(props: any) {
                   value={content.email}
                   required
                 />
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
-                  Período
-                </label>
-                <select
-                  id="periodo_matricula"
-                  name="periodo_matricula"
-                  placeholder={props.periodo}
-                  className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
-                  onChange={onChangeInput}
-                  value={content.periodo_matricula}
-                  required
-                >
-                  <option value="2023/2">2023/2</option>
-                  <option value="2023/1">2023/1</option>
-                  <option value="2022/2">2022/2</option>
-                  <option value="2022/1">2022/1</option>
-                </select>
               </div>
               <Button
                 type="submit"
