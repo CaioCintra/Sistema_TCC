@@ -39,6 +39,7 @@ export default function MatricularTCC() {
                 <LinhaMatricula
                   ra={aluno.ra}
                   nome={aluno.nome}
+                  email={aluno.email}
                   status={aluno.status}
                 />
               ) : (

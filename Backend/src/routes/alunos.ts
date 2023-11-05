@@ -90,6 +90,11 @@ export async function rotasAlunos(app: FastifyInstance) {
     const { ra } = paramsSchema.parse(request.params);
 
     try {
+      await prisma.tCC.deleteMany({
+        where: {
+          ra: Number(ra),
+        },
+      });
       await prisma.aluno.delete({
         where: {
           ra: Number(ra), // Certifique-se de converter para número aqui
@@ -110,29 +115,28 @@ export async function rotasAlunos(app: FastifyInstance) {
           nome: "asc",
         },
       });
-  
+
       const alunosComTCCs = await Promise.all(
         alunos.map(async (aluno) => {
-          const tcc = await prisma.tCC.findUnique({
+          const tccs = await prisma.tCC.findMany({
             where: {
               ra: aluno.ra,
             },
           });
-  
+
           return {
             ra: aluno.ra,
             nome: aluno.nome,
-            status: tcc ? tcc.status : null,
+            email: aluno.email,
+            status: tccs.length > 0 ? tccs[0].status : null,
           };
         })
       );
-  
+
       return alunosComTCCs;
     } catch (error) {
       console.error("Erro na requisição:", error);
       res.status(500).json({ error: "Erro ao buscar dados da API" });
     }
   });
-  
-
 }
