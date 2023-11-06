@@ -14,7 +14,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1100,
-  height: 390,
+  height: 470,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 5,
@@ -40,33 +40,32 @@ export default function ModalOrientador(props: any) {
     fetchData();
   }, []);
 
-  const [content, setContent] = useState({
-    ra: props.ra,
-    nome: props.nome,
-    email: props.email,
-    status: props.status,
-    periodo_matricula: props.periodo,
-    orientador: props.orientador,
-  });
+  const [orientador, setOrientador] = useState(props.orientador);
+  const [coorientador, setCoorientador] = useState(props.coorientador);
 
-  const onChangeInput = (e: any) =>
-    setContent({ ...content, [e.target.name]: e.target.value });
+  const onChangeOrientador = (e: any) => setOrientador(e.target.value);
+  const onChangeCoorientador = (e: any) => setCoorientador(e.target.value);
 
   const definirOrientador = async (e: any) => {
     e.preventDefault();
-    if (content.orientador != ''){
-        content.status = 'Orientador_Definido'
-    }
-    try {
-      await fetch(`http://localhost:3333/alunos/${props.ra}`, {
-        method: "PUT",
-        body: JSON.stringify(content),
-        headers: { "Content-Type": "application/json" },
-      });
-      handleClose();
-      location.reload();
-    } catch (err) {
-      console.log("Erro ao atualizar aluno");
+    if (orientador !== "0" && coorientador !== orientador) {
+      try {
+        await fetch(`http://localhost:3333/tcc/${props.ra}/${props.workspace}`, {
+          method: "PUT",
+          body: JSON.stringify({
+            etapa: "TCC1",
+            titulo: "",
+            orientador_id: parseInt(orientador),
+            coorientador_id: parseInt(coorientador),
+            status: "Orientador_Definido"
+          }),
+          headers: { "Content-Type": "application/json" },
+        });
+        handleClose();
+        location.reload();
+      } catch (err) {
+        console.log("Erro ao atualizar aluno");
+      }
     }
   };
 
@@ -102,7 +101,8 @@ export default function ModalOrientador(props: any) {
               Definir Orientador
             </text>
             <p className="mt-5 mb-5 font-bold">
-              Confira o nome do aluno e escolha seu professor orientador
+              Confira o nome do aluno e escolha seu professor orientador e um
+              co-orientador, caso houver
             </p>
 
             <form onSubmit={definirOrientador} id="form">
@@ -115,8 +115,7 @@ export default function ModalOrientador(props: any) {
                   id="nome"
                   name="nome"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
-                  onChange={onChangeInput}
-                  value={content.nome}
+                  value={props.nome}
                   disabled
                 />
               </div>
@@ -129,14 +128,40 @@ export default function ModalOrientador(props: any) {
                   name="orientador"
                   placeholder={props.orientador}
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
-                  onChange={onChangeInput}
-                  value={content.orientador}
+                  onChange={onChangeOrientador}
+                  value={orientador}
                   required
                 >
-                    <option value=''>Selecione um orientador</option>
+                  <option value="0">Selecione um orientador</option>
                   {data ? (
                     data.map((professor: any) => (
-                      <option value={professor.nome}>{professor.nome}</option>
+                      <option value={professor.id} key={professor.id}>
+                        {professor.nome}
+                      </option>
+                    ))
+                  ) : (
+                    <></>
+                  )}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 font-medium mb-2">
+                  Co-orientador
+                </label>
+                <select
+                  id="coorientador"
+                  name="coorientador"
+                  placeholder={props.coorientador}
+                  className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                  onChange={onChangeCoorientador}
+                  value={coorientador}
+                >
+                  <option value="0">Selecione um coorientador</option>
+                  {data ? (
+                    data.map((professor: any) => (
+                      <option value={professor.id} key={professor.id}>
+                        {professor.nome}
+                      </option>
                     ))
                   ) : (
                     <></>
