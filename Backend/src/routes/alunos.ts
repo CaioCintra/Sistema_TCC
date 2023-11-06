@@ -139,4 +139,39 @@ export async function rotasAlunos(app: FastifyInstance) {
       res.status(500).json({ error: "Erro ao buscar dados da API" });
     }
   });
+
+  app.get("/alunos/orientador", async (req, res) => {
+    try {
+      const alunos = await prisma.aluno.findMany({
+        orderBy: {
+          nome: "asc",
+        },
+      });
+
+      const alunosComTCCs = await Promise.all(
+        alunos.map(async (aluno) => {
+          const tccs = await prisma.tCC.findMany({
+            where: {
+              ra: aluno.ra,
+            },
+          });
+
+          return {
+            ra: aluno.ra,
+            nome: aluno.nome,
+            email: aluno.email,
+            status: tccs.length > 0 ? tccs[0].status : null,
+            orientador: tccs[0].orientador_id,
+            coorientador: tccs[0].coorientador_id,
+            workspace: tccs[0].workspace,
+          };
+        })
+      );
+
+      return alunosComTCCs;
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      res.status(500).json({ error: "Erro ao buscar dados da API" });
+    }
+  });
 }

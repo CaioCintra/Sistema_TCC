@@ -102,6 +102,41 @@ export async function rotasTCC(app: FastifyInstance) {
     }
   });
 
+  app.put("/tcc/:ra/:workspace", async (request) => {
+    const paramsSchema = z.object({
+      ra: z.string(),
+      workspace: z.string(),
+    });
+
+    const { ra } = paramsSchema.parse(request.params);
+    const { workspace } = paramsSchema.parse(request.params);
+    const updatedTCCData = request.body as {
+      titulo: string;
+      orientador_id: number;
+      coorientador_id: number;
+      status: string;
+    };
+
+    try {
+      const updatedTCC = await prisma.tCC.updateMany({
+        where: {
+          ra: Number(ra),
+          workspace: Number(workspace)
+        },
+        data: updatedTCCData,
+      });
+
+      if (!updatedTCC) {
+        throw new Error(`TCC com ra: ${ra} não encontrado neste workspace.`);
+      }
+
+      return updatedTCC;
+    } catch (error) {
+      console.error(error);
+      throw new Error("Erro ao atualizar o TCC.");
+    }
+  });
+
   app.delete("/tcc/:id", async (request) => {
     const paramsSchema = z.object({
       id: z.string(),

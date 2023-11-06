@@ -7,7 +7,7 @@ export default function DefinirOrientador() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3333/alunos");
+        const response = await fetch("http://localhost:3333/alunos/orientador");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }
@@ -39,8 +39,9 @@ export default function DefinirOrientador() {
                   ra={aluno.ra}
                   nome={aluno.nome}
                   status={aluno.status}
-                  matricula={aluno.periodo}
                   orientador = {aluno.orientador}
+                  coorientador = {aluno.coorientador}
+                  workspace = {aluno.workspace}
                   email = {aluno.email}
                 />
               ) : (
