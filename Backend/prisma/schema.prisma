@@ -8,31 +8,29 @@ datasource db {
 }
 
 model Aluno {
-  ra              Int               @unique
-  nome            String
-  email           String
-  Banca           Banca[]
-  Banca_Professor Banca_Professor[]
-  Instancias      Instancias[]
-  TCC             TCC[]
+  nome       String
+  email      String
+  ra         Int          @unique
+  Banca      Banca[]
+  Instancias Instancias[]
+  TCC        TCC[]
 }
 
 model Professor {
-  id              Int               @id @default(autoincrement())
   nome            String
   email           String
   departamento    String
   celular         String            @unique
+  id              Int               @id @default(autoincrement())
   Banca_Professor Banca_Professor[]
 }
 
 model Workspace {
-  id              Int               @id @default(autoincrement())
-  periodo         String
-  observacoes     String
-  Banca           Banca[]
-  Banca_Professor Banca_Professor[]
-  TCC             TCC[]
+  id          Int     @id @default(autoincrement())
+  periodo     String
+  observacoes String
+  Banca       Banca[]
+  TCC         TCC[]
 }
 
 model TCC {
@@ -64,13 +62,9 @@ model Banca {
 
 model Banca_Professor {
   id           Int       @id @default(autoincrement())
-  workspace    Int
-  ra           Int
-  etapa        Etapas
   professor    Int
+  banca        Int
   Professor_id Professor @relation(fields: [professor], references: [id])
-  aluno_ra     Aluno     @relation(fields: [ra], references: [ra])
-  workspace_id Workspace @relation(fields: [workspace], references: [id])
 }
 
 model Instancias {

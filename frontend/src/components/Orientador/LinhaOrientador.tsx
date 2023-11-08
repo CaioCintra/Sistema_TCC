@@ -4,11 +4,12 @@ import ModalEmail from "./ModalEmail";
 import { useState, useEffect } from "react";
 
 export default function LinhaOrientador(props: any) {
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3333/professores/${props.orientador}`);
+        const response = await fetch(
+          `http://localhost:3333/professores/${props.orientador}`
+        );
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }
@@ -17,9 +18,11 @@ export default function LinhaOrientador(props: any) {
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
-      if(props.coorientador != 0) {
+      if (props.coorientador != 0) {
         try {
-          const response = await fetch(`http://localhost:3333/professores/${props.coorientador}`);
+          const response = await fetch(
+            `http://localhost:3333/professores/${props.coorientador}`
+          );
           if (!response.ok) {
             throw new Error("Erro ao buscar dados da API");
           }
@@ -32,7 +35,7 @@ export default function LinhaOrientador(props: any) {
     };
 
     fetchData();
-  }, []);
+  }, [props.coorientador, props.orientador]);
 
   const [data, setData] = useState();
   const [data2, setData2] = useState();
@@ -49,9 +52,7 @@ export default function LinhaOrientador(props: any) {
       <div />
       <div>
         <div className="inline-flex">
-          <ModalEmail
-            ra={props.ra}
-          />
+          <ModalEmail ra={props.ra} />
           <ModalOrientador
             ra={props.ra}
             nome={props.nome}
@@ -60,11 +61,6 @@ export default function LinhaOrientador(props: any) {
             coorientador={props.coorientador}
             workspace={props.workspace}
           />
-          {/* <Tooltip title="Remover">
-          <IconButton>
-          <RemoveCircleOutlineIcon />
-          </IconButton>
-        </Tooltip> */}
         </div>
       </div>
     </div>

@@ -27,7 +27,7 @@ export default function ModalCadastrarProfessor() {
     nome: "",
     email: "",
     departamento: "",
-    telefone: "",
+    celular: "",
   });
 
   function limparFormulario() {
@@ -35,7 +35,7 @@ export default function ModalCadastrarProfessor() {
       nome: "",
       email: "",
       departamento: "",
-      telefone: "",
+      celular: "",
     });
   }
 
@@ -174,18 +174,18 @@ export default function ModalCadastrarProfessor() {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
-                  Telefone
+                  celular
                 </label>
                 <input
                   type="tel"
-                  id="telefone"
-                  name="telefone"
+                  id="celular"
+                  name="celular"
                   pattern="^\d{10,11}$"
                   maxLength={11}
                   minLength={10}
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                   onChange={onChangeInput}
-                  value={content.telefone}
+                  value={content.celular}
                   required
                 />
               </div>
