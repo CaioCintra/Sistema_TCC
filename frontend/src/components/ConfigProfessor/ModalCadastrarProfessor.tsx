@@ -174,7 +174,7 @@ export default function ModalCadastrarProfessor() {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
-                  celular
+                  Celular
                 </label>
                 <input
                   type="tel"
