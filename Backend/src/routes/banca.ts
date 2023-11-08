@@ -7,8 +7,9 @@ const prisma = new PrismaClient();
 export async function rotasBanca(app: FastifyInstance) {
   app.get("/bancas", async () => {
     const bancas = await prisma.banca.findMany({
-      orderBy: {
-        id: "asc",
+      include: {
+        aluno_ra: true,
+        workspace_id: true,
       },
     });
     return bancas;
@@ -20,39 +21,43 @@ export async function rotasBanca(app: FastifyInstance) {
     });
 
     const { ra } = paramsSchema.parse(request.params);
-    const bancas = await prisma.banca.findFirstOrThrow({
+    const banca = await prisma.banca.findFirst({
       where: {
-        raAluno: ra,
+        aluno_ra: {
+          ra: parseInt(ra),
+        },
+      },
+      include: {
+        aluno_ra: true,
+        workspace_id: true,
       },
     });
-    return bancas;
+
+    if (!banca) {
+      throw new Error(`Banca com RA: ${ra} não encontrada.`);
+    }
+
+    return banca;
   });
 
   app.post("/bancas", async (request) => {
     const newBancaData = request.body as {
-      Etapa: string;
-      Titulo: string;
-      Data: string;
-      Local: string;
-      Professores: string[];
-      raAluno: string;
+      TCC_etapa: string;
+      data: string;
+      local: string;
+      nota: string;
+      observacao: string;
+      ra: number;
+      status_confirmacao: string;
+      workspace: number;
     };
 
     try {
-      const professores = newBancaData.Professores.map((professor) => ({
-        Professor: professor,
-      }));
-
       const createdBanca = await prisma.banca.create({
-        data: {
-          Etapa: newBancaData.Etapa,
-          Titulo: newBancaData.Titulo,
-          Data: newBancaData.Data,
-          Local: newBancaData.Local,
-          Professores: {
-            create: professores,
-          },
-          raAluno: newBancaData.raAluno,
+        data: newBancaData,
+        include: {
+          aluno_ra: true,
+          workspace_id: true,
         },
       });
 
@@ -71,50 +76,36 @@ export async function rotasBanca(app: FastifyInstance) {
     const { id } = paramsSchema.parse(request.params);
 
     try {
-      const deletedProfessores = await prisma.professoresEmBancas.deleteMany({
-        where: {
-          Banca: parseInt(id),
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      throw new Error("Erro ao atualizar professores da banca.");
-    }
+      const updatedBancaData = request.body as {
+        TCC_etapa: string;
+        data: string;
+        local: string;
+        nota: string;
+        observacao: string;
+        ra: number;
+        status_confirmacao: string;
+        workspace: number;
+      };
 
-    const updatedBancaData = request.body as {
-      Etapa: string;
-      Titulo: string;
-      Data: string;
-      Local: string;
-      Professores: string[];
-      raAluno: string;
-    };
-
-    try {
-      const professores = updatedBancaData.Professores.map((professor) => ({
-        Professor: professor,
-      }));
-
-      const createdBanca = await prisma.banca.update({
+      const updatedBanca = await prisma.banca.update({
         where: {
           id: parseInt(id),
         },
-        data: {
-          Etapa: updatedBancaData.Etapa,
-          Titulo: updatedBancaData.Titulo,
-          Data: updatedBancaData.Data,
-          Local: updatedBancaData.Local,
-          Professores: {
-            create: professores,
-          },
-          raAluno: updatedBancaData.raAluno,
+        data: updatedBancaData,
+        include: {
+          aluno_ra: true,
+          workspace_id: true,
         },
       });
 
-      return createdBanca;
+      if (!updatedBanca) {
+        throw new Error(`Banca com ID: ${id} não encontrada.`);
+      }
+
+      return updatedBanca;
     } catch (error) {
       console.error(error);
-      throw new Error("Erro ao criar uma nova banca.");
+      throw new Error("Erro ao atualizar a banca.");
     }
   });
 
@@ -126,19 +117,13 @@ export async function rotasBanca(app: FastifyInstance) {
     const { id } = paramsSchema.parse(request.params);
 
     try {
-      const deletedProfessores = await prisma.professoresEmBancas.deleteMany({
-        where: {
-          Banca: parseInt(id),
-        },
-      });
-    } catch (error) {
-      console.error(error);
-      throw new Error("Erro ao remover professores da banca.");
-    }
-    try {
       const deletedBanca = await prisma.banca.delete({
         where: {
-          id: parseInt(id), // Convertendo a string para número, se necessário
+          id: parseInt(id),
+        },
+        include: {
+          aluno_ra: true,
+          workspace_id: true,
         },
       });
 

@@ -11,12 +11,13 @@ export default function AgendarBanca() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3333/alunos");
+        const response = await fetch("http://localhost:3333/alunos/banca");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }
         const data = await response.json();
         setData(data);
+        console.log(data);
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
@@ -25,49 +26,58 @@ export default function AgendarBanca() {
     fetchData();
   }, []);
 
-  const filteredData = data?.filter(
-    (aluno) =>
-      aluno.status === "Orientador_Definido" ||
-      aluno.status === "Banca_TCC1_Agendada"
-  );
+  const filteredData = data
+    ? data.filter(
+        (aluno) => aluno &&
+          (aluno.status === "Orientador_Definido" ||
+          aluno.status === "Banca_TCC1_Agendada")
+      )
+    : [];
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData?.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (event, page) => {
     setCurrentPage(page);
   };
 
+  if (data === null) {
+    return null;
+  }
+
   return (
     <div>
-      <ModalAgendarBanca/>
       <div className="mt-4 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
-          <text className="w-[15%]">RA</text>
-          <text className="w-[27%]">Nome</text>
-          <text className="w-[19%]">Status</text>
-          <text className="w-[32%]">Orientador</text>
-          <text className="">Ações</text>
+          <p className="w-[21%]">Nome</p>
+          <p className="w-[28%]">Orientador</p>
+          <p className="w-[19%]">Status</p>
+          <p className="w-[19%]">Data</p>
+          <p className="w-[19%]">Horário</p>
+          <p className="w-[19%]">Local</p>
+          <p className="">Ações</p>
         </div>
         <div className="h-[20rem]">
-          {currentItems &&
-            currentItems.map((aluno) => (
-              <LinhaBanca
-                key={aluno.ra}
-                ra={aluno.ra}
-                nome={aluno.nome}
-                status={aluno.status}
-                matricula={aluno.periodo}
-                orientador={aluno.orientador}
-                email={aluno.email}
-              />
-            ))}
+          {currentItems.map((aluno) => (
+            <LinhaBanca
+              key={aluno.ra}
+              ra={aluno.ra}
+              nome={aluno.nome}
+              status={aluno.status}
+              orientador={aluno.orientador}
+              coorientador={aluno.coorientador}
+              titulo={aluno.titulo}
+              email={aluno.email}
+              data={aluno.data}
+              local={aluno.local}
+            />
+          ))}
         </div>
         <Pagination
           className="grid place-items-center"
           color="grey"
-          count={Math.ceil(filteredData?.length / itemsPerPage)}
+          count={Math.ceil(filteredData.length / itemsPerPage)}
           shape="rounded"
           page={currentPage}
           onChange={handlePageChange}

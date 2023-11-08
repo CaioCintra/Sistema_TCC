@@ -16,14 +16,14 @@ export async function rotasAlunos(app: FastifyInstance) {
 
   app.get("/alunos/:ra", async (request) => {
     const paramsSchema = z.object({
-      ra: z.string(), // Altere para z.string()
+      ra: z.string(),
     });
 
     const { ra } = paramsSchema.parse(request.params);
 
     const aluno = await prisma.aluno.findUniqueOrThrow({
       where: {
-        ra: Number(ra), // Certifique-se de converter para número aqui
+        ra: Number(ra),
       },
     });
 
@@ -41,7 +41,7 @@ export async function rotasAlunos(app: FastifyInstance) {
       const createdAluno = await prisma.aluno.create({
         data: {
           ...newAlunoData,
-          ra: Number(newAlunoData.ra), // Certifique-se de converter para número aqui
+          ra: Number(newAlunoData.ra),
         },
       });
 
@@ -54,7 +54,7 @@ export async function rotasAlunos(app: FastifyInstance) {
 
   app.put("/alunos/:ra", async (request) => {
     const paramsSchema = z.object({
-      ra: z.string(), // Altere para z.string()
+      ra: z.string(),
     });
 
     const { ra } = paramsSchema.parse(request.params);
@@ -66,7 +66,7 @@ export async function rotasAlunos(app: FastifyInstance) {
     try {
       const updatedAluno = await prisma.aluno.update({
         where: {
-          ra: Number(ra), // Certifique-se de converter para número aqui
+          ra: Number(ra),
         },
         data: updatedAlunoData,
       });
@@ -97,7 +97,7 @@ export async function rotasAlunos(app: FastifyInstance) {
       });
       await prisma.aluno.delete({
         where: {
-          ra: Number(ra), // Certifique-se de converter para número aqui
+          ra: Number(ra),
         },
       });
 
@@ -169,6 +169,71 @@ export async function rotasAlunos(app: FastifyInstance) {
       );
 
       return alunosComTCCs;
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      res.status(500).json({ error: "Erro ao buscar dados da API" });
+    }
+  });
+
+  app.get("/alunos/banca", async (req, res) => {
+    try {
+      const alunos = await prisma.aluno.findMany({
+        orderBy: {
+          nome: "asc",
+        },
+      });
+
+      const alunosComBancas = await Promise.all(
+        alunos.map(async (aluno) => {
+          const banca = await prisma.banca.findMany({
+            where: {
+              ra: aluno.ra,
+            },
+          });
+          const tccs = await prisma.tCC.findMany({
+            where: {
+              ra: aluno.ra,
+            },
+          });
+          if (banca.length > 0) {
+            return {
+              ra: aluno.ra,
+              nome: aluno.nome,
+              email: aluno.email,
+              id: banca[0].id,
+              data: banca[0].data,
+              nota: banca[0].nota,
+              local: banca[0].local,
+              observacao: banca[0].observacao,
+              status_confirmacao: banca[0].status_confirmacao,
+              titulo: tccs[0].titulo,
+              status: tccs.length > 0 ? tccs[0].status : null,
+              orientador: tccs.length > 0 ? tccs[0].orientador_id : null,
+              coorientador: tccs.length > 0 ? tccs[0].coorientador_id : null,
+              workspace: tccs.length > 0 ? tccs[0].workspace : null,
+            };
+          } else {
+            return {
+              ra: aluno.ra,
+              nome: aluno.nome,
+              email: aluno.email,
+              id: null,
+              data: null,
+              nota: null,
+              local: null,
+              observacao: null,
+              status_confirmacao: null,
+              titulo: null,
+              status: tccs.length > 0 ? tccs[0].status : null,
+              orientador: tccs.length > 0 ? tccs[0].orientador_id : null,
+              coorientador: tccs.length > 0 ? tccs[0].coorientador_id : null,
+              workspace: tccs.length > 0 ? tccs[0].workspace : null,
+            };
+          }
+        })
+      );
+
+      return alunosComBancas;
     } catch (error) {
       console.error("Erro na requisição:", error);
       res.status(500).json({ error: "Erro ao buscar dados da API" });
