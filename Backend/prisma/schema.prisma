@@ -64,13 +64,12 @@ model Banca {
 
 model Banca_Professor {
   id           Int       @id @default(autoincrement())
-  workspace    Int
-  ra           Int
-  etapa        Etapas
+  banca        Int
   professor    Int
   Professor_id Professor @relation(fields: [professor], references: [id])
-  aluno_ra     Aluno     @relation(fields: [ra], references: [ra])
-  workspace_id Workspace @relation(fields: [workspace], references: [id])
+  banca_id     Workspace @relation(fields: [banca], references: [id])
+  Aluno        Aluno?    @relation(fields: [alunoRa], references: [ra])
+  alunoRa      Int?
 }
 
 model Instancias {
