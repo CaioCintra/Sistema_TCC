@@ -137,4 +137,6 @@ export async function rotasBanca(app: FastifyInstance) {
       throw new Error("Erro ao deletar a banca.");
     }
   });
+  
 }
+

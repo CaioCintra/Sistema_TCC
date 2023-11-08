@@ -51,7 +51,7 @@ export default function cadastroProfessor() {
                 nome={professor.nome}
                 email={professor.email}
                 departamento={professor.departamento}
-                telefone={professor.telefone}
+                celular={professor.celular}
               />
             ))
           ) : (

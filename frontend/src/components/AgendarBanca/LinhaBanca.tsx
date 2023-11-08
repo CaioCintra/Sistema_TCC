@@ -48,10 +48,9 @@ export default function LinhaBanca(props: any) {
         day: "2-digit",
         hour: "2-digit",
         minute: "2-digit",
-        timeZoneName: "short",
+        timeZone: "America/Sao_Paulo",
       };
       const formatoBrasileiro = new Intl.DateTimeFormat("pt-BR", options);
-
       const partes = formatoBrasileiro.formatToParts(data);
 
       let date = "";
@@ -65,7 +64,7 @@ export default function LinhaBanca(props: any) {
         } else if (parte.type === "year") {
           date += `/${parte.value}`;
         } else if (parte.type === "hour") {
-          time += parte.value;
+          time += (parseInt(parte.value) + 3).toString().padStart(2, "0");
         } else if (parte.type === "minute") {
           time += `:${parte.value}`;
         }
@@ -82,10 +81,10 @@ export default function LinhaBanca(props: any) {
   const [data, setData] = useState();
   const [data2, setData2] = useState();
 
-  function formatarData(data: string){
+  function formatarData(data: string) {
     let [day, month, year] = data.split("/");
     let formattedDate = `${year}-${month}-${day}`;
-    return formattedDate
+    return formattedDate;
   }
 
   return (
@@ -95,25 +94,31 @@ export default function LinhaBanca(props: any) {
         {data}
         {props.coorientador == 0 ? "" : " / " + data2}
       </p>
-      <p className="w-[16%]"><LabelStatus status={props.status}></LabelStatus></p>
-      <p className="w-[15%]">{props.status == "Orientador_Definido" ? "-" : date}</p>
-      <p className="w-[15%]">{props.status == "Orientador_Definido" ? "-" : time}</p>
+      <p className="w-[16%]">
+        <LabelStatus status={props.status}></LabelStatus>
+      </p>
+      <p className="w-[15%]">
+        {props.status == "Orientador_Definido" ? "-" : date}
+      </p>
+      <p className="w-[15%]">
+        {props.status == "Orientador_Definido" ? "-" : time}
+      </p>
       <p>{props.local ? props.local : "-"}</p>
       <div />
-        <div className="inline-flex ml-auto">
-          <ModalEmail ra={props.ra} />
-          <ModalAgendarBanca
-            ra={props.ra}
-            nome={props.nome}
-            status={props.status}
-            orientador={props.orientador}
-            coorientador={props.coorientador}
-            titulo={props.titulo}
-            data = {formatarData(date)}
-            hora = {time}
-            local = {props.local}
-            workspace={props.workspace}
-          />
+      <div className="inline-flex ml-auto">
+        <ModalEmail ra={props.ra} />
+        <ModalAgendarBanca
+          ra={props.ra}
+          nome={props.nome}
+          status={props.status}
+          orientador={props.orientador}
+          coorientador={props.coorientador}
+          titulo={props.titulo}
+          data={formatarData(date)}
+          hora={time}
+          local={props.local}
+          workspace={props.workspace}
+        />
       </div>
     </div>
   );

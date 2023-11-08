@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
 import LinhaBanca from "./LinhaBanca";
-import ModalAgendarBanca from "./ModalAgendarBanca";
 
 export default function AgendarBanca() {
   const [data, setData] = useState(null);
@@ -28,9 +27,10 @@ export default function AgendarBanca() {
 
   const filteredData = data
     ? data.filter(
-        (aluno) => aluno &&
+        (aluno) =>
+          aluno &&
           (aluno.status === "Orientador_Definido" ||
-          aluno.status === "Banca_TCC1_Agendada")
+            aluno.status === "Banca_TCC1_Agendada")
       )
     : [];
 

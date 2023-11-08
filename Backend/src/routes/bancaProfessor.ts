@@ -21,9 +21,9 @@ export async function rotasBancaProfessor(app: FastifyInstance) {
 
     const { id } = paramsSchema.parse(request.params);
 
-    const bancaProfessor = await prisma.banca_Professor.findUniqueOrThrow({
+    const bancaProfessor = await prisma.banca_Professor.findMany({
       where: {
-        id: Number(id),
+        banca: Number(id),
       },
     });
 
@@ -52,54 +52,22 @@ export async function rotasBancaProfessor(app: FastifyInstance) {
     }
   });
 
-  app.put("/bancas_professores/:id", async (request) => {
+  app.delete("/bancas_professores/:banca", async (request) => {
     const paramsSchema = z.object({
-      id: z.string(),
+      banca: z.string(),
     });
 
-    const { id } = paramsSchema.parse(request.params);
-    const updatedBancaProfessorData = request.body as {
-      banca: number;
-      professor: number;
-    };
+    const { banca } = paramsSchema.parse(request.params);
 
     try {
-      const updatedBancaProfessor = await prisma.banca_Professor.update({
+      await prisma.banca_Professor.deleteMany({
         where: {
-          id: Number(id),
-        },
-        data: updatedBancaProfessorData,
-      });
-
-      if (!updatedBancaProfessor) {
-        throw new Error(
-          `Relação Banca-Professor com ID: ${id} não encontrada.`
-        );
-      }
-
-      return updatedBancaProfessor;
-    } catch (error) {
-      console.error(error);
-      throw new Error("Erro ao atualizar a relação Banca-Professor.");
-    }
-  });
-
-  app.delete("/bancas_professores/:id", async (request) => {
-    const paramsSchema = z.object({
-      id: z.string(),
-    });
-
-    const { id } = paramsSchema.parse(request.params);
-
-    try {
-      await prisma.banca_Professor.delete({
-        where: {
-          id: Number(id),
+          banca: Number(banca),
         },
       });
 
       return {
-        message: `Relação Banca-Professor com ID: ${id} deletada com sucesso.`,
+        message: `Relação Banca-Professor deletada com sucesso.`,
       };
     } catch (error) {
       console.error(error);

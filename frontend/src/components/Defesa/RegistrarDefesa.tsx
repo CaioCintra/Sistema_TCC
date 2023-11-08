@@ -7,12 +7,13 @@ export default function RegistrarDefesa() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3333/alunos");
+        const response = await fetch("http://localhost:3333/alunos/banca");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }
         const data = await response.json();
         setData(data);
+        console.log(data);
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
@@ -42,9 +43,13 @@ export default function RegistrarDefesa() {
               aluno.status == "TCC1_Reprovado" ? (
                 <LinhaDefesa
                   ra={aluno.ra}
-                  aluno={aluno.nome}
-                  orientador={aluno.orientador}
+                  nome={aluno.nome}
                   status={aluno.status}
+                  orientador={aluno.orientador}
+                  coorientador={aluno.coorientador}
+                  data={aluno.data}
+                  nota={aluno.nota}
+                  observacao={aluno.observacao}
                 />
               ) : (
                 <></>

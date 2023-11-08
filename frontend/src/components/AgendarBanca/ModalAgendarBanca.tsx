@@ -16,7 +16,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1100,
-  height: 700,
+  height: 660,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 5,
@@ -28,6 +28,9 @@ export default function ModalAgendarBanca(props: any) {
   const [banca, setBanca] = useState([]);
   const [bancaExiste, setBancaExiste] = useState(false);
   const [selectedProfessores, setSelectedProfessores] = useState([""]);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const workspace = 2;
 
@@ -48,18 +51,41 @@ export default function ModalAgendarBanca(props: any) {
         } else {
           setBancaExiste(true);
           setBanca(response.data);
-          setSelectedProfessores(response.data.Professores);
+
+          try {
+            const professoresBancaResponse = await axios.get(
+              `http://localhost:3333/bancas_professores/${response.data.id}`
+            );
+            const professoresBancaData = professoresBancaResponse.data;
+            const selectedProfessoresData = professoresBancaData.map(
+              (professor) => professor.professor
+            );
+            console.log(selectedProfessoresData);
+            setSelectedProfessores(selectedProfessoresData);
+          } catch (error) {
+            console.error("Erro na requisição de professores da banca:", error);
+          }
         }
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
-      setContent({
-        aluno: props.ra,
-        tituloTrabalho: props.titulo,
-        data: props.data,
-        horario: props.hora,
-        local: props.local,
-      });
+      if (bancaExiste) {
+        setContent({
+          aluno: props.ra,
+          tituloTrabalho: props.titulo,
+          data: props.data,
+          horario: props.hora,
+          local: props.local,
+        });
+      } else {
+        setContent({
+          aluno: props.ra,
+          tituloTrabalho: props.titulo,
+          data: "",
+          horario: "",
+          local: props.local,
+        });
+      }
     };
     fetchData();
   }, [props.data, props.ra]);
@@ -106,6 +132,7 @@ export default function ModalAgendarBanca(props: any) {
     setContent({ ...content, [e.target.name]: e.target.value });
 
   const excluirBanca = async () => {
+    await axios.delete(`http://localhost:3333/bancas_professores/${banca.id}`);
     await axios.delete(`http://localhost:3333/bancas/${banca.id}`);
     await fetch(`http://localhost:3333/tcc/${props.ra}/${workspace}`, {
       method: "PUT",
@@ -117,10 +144,44 @@ export default function ModalAgendarBanca(props: any) {
     location.reload();
   };
 
+  const confirmarBanca = async () => {
+    await fetch(`http://localhost:3333/tcc/${props.ra}/${workspace}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        status: "Banca_TCC1_Confirmada",
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+    console.log(banca.id);
+    await fetch(`http://localhost:3333/bancas/${banca.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        status_confirmacao: "Confirmada",
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+    handleClose();
+    limparFormulario();
+    location.reload();
+  };
+
   const cadastrarBanca = async (e) => {
     e.preventDefault();
-    console.log("selectedProfessores:", selectedProfessores);
-    try {
+
+    let bancaId;
+    if (bancaExiste) {
+      const response = await axios.put(
+        `http://localhost:3333/bancas/${banca.id}`,
+        {
+          data: `${content.data}T${content.horario}:00.000Z`,
+          local: content.local,
+        }
+      );
+      if (response.status === 500) {
+        setError("Erro ao atualizar banca");
+      }
+      bancaId = banca.id;
+    } else {
       const response = await axios.post("http://localhost:3333/bancas", {
         TCC_etapa: "TCC1",
         data: `${content.data}T${content.horario}:00.000Z`,
@@ -131,35 +192,39 @@ export default function ModalAgendarBanca(props: any) {
         status_confirmacao: "Não Confirmada",
         workspace: workspace,
       });
-
+      bancaId = response.data.id;
       if (response.status === 500) {
         setError("Erro ao cadastrar banca");
-      } else if (response.status === 200) {
-        try {
-          await fetch(`http://localhost:3333/tcc/${props.ra}/${workspace}`, {
-            method: "PUT",
-            body: JSON.stringify({
-              status: "Banca_TCC1_Agendada",
-              titulo: content.tituloTrabalho,
-            }),
-            headers: { "Content-Type": "application/json" },
-          });
-        } catch (error) {
-          console.error("Erro ao atualizar status do aluno:", error);
-        }
-
-        handleClose();
-        limparFormulario();
-        location.reload();
       }
-    } catch (err) {
-      console.error("Erro ao cadastrar banca:", err);
     }
-  };
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+    try {
+      await fetch(`http://localhost:3333/tcc/${props.ra}/${workspace}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          status: "Banca_TCC1_Agendada",
+          titulo: content.tituloTrabalho,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+      await axios.delete(`http://localhost:3333/bancas_professores/${bancaId}`);
+      for (let i = 0; i < selectedProfessores.length; i++) {
+        const professorBancaResponse = await axios.post(
+          "http://localhost:3333/bancas_professores",
+          {
+            banca: bancaId,
+            professor: selectedProfessores[i],
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar status do aluno:", error);
+    }
+
+    handleClose();
+    limparFormulario();
+    location.reload();
+  };
 
   useEffect(() => {
     if (error) {
@@ -344,6 +409,18 @@ export default function ModalAgendarBanca(props: any) {
               >
                 Excluir Banca
               </Button>
+              {props.status === "Banca_TCC1_Agendada" ? (
+                <Button
+                  variant="contained"
+                  color="success"
+                  className="mt-3 uppercase bg-green-500 float-left bottom-0 left-5"
+                  onClick={confirmarBanca}
+                >
+                  Confirmar Banca
+                </Button>
+              ) : (
+                <></>
+              )}
               <Button
                 type="submit"
                 variant="contained"
