@@ -13,7 +13,6 @@ export default function RegistrarDefesa() {
         }
         const data = await response.json();
         setData(data);
-        console.log(data);
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
@@ -29,9 +28,9 @@ export default function RegistrarDefesa() {
         <div className="px-6 flex font-extrabold">
           <text className="w-[17rem]">Nome</text>
           <text className="w-[19rem]">Orientador</text>
-          <text className="w-[17rem]">Status</text>
+          <text className="w-[19rem]">Status</text>
           <text className="w-[11rem]">Data</text>
-          <text className="w-[6rem]">Nota</text>
+          <text className="w-[8rem]">Nota</text>
           <text className="w-[35rem]">Observação</text>
           <text className="">Ações</text>
         </div>
@@ -39,8 +38,8 @@ export default function RegistrarDefesa() {
           {data ? (
             data.map((aluno: any) =>
               aluno.status == "Banca_TCC1_Confirmada" ||
-              aluno.status == "TCC1_Aprovado" ||
-              aluno.status == "TCC1_Reprovado" ? (
+              aluno.status == "Aprovado_TCC1" ||
+              aluno.status == "Reprovado_TCC1" ? (
                 <LinhaDefesa
                   ra={aluno.ra}
                   nome={aluno.nome}
@@ -50,6 +49,8 @@ export default function RegistrarDefesa() {
                   data={aluno.data}
                   nota={aluno.nota}
                   observacao={aluno.observacao}
+                  idBanca={aluno.id}
+                  workspace={aluno.workspace}
                 />
               ) : (
                 <></>

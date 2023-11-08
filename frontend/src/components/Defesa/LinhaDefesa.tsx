@@ -4,13 +4,9 @@ import LabelStatus from "../LabelStatus";
 import EditIcon from "@mui/icons-material/Edit";
 import FeedIcon from "@mui/icons-material/Feed";
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
+import ModalDefesa from "./ModalDefesa";
 
 export default function LinhaDefesa(props: any) {
-  const [banca, setBanca] = useState(null);
-  const [defesa, setDefesa] = useState(null);
-  const [formattedData, setFormattedData] = useState("");
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -88,12 +84,6 @@ export default function LinhaDefesa(props: any) {
   const [data, setData] = useState();
   const [data2, setData2] = useState();
 
-  function formatarData(data: string) {
-    let [day, month, year] = data.split("/");
-    let formattedDate = `${year}-${month}-${day}`;
-    return formattedDate;
-  }
-
   let observacao = props.observacao;
 
   if (observacao.length > 70) {
@@ -107,13 +97,15 @@ export default function LinhaDefesa(props: any) {
         {data}
         {props.coorientador == 0 ? "" : " / " + data2}
       </p>
+      <p className="w-[13rem]">
       <LabelStatus status={props.status}></LabelStatus>
+      </p>
       <p className="w-28 ml-11">{date}</p>
-      <p className="w-16 ml-7">
+      <p className="w-[6rem] ml-7">
         {props.status !== "Banca_TCC1_Confirmada" ? props.nota : "-"}
       </p>
       <Tooltip title={props.observacao}>
-        <p className="w-[26rem]">
+        <p className="w-[25rem]">
           {props.status !== "Banca_TCC1_Confirmada" ? observacao : "-"}
         </p>
       </Tooltip>
@@ -123,11 +115,14 @@ export default function LinhaDefesa(props: any) {
             <FeedIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Editar">
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
+        <ModalDefesa
+          ra={props.ra}
+          nome={props.nome}
+          idBanca={props.idBanca}
+          nota={props.nota}
+          observacao={props.observacao}
+          workspace={props.workspace}
+        />
       </div>
     </div>
   );
