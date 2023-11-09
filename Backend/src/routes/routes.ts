@@ -19,7 +19,6 @@ export const registerRoutes = (app: any) => {
   app.register(rotasLogin);
   app.register(rotasAlunoAuth);
   app.register(rotasBanca);
-  app.register(rotasDefesa);
   app.register(rotasEmail);
   app.register(rotasWorkspace);
   app.register(rotasTCC);

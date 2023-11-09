@@ -9,6 +9,7 @@ import { IconButton, Tooltip } from "@mui/material";
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import { Alert, AlertTitle } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 const style = {
   position: "absolute" as "absolute",
@@ -80,31 +81,35 @@ export default function ModalEmail(props: any) {
     });
   };
 
-  async function enviarEmail() {
+  const enviarEmail = async () => {
+    console.log(content.corpo);
     if (content.corpo === "") {
       setError("Corpo de email vazio");
       return;
     }
+
     try {
-      const response = await fetch(
-        `http://localhost:3333/email/${ra}/${content.assunto}/${content.corpo}`,
-        {
-          method: "POST",
-          body: JSON.stringify(content),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Erro ao buscar dados da API");
-      } else {
+      const response = await axios.post("http://localhost:3333/email", {
+        ra: props.ra,
+        nome: props.nome,
+        email: props.email,
+        assunto: content.assunto,
+        corpo: content.corpo,
+      });
+
+      if (response.status === 200) {
         setSuccess("Email enviado com sucesso");
+      } else {
+        throw new Error(`Erro ao enviar email: ${response.statusText}`);
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
+      setError("Erro ao enviar o email");
     }
+
     setOpen(false);
     resetarValores();
-  }
+  };
 
   return (
     <div>
@@ -166,63 +171,64 @@ export default function ModalEmail(props: any) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <text className="mt-3 mb-3 text-2xl font-bold">
-              Enviar email para {props.nome}
-            </text>
-            <label className="block text-gray-700 font-medium mt-3 mb-2">
-              Selecione o motivo do email
-            </label>
-            <select
-              id="template"
-              name="template"
-              className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
-              onChange={trocarTemplate}
-              value={content.assunto}
-              required
-            >
-              <option value="">Selecione o assunto</option>
-              {data ? (
-                data.map((texto: any) => (
-                  <option key={texto.nome} value={texto.nome}>
-                    {texto.nome}
-                  </option>
-                ))
-              ) : (
-                <></>
-              )}
-            </select>
-            <label className="block text-gray-700 font-medium mt-3 mb-2">
-              Edite o assunto do email se necessário
-            </label>
-            <input
-              type="text"
-              id="assunto"
-              name="assunto"
-              placeholder={content.assunto}
-              className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
-              onChange={onChangeInput}
-              value={content.assunto}
-            />
-            <label className="block text-gray-700 font-medium mt-5 mb-2">
-              Edite o corpo do email se necessário
-            </label>
-            <textarea
-              id="corpo"
-              name="corpo"
-              rows="5"
-              placeholder={content.corpo}
-              className="w-full h-1/3 resize-none  border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
-              onChange={onChangeInput}
-              value={content.corpo}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right bottom-0 right-0"
-              onClick={() => enviarEmail()}
-            >
-              Enviar Email
-            </Button>
+            <form onSubmit={() => enviarEmail()}>
+              <text className="mt-3 mb-3 text-2xl font-bold">
+                Enviar email para {props.nome}
+              </text>
+              <label className="block text-gray-700 font-medium mt-3 mb-2">
+                Selecione o motivo do email
+              </label>
+              <select
+                id="template"
+                name="template"
+                className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                onChange={trocarTemplate}
+                value={content.assunto}
+                required
+              >
+                <option value="">Selecione o assunto</option>
+                {data ? (
+                  data.map((texto: any) => (
+                    <option key={texto.nome} value={texto.nome}>
+                      {texto.nome}
+                    </option>
+                  ))
+                ) : (
+                  <></>
+                )}
+              </select>
+              <label className="block text-gray-700 font-medium mt-3 mb-2">
+                Edite o assunto do email se necessário
+              </label>
+              <input
+                type="text"
+                id="assunto"
+                name="assunto"
+                placeholder={content.assunto}
+                className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                onChange={onChangeInput}
+                value={content.assunto}
+              />
+              <label className="block text-gray-700 font-medium mt-5 mb-2">
+                Edite o corpo do email se necessário
+              </label>
+              <textarea
+                id="corpo"
+                name="corpo"
+                rows="5"
+                placeholder={content.corpo}
+                className="w-full h-1/3 resize-none  border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                onChange={onChangeInput}
+                value={content.corpo}
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right bottom-0 right-0"
+              >
+                Enviar Email
+              </Button>
+            </form>
           </Box>
         </Fade>
       </Modal>
