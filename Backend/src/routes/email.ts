@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { FastifyInstance } from "fastify";
 
-import { z } from "zod";
 const nodemailer = require("nodemailer");
 
 const prisma = new PrismaClient();
@@ -9,16 +8,9 @@ const prisma = new PrismaClient();
 // <linkOrientador>   Link de autenticação tela definirOrientador
 // <linkBanca>        Link de autenticação tela AgendarBanca
 // <aluno>            Nome do aluno
-// <orientador>       Nome do orientador do aluno
-
 
 export async function rotasEmail(app: FastifyInstance) {
-  app.post("/email/:ra/:subject/:body/", async (request) => {
-    const paramsSchema = z.object({
-      ra: z.string(),
-      subject: z.string(),
-      body: z.string(),
-    });
+  app.post("/email", async (request) => {
     let transport = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
@@ -29,32 +21,32 @@ export async function rotasEmail(app: FastifyInstance) {
       },
     });
 
-    const { ra } = paramsSchema.parse(request.params);
+    const emailData = request.body as {
+      ra: String;
+      nome: String;
+      email: String;
+      assunto: String;
+      corpo: String;
+    };
 
-    const alunos = await prisma.aluno.findUniqueOrThrow({
-      where: {
-        ra,
-      },
-    });
-
-    const to = alunos.email;
-    const aluno = alunos.nome;
-    const orientador = alunos.orientador;
-
-    const { subject } = paramsSchema.parse(request.params);
-    var { body } = paramsSchema.parse(request.params);
+    var ra = emailData.ra.toString(); // Converte para string
+    const to = emailData.email;
+    const aluno = emailData.nome;
+    var body = emailData.corpo;
+    var subject = emailData.assunto;
 
     body = body.replace(/<aluno>/g, aluno);
-    body = body.replace(/<orientador>/g, orientador);
 
     var link;
     var pagina;
 
-    if(body.includes("<linkOrientador>")){
-      pagina = "DefinirOrientador"
+    if (body.includes("<linkOrientador>")) {
+      pagina = "DefinirOrientador";
       try {
-        const response = await fetch(`http://localhost:3333/alunoAuth/${ra}/${pagina}`);
-        
+        const response = await fetch(
+          `http://localhost:3333/alunoAuth/${ra}/${pagina}`
+        );
+
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }
@@ -65,11 +57,13 @@ export async function rotasEmail(app: FastifyInstance) {
       }
     }
 
-    if(body.includes("<linkBanca>")){
-      pagina = "AgendarBanca"
+    if (body.includes("<linkBanca>")) {
+      pagina = "AgendarBanca";
       try {
-        const response = await fetch(`http://localhost:3333/alunoAuth/${ra}/${pagina}`);
-        
+        const response = await fetch(
+          `http://localhost:3333/alunoAuth/${ra}/${pagina}`
+        );
+
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }

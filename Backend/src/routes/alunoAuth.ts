@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
 import { randomUUID } from "crypto";
-
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
@@ -18,7 +17,7 @@ export async function rotasAlunoAuth(app: FastifyInstance) {
 
     const aluno = await prisma.aluno.findUniqueOrThrow({
       where: {
-        ra,
+        ra: parseInt(ra),
       },
     });
 
