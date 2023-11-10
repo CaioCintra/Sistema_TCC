@@ -293,7 +293,7 @@ export default function MenuLateral(props: any) {
         >
           <Toolbar />
           {/* Div principal */}
-          <div className="mx-10 mt-8 mb-5">{props.children}</div>
+          <div className="mx-10 mt-8 mb-2">{props.children}</div>
         </Box>
       </Box>
     </ThemeProvider>

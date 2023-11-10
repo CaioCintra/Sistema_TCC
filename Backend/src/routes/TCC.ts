@@ -38,6 +38,29 @@ export async function rotasTCC(app: FastifyInstance) {
     return tcc;
   });
 
+  app.get("/tcc/:ra/:workspace", async (request) => {
+    const paramsSchema = z.object({
+      ra: z.string(),
+      workspace: z.string(),
+    });
+
+    const { ra } = paramsSchema.parse(request.params);
+    const { workspace } = paramsSchema.parse(request.params);
+
+    const tcc = await prisma.tCC.findMany({
+      where: {
+        ra: Number(ra),
+        workspace: Number(workspace),
+      },
+      include: {
+        aluno_ra: true,
+        workspace_id: true,
+      },
+    });
+
+    return tcc;
+  });
+
   app.post("/tcc", async (request) => {
     const newTCCData = request.body as {
       workspace: number;
@@ -151,3 +174,4 @@ export async function rotasTCC(app: FastifyInstance) {
     });
   });
 }
+
