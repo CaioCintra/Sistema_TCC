@@ -18,13 +18,21 @@ export default function DefinirOrientador() {
 
   const [aluno, setAluno] = useState(null);
   const [professor, setProfessores] = useState(null);
+  const [tccAluno, setTCC] = useState(null);
   const [orientador, setOrientador] = useState("");
+  const [coorientador, setCoorientador] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange1 = (event: SelectChangeEvent) => {
     setOrientador(event.target.value as string);
   };
+
+  const handleChange2 = (event: SelectChangeEvent) => {
+    setCoorientador(event.target.value as string);
+  };
+
+  const workspace = 2;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,30 +51,45 @@ export default function DefinirOrientador() {
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
+      try {
+        const urlTCC = `http://localhost:3333/tcc/${aluno.ra}/${workspace}`;
+        const tcc = await axios.get(urlTCC);
+        setTCC(tcc.data[0]);
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
     };
 
     fetchData();
   }, [urlRA]);
 
   const handleSubmit = async () => {
+    if (orientador === "") {
+      setError("Campo orientador vazio");
+      return;
+    }
+    if (orientador == coorientador) {
+      setError("Orientador igual a coorientador");
+      return;
+    }
     setIsLoading(true);
-    try {
-      const response = await axios.put(
-        `http://localhost:3333/alunos/${aluno.ra}`,
-        {
-          orientador: orientador,
-          status: "Orientador_Definido",
-        }
-      );
+    console.log(tccAluno);
+    const response = await fetch(`http://localhost:3333/tcc/${tccAluno.id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        etapa: "TCC1",
+        titulo: "",
+        orientador_id: parseInt(orientador),
+        coorientador_id: parseInt(coorientador),
+        status: "Orientador_Definido",
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+    if (response.ok) {
+      setIsLoading(false);
       window.location.href = `/aluno/DadosConfirmados?token=${token}`;
-      return response.data;
-    } catch (error) {
-      if (orientador == "") {
-        setError("Campo orientador vazio");
-      } else {
-        setError("Erro ao editar o campo");
-      }
-    } finally {
+    } else {
+      setError("Erro ao editar o campo");
       setIsLoading(false);
     }
   };
@@ -111,11 +134,35 @@ export default function DefinirOrientador() {
             id="demo-simple-select"
             value={orientador}
             label="--Orientador--"
-            onChange={handleChange}
+            onChange={handleChange1}
+            required
           >
             {professor ? (
               professor.map((professor: any) => (
-                <MenuItem value={professor.nome}>{professor.nome}</MenuItem>
+                <MenuItem value={professor.id}>{professor.nome}</MenuItem>
+              ))
+            ) : (
+              <></>
+            )}
+          </Select>
+          <InputLabel
+            id="demo-simple-select-helper-label2"
+            className="font-bold text-xl mt-20"
+          >
+            Coorientador
+          </InputLabel>
+          <Select
+            className="mt-6"
+            labelId="demo-simple-select-helper2"
+            id="demo-simple-select2"
+            value={coorientador}
+            label="--Coorientador--"
+            onChange={handleChange2}
+          >
+            <MenuItem value="0">Não tenho coorientador</MenuItem>
+            {professor ? (
+              professor.map((professor: any) => (
+                <MenuItem value={professor.id}>{professor.nome}</MenuItem>
               ))
             ) : (
               <></>
