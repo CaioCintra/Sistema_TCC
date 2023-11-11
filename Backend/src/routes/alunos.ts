@@ -82,17 +82,20 @@ export async function rotasAlunos(app: FastifyInstance) {
     }
   });
 
-  app.delete("/alunos/:ra", async (request) => {
+  app.delete("/alunos/:ra/:workspace", async (request) => {
     const paramsSchema = z.object({
-      ra: z.string(), // Altere para z.string()
+      ra: z.string(),
+      workspace: z.string(),
     });
 
     const { ra } = paramsSchema.parse(request.params);
+    const { workspace } = paramsSchema.parse(request.params);
 
     try {
       await prisma.tCC.deleteMany({
         where: {
           ra: Number(ra),
+          workspace: Number(workspace),
         },
       });
       await prisma.aluno.delete({

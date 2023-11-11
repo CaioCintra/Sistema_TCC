@@ -23,11 +23,14 @@ const style = {
 export default function ModalMatricula(props: any) {
   const deletarAluno = async (e: any) => {
     try {
-      await fetch(`http://localhost:3333/alunos/${props.aluno}`, {
-        method: "DELETE",
-      });
-      handleClose()
-      location.reload()
+      await fetch(
+        `http://localhost:3333/alunos/${props.aluno}/${props.workspace.ativo}`,
+        {
+          method: "DELETE",
+        }
+      );
+      handleClose();
+      location.reload();
     } catch (err) {
       console.log("Erro ao remover aluno");
     }
@@ -39,11 +42,20 @@ export default function ModalMatricula(props: any) {
 
   return (
     <>
-      <Tooltip title="Remover">
-        <IconButton>
-          <RemoveCircleOutlineIcon onClick={handleOpen} />
-        </IconButton>
-      </Tooltip>
+      {props.workspace.ativo === props.workspace.tela ? (
+        <Tooltip title="Remover">
+          <IconButton>
+            <RemoveCircleOutlineIcon onClick={handleOpen} />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Remover">
+          <IconButton disabled>
+            <RemoveCircleOutlineIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

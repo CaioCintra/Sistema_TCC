@@ -50,17 +50,20 @@ export default function ModalOrientador(props: any) {
     e.preventDefault();
     if (orientador !== "0" && coorientador !== orientador) {
       try {
-        await fetch(`http://localhost:3333/tcc/${props.ra}/${props.workspace}`, {
-          method: "PUT",
-          body: JSON.stringify({
-            etapa: "TCC1",
-            titulo: "",
-            orientador_id: parseInt(orientador),
-            coorientador_id: parseInt(coorientador),
-            status: "Orientador_Definido"
-          }),
-          headers: { "Content-Type": "application/json" },
-        });
+        await fetch(
+          `http://localhost:3333/tcc/${props.ra}/${props.workspace.ativo}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              etapa: "TCC1",
+              titulo: "",
+              orientador_id: parseInt(orientador),
+              coorientador_id: parseInt(coorientador),
+              status: "Orientador_Definido",
+            }),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
         handleClose();
         location.reload();
       } catch (err) {
@@ -75,11 +78,20 @@ export default function ModalOrientador(props: any) {
 
   return (
     <div>
-      <Tooltip title="Editar">
-        <IconButton>
-          <EditIcon onClick={handleOpen} />
-        </IconButton>
-      </Tooltip>
+      {props.workspace.ativo === props.workspace.tela ? (
+        <Tooltip title="Editar">
+          <IconButton>
+            <EditIcon onClick={handleOpen} />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Editar">
+          <IconButton disabled>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

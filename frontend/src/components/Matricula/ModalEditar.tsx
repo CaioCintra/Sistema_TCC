@@ -59,11 +59,20 @@ export default function ModalEditar(props: any) {
 
   return (
     <div>
-      <Tooltip title="Editar">
+      {props.workspace.ativo === props.workspace.tela ? (
+        <Tooltip title="Editar">
         <IconButton>
           <EditIcon onClick={handleOpen} />
         </IconButton>
       </Tooltip>
+      ) : (
+        <Tooltip title="Período inativo">
+        <IconButton disabled>
+          <EditIcon/>
+        </IconButton>
+      </Tooltip>
+      )}
+      
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

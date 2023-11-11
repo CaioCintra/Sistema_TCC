@@ -5,10 +5,13 @@ import { useEffect, useState } from "react";
 export const workspaceService = new WorkspaceService();
 export default function Workspace() {
   const [data, setData] = useState(null);
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const workspaceValue = await workspaceService.getWorkspace();
+        setValue(workspaceValue);
         const response = await fetch("http://localhost:3333/workspaces");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
@@ -19,15 +22,17 @@ export default function Workspace() {
         console.error("Erro na requisição:", error);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
-  function changeWorkspace(event: React.ChangeEvent<HTMLSelectElement>) {
+  async function changeWorkspace(event: React.ChangeEvent<HTMLSelectElement>) {
     const selectedWorkspaceId = parseInt(event.target.value);
     workspaceService.updateWorkspace(selectedWorkspaceId);
-    // location.reload();
+    location.reload();
 }
+
 
   return (
     <div className="left-0 mr-14">
@@ -35,6 +40,7 @@ export default function Workspace() {
         placeholder="Workspace"
         className="w-full bg-[var(--secondary-color)] border-gray-300 px-3 py-2 rounded-md focus:ring-gray-400 text-xl"
         onChange={changeWorkspace}
+        value={value.tela}
       >
         {data ? (
           data.map((workspace: any) => (

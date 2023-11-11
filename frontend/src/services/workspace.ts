@@ -1,12 +1,26 @@
-
 export class WorkspaceService {
-    private workspace: number = 2;
-
-    updateWorkspace(workspaceId: number): void {
-        this.workspace = workspaceId;
+    async updateWorkspace(workspaceId: number) {
+      await fetch("http://localhost:3333/workspaces/tela", {
+        method: "PUT",
+        body: JSON.stringify({
+          tela: workspaceId,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
     }
-
-    getWorkspace(): number {
-        return this.workspace;
+  
+    async getWorkspace(): Promise<number> {
+      const response = await fetch("http://localhost:3333/workspaces/tela", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Erro ao obter dados do workspace");
+      }
+  
+      const data = await response.json();
+      return data;
     }
-}
+  }
+  

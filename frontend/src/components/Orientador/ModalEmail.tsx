@@ -149,11 +149,21 @@ export default function ModalEmail(props: any) {
           {success}
         </Alert>
       )}
-      <Tooltip title="Email">
-        <IconButton>
-          <MailOutlinedIcon onClick={handleOpen} />
-        </IconButton>
-      </Tooltip>
+
+      {props.workspace.ativo === props.workspace.tela ? (
+        <Tooltip title="Email">
+          <IconButton>
+            <MailOutlinedIcon onClick={handleOpen} />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Email">
+          <IconButton disabled>
+            <MailOutlinedIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

@@ -1,16 +1,10 @@
 "use client";
 import * as React from "react";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
-import { Alert, AlertTitle, IconButton, Tooltip } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import BoxAgendarBanca from "./boxAgendarBanca";
+import { workspaceService } from "@/components/Workspace";
 
 const style = {
   position: "absolute" as "absolute",
@@ -28,21 +22,23 @@ export default function AgendarBanca() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const urlRA = `http://localhost:3333/alunoAuth/ra-token/${token}`;
-  const workspace = 2;
 
   const [aluno, setAluno] = useState(null);
   const [tccAluno, setTCC] = useState(null);
   const [banca, setBanca] = useState(null);
+  const [value, setValue] = useState(0);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
+      const workspaceValue = await workspaceService.getWorkspace();
+      setValue(workspaceValue);
       const ra = await axios.get(urlRA);
       const urlAluno = `http://localhost:3333/alunos/${ra.data.ra}`;
       const alunoData = await axios.get(urlAluno);
       setAluno(alunoData.data);
-      const urlTCC = `http://localhost:3333/tcc/${aluno?.ra}/${workspace}`;
+      const urlTCC = `http://localhost:3333/tcc/${aluno?.ra}/${value.ativo}`;
       const tcc = await axios.get(urlTCC);
       setTCC(tcc.data[0]);
 
@@ -55,7 +51,7 @@ export default function AgendarBanca() {
     };
 
     fetchData();
-  }, [urlRA, workspace]);
+  }, [urlRA]);
 
   function formatarDataBrasileira(data) {
     const options = {
@@ -103,7 +99,7 @@ export default function AgendarBanca() {
       data={date}
       hora={time}
       local={banca ? banca.local : ""}
-      workspace={workspace}
+      workspace={value}
       token={token}
     />
   );

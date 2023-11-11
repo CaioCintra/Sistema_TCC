@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Pagination } from "@mui/material";
 import LinhaBanca from "./LinhaBanca";
+import { workspaceService } from "../Workspace";
 
 export default function ConfirmarBanca() {
   const [data, setData] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [value, setValue] = useState(0);
   const itemsPerPage = 4;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const workspaceValue = await workspaceService.getWorkspace();
+        setValue(workspaceValue);
         const response = await fetch("http://localhost:3333/alunos/banca");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
@@ -30,7 +34,8 @@ export default function ConfirmarBanca() {
         (aluno) =>
           aluno &&
           (aluno.status === "Banca_TCC1_Agendada" ||
-            aluno.status === "Banca_TCC1_Confirmada")
+            aluno.status === "Banca_TCC1_Confirmada") &&
+          parseInt(aluno.workspace) === value.tela
       )
     : [];
 
@@ -71,6 +76,7 @@ export default function ConfirmarBanca() {
               email={aluno.email}
               data={aluno.data}
               local={aluno.local}
+              workspace={value}
             />
           ))}
         </div>
