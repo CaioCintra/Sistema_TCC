@@ -28,7 +28,6 @@ export default function AgendarBanca() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
   const urlRA = `http://localhost:3333/alunoAuth/ra-token/${token}`;
-  const linkAddProfessor = `/aluno/RequisitarProfessor?token=${token}`;
   const workspace = 2;
 
   const [aluno, setAluno] = useState(null);

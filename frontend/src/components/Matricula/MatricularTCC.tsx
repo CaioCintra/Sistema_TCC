@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import LinhaMatricula from "./LinhaMatricula";
 import ModalMatricula from "./ModalMatricula";
+import { workspaceService } from "../Workspace";
+
+let workspace = workspaceService.getWorkspace()
 
 export default function MatricularTCC() {
   const [data, setData] = useState(null);
@@ -14,6 +17,8 @@ export default function MatricularTCC() {
         }
         const data = await response.json();
         setData(data);
+        console.log(workspace);
+        console.log(data.workspace);
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
@@ -35,12 +40,14 @@ export default function MatricularTCC() {
         <div>
           {data ? (
             data.map((aluno: any) =>
-              aluno.status === "Matriculado_TCC1" ? (
+              aluno.status === "Matriculado_TCC1" &&
+              parseInt(aluno.workspace) === workspace ? (
                 <LinhaMatricula
                   ra={aluno.ra}
                   nome={aluno.nome}
                   email={aluno.email}
                   status={aluno.status}
+                  key={aluno.ra}
                 />
               ) : (
                 <></>

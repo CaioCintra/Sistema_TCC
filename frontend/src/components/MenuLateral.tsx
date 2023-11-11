@@ -21,6 +21,7 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
 import { ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import Workspace from "./Workspace";
 
 const drawerWidth: number = 280;
 
@@ -119,6 +120,7 @@ export default function MenuLateral(props: any) {
             >
               {/* Título do cabeçalho */}
             </Typography>
+            <p className="mr-[82%]">Sistema Gerenciador de TCC</p>
             <IconButton onClick={handleLogout} className="text-white">
               <ExitToAppRoundedIcon />
             </IconButton>
@@ -132,17 +134,17 @@ export default function MenuLateral(props: any) {
               justifyContent: "flex-end",
               px: [1],
             }}
-          >
+            >
+            <Workspace/>
+            
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
 
-
-
           </Toolbar>
 
           <Divider />
-
+            
           <Box
             sx={{
               width: "100%",

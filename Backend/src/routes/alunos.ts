@@ -129,6 +129,7 @@ export async function rotasAlunos(app: FastifyInstance) {
             nome: aluno.nome,
             email: aluno.email,
             status: tccs.length > 0 ? tccs[0].status : null,
+            workspace: tccs[0].workspace,
           };
         })
       );

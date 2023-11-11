@@ -8,7 +8,7 @@ export async function rotasWorkspace(app: FastifyInstance) {
   app.get("/workspaces", async () => {
     const workspaces = await prisma.workspace.findMany({
       orderBy: {
-        periodo: "asc",
+        periodo: "desc",
       },
     });
     return workspaces;
