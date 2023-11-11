@@ -127,20 +127,21 @@ export async function rotasAlunos(app: FastifyInstance) {
             },
           });
 
-          return {
+          const alunoComTCC = {
             ra: aluno.ra,
             nome: aluno.nome,
             email: aluno.email,
             status: tccs.length > 0 ? tccs[0].status : null,
-            workspace: tccs[0].workspace,
+            workspace: tccs.length > 0 ? tccs[0].workspace : null,
           };
+
+          return alunoComTCC;
         })
       );
 
-      return alunosComTCCs;
+      return(alunosComTCCs);
     } catch (error) {
       console.error("Erro na requisição:", error);
-      res.status(500).json({ error: "Erro ao buscar dados da API" });
     }
   });
 

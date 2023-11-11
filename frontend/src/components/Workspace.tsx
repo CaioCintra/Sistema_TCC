@@ -12,6 +12,7 @@ export default function Workspace() {
       try {
         const workspaceValue = await workspaceService.getWorkspace();
         setValue(workspaceValue);
+        console.log(workspaceValue);
         const response = await fetch("http://localhost:3333/workspaces");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
