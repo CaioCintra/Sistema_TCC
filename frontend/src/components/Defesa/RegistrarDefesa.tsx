@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import LinhaDefesa from "./LinhaDefesa";
+import { workspaceService } from "../Workspace";
 
 export default function RegistrarDefesa() {
   const [data, setData] = useState(null);
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const workspaceValue = await workspaceService.getWorkspace();
+        setValue(workspaceValue);
         const response = await fetch("http://localhost:3333/alunos/banca");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
@@ -37,9 +41,10 @@ export default function RegistrarDefesa() {
         <div>
           {data ? (
             data.map((aluno: any) =>
-              aluno.status == "Banca_TCC1_Confirmada" ||
-              aluno.status == "Aprovado_TCC1" ||
-              aluno.status == "Reprovado_TCC1" ? (
+              (aluno.status == "Banca_TCC1_Confirmada" ||
+                aluno.status == "Aprovado_TCC1" ||
+                aluno.status == "Reprovado_TCC1") &&
+              parseInt(aluno.workspace) === value.tela ? (
                 <LinhaDefesa
                   ra={aluno.ra}
                   nome={aluno.nome}
@@ -50,7 +55,7 @@ export default function RegistrarDefesa() {
                   nota={aluno.nota}
                   observacao={aluno.observacao}
                   idBanca={aluno.id}
-                  workspace={aluno.workspace}
+                  workspace={value}
                 />
               ) : (
                 <></>

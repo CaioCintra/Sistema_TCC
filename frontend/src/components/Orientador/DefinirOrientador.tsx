@@ -1,12 +1,16 @@
+import { workspaceService } from "../Workspace";
 import LinhaOrientador from "./LinhaOrientador";
 import { useEffect, useState } from "react";
 
 export default function DefinirOrientador() {
   const [data, setData] = useState(null);
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const workspaceValue = await workspaceService.getWorkspace();
+        setValue(workspaceValue);
         const response = await fetch("http://localhost:3333/alunos/orientador");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
@@ -33,16 +37,18 @@ export default function DefinirOrientador() {
         </div>
         <div>
           {data ? (
-            data.map((aluno:any) =>
-              aluno.status == "Matriculado_TCC1" || aluno.status == "Orientador_Definido" ? (
+            data.map((aluno: any) =>
+              (aluno.status == "Matriculado_TCC1" ||
+                aluno.status == "Orientador_Definido") &&
+              parseInt(aluno.workspace) === value.tela ? (
                 <LinhaOrientador
                   ra={aluno.ra}
                   nome={aluno.nome}
                   status={aluno.status}
-                  orientador = {aluno.orientador}
-                  coorientador = {aluno.coorientador}
-                  workspace = {aluno.workspace}
-                  email = {aluno.email}
+                  orientador={aluno.orientador}
+                  coorientador={aluno.coorientador}
+                  workspace={value}
+                  email={aluno.email}
                 />
               ) : (
                 <></>

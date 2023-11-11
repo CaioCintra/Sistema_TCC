@@ -6,7 +6,6 @@ import { rotasLogin } from "./login";
 import { rotasAlunoAuth } from "./alunoAuth";
 import { rotasBanca } from "./banca";
 import { rotasEmail } from "./email";
-import { rotasDefesa } from "./defesa";
 import { rotasWorkspace } from "./workspace";
 import { rotasTCC } from "./TCC";
 import { rotasBancaProfessor } from "./bancaProfessor";

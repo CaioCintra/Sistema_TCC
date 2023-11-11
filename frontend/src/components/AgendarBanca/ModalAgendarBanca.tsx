@@ -32,7 +32,7 @@ export default function ModalAgendarBanca(props: any) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const workspace = 2;
+  const workspace = props.workspace.ativo;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -254,11 +254,20 @@ export default function ModalAgendarBanca(props: any) {
           {error}
         </Alert>
       )}
-      <Tooltip title="Editar">
-        <IconButton>
-          <EditIcon onClick={handleOpen} />
-        </IconButton>
-      </Tooltip>
+      {props.workspace.ativo === props.workspace.tela ? (
+        <Tooltip title="Editar">
+          <IconButton>
+            <EditIcon onClick={handleOpen} />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Editar">
+          <IconButton disabled>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

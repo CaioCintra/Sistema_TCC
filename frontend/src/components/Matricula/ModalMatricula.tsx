@@ -20,7 +20,7 @@ const style = {
   p: 5,
 };
 
-export default function ModalMatricula() {
+export default function ModalMatricula(props: any) {
   const [error, setError] = useState(null);
 
   const [content, setContent] = useState({
@@ -55,15 +55,14 @@ export default function ModalMatricula() {
         await fetch("http://localhost:3333/tcc", {
           method: "POST",
           body: JSON.stringify({
-            workspace: 2,
+            workspace: props.workspace.ativo,
             ra: parseInt(content.ra),
             etapa: "TCC1",
             titulo: "",
             orientador_id: 0,
             coorientador_id: 0,
-            status: "Matriculado_TCC1"
-          }
-          ),
+            status: "Matriculado_TCC1",
+          }),
           headers: { "Content-Type": "application/json" },
         });
         handleClose();
@@ -108,13 +107,17 @@ export default function ModalMatricula() {
         </Alert>
       )}
       <text className="text-2xl font-bold">Matricular TCC1</text>
-      <Button
-        variant="contained"
-        className="uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right"
-        onClick={handleOpen}
-      >
-        Matricular
-      </Button>
+      {props.workspace.ativo === props.workspace.tela ? (
+        <Button
+          variant="contained"
+          className="uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right"
+          onClick={handleOpen}
+        >
+          Matricular
+        </Button>
+      ) : (
+        <></>
+      )}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

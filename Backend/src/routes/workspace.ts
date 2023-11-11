@@ -8,7 +8,7 @@ export async function rotasWorkspace(app: FastifyInstance) {
   app.get("/workspaces", async () => {
     const workspaces = await prisma.workspace.findMany({
       orderBy: {
-        periodo: "asc",
+        periodo: "desc",
       },
     });
     return workspaces;
@@ -16,7 +16,7 @@ export async function rotasWorkspace(app: FastifyInstance) {
 
   app.get("/workspaces/:id", async (request) => {
     const paramsSchema = z.object({
-      id: z.string(), // Mantenha como string
+      id: z.string(),
     });
 
     const { id } = paramsSchema.parse(request.params);
@@ -50,7 +50,7 @@ export async function rotasWorkspace(app: FastifyInstance) {
 
   app.put("/workspaces/:id", async (request) => {
     const paramsSchema = z.object({
-      id: z.string(), // Mantenha como string
+      id: z.string(),
     });
 
     const { id } = paramsSchema.parse(request.params);
@@ -80,7 +80,7 @@ export async function rotasWorkspace(app: FastifyInstance) {
 
   app.delete("/workspaces/:id", async (request) => {
     const paramsSchema = z.object({
-      id: z.string(), // Mantenha como string
+      id: z.string(),
     });
 
     const { id } = paramsSchema.parse(request.params);
@@ -90,5 +90,29 @@ export async function rotasWorkspace(app: FastifyInstance) {
         id: Number(id),
       },
     });
+  });
+
+  app.get("/workspaces/tela", async (request) => {
+    const workspace = await prisma.workspaceAtivo.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    });
+    return workspace[0];
+  });
+
+  app.put("/workspaces/tela", async (request) => {
+    const updatedWorkspaceData = request.body as {
+      tela: Number;
+      ativo: Number;
+    };
+
+    const updatedWorkspace = await prisma.workspaceAtivo.update({
+      where: {
+        id: 1,
+      },
+      data: updatedWorkspaceData,
+    });
+    return updatedWorkspace;
   });
 }

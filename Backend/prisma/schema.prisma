@@ -33,6 +33,12 @@ model Workspace {
   TCC         TCC[]
 }
 
+model WorkspaceAtivo {
+  id    Int @id @default(autoincrement())
+  tela  Int
+  ativo Int
+}
+
 model TCC {
   id              Int       @id @default(autoincrement())
   workspace       Int

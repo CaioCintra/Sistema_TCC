@@ -26,7 +26,7 @@ export default function BoxAgendarBanca(props: any) {
   const [bancaExiste, setBancaExiste] = useState(false);
   const [selectedProfessores, setSelectedProfessores] = useState([""]);
 
-  const workspace = 2;
+  const workspace = props.workspace.ativo;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,28 +133,6 @@ export default function BoxAgendarBanca(props: any) {
       body: JSON.stringify({ status: "Orientador_Definido" }),
       headers: { "Content-Type": "application/json" },
     });
-    handleClose();
-    limparFormulario();
-    location.reload();
-  };
-
-  const confirmarBanca = async () => {
-    await fetch(`http://localhost:3333/tcc/${props.ra}/${workspace}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        status: "Banca_TCC1_Confirmada",
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-    console.log(banca.id);
-    await fetch(`http://localhost:3333/bancas/${banca.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        status_confirmacao: "Confirmada",
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-    handleClose();
     limparFormulario();
     location.reload();
   };

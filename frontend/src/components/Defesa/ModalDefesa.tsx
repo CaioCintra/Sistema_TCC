@@ -55,21 +55,27 @@ export default function ModalDefesa(props: any) {
       headers: { "Content-Type": "application/json" },
     });
     if (parseFloat(content.nota) >= 6.0) {
-      await fetch(`http://localhost:3333/tcc/${props.ra}/${props.workspace}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          status: "Aprovado_TCC1",
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
+      await fetch(
+        `http://localhost:3333/tcc/${props.ra}/${props.workspace.ativo}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            status: "Aprovado_TCC1",
+          }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     } else {
-      await fetch(`http://localhost:3333/tcc/${props.ra}/${props.workspace}`, {
-        method: "PUT",
-        body: JSON.stringify({
-          status: "Reprovado_TCC1",
-        }),
-        headers: { "Content-Type": "application/json" },
-      });
+      await fetch(
+        `http://localhost:3333/tcc/${props.ra}/${props.workspace.ativo}`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            status: "Reprovado_TCC1",
+          }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
     handleClose();
     location.reload();
@@ -77,11 +83,20 @@ export default function ModalDefesa(props: any) {
 
   return (
     <div>
-      <Tooltip title="Editar">
-        <IconButton>
-          <EditIcon onClick={handleOpen} />
-        </IconButton>
-      </Tooltip>
+      {props.workspace.ativo === props.workspace.tela ? (
+        <Tooltip title="Editar">
+          <IconButton>
+            <EditIcon onClick={handleOpen} />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Editar">
+          <IconButton disabled>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
