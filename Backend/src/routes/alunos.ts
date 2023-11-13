@@ -139,7 +139,7 @@ export async function rotasAlunos(app: FastifyInstance) {
         })
       );
 
-      return(alunosComTCCs);
+      return alunosComTCCs;
     } catch (error) {
       console.error("Erro na requisição:", error);
     }
@@ -166,9 +166,11 @@ export async function rotasAlunos(app: FastifyInstance) {
             nome: aluno.nome,
             email: aluno.email,
             status: tccs.length > 0 ? tccs[0].status : null,
-            orientador: tccs[0].orientador_id,
-            coorientador: tccs[0].coorientador_id,
-            workspace: tccs[0].workspace,
+            orientador:
+              tccs[0] && tccs[0].orientador_id ? tccs[0].orientador_id : 0,
+            coorientador:
+              tccs[0] && tccs[0].coorientador_id ? tccs[0].coorientador_id : 0,
+            workspace: tccs[0] ? tccs[0].workspace : null,
           };
         })
       );
@@ -176,7 +178,6 @@ export async function rotasAlunos(app: FastifyInstance) {
       return alunosComTCCs;
     } catch (error) {
       console.error("Erro na requisição:", error);
-      res.status(500).json({ error: "Erro ao buscar dados da API" });
     }
   });
 
