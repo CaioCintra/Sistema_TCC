@@ -194,7 +194,6 @@ export default function ModalEmail(props: any) {
                 className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                 onChange={trocarTemplate}
                 value={content.assunto}
-                required
               >
                 <option value="">Selecione o assunto</option>
                 {data ? (
@@ -230,6 +229,7 @@ export default function ModalEmail(props: any) {
                 className="w-full h-1/3 resize-none  border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                 onChange={onChangeInput}
                 value={content.corpo}
+                required
               />
               <Button
                 type="submit"
