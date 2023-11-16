@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import LinhaMatricula from "./LinhaMatricula";
 import ModalMatricula from "./ModalMatricula";
 import { workspaceService } from "../Workspace";
+import ModalLote from "./ModalLote";
 
 export default function MatricularTCC() {
   const [data, setData] = useState(null);
@@ -28,6 +29,7 @@ export default function MatricularTCC() {
 
   return (
     <div>
+        <ModalLote workspace={value}></ModalLote>
         <ModalMatricula workspace={value}></ModalMatricula>
       <div className="m-10 mt-20 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
