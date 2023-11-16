@@ -80,12 +80,6 @@ model Instancias {
   Etapa           Etapas
   orientador      String
   status_processo String
-  status_TCC1     String
-  banca_TCC1      String
-  defesa_TCC1     String
-  status_TCC2     String
-  banca_TCC2      String
-  defesa_TCC2     String
   timestamp       DateTime
   aluno_ra        Aluno    @relation(fields: [aluno], references: [ra])
 }
