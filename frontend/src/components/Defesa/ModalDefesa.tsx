@@ -23,6 +23,8 @@ const style = {
 
 export default function ModalDefesa(props: any) {
   const [open, setOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
@@ -46,6 +48,7 @@ export default function ModalDefesa(props: any) {
 
   const registrarDefesa = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     await fetch(`http://localhost:3333/bancas/${props.idBanca}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -168,9 +171,9 @@ export default function ModalDefesa(props: any) {
                 type="submit"
                 variant="contained"
                 className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right bottom-0 right-0"
+                disabled={isLoading}
               >
-                {" "}
-                Salvar
+                {isLoading ? "CARREGANDO..." : "  CONFIRMAR  "}
               </Button>
             </form>
           </Box>

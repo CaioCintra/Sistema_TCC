@@ -100,6 +100,7 @@ export default function ModalEmail(props: any) {
       if (response.status === 200) {
         setSuccess("Email enviado com sucesso");
       } else {
+        setError("Erro ao enviar o email: API fora do ar");
         throw new Error(`Erro ao enviar email: ${response.statusText}`);
       }
     } catch (error) {
