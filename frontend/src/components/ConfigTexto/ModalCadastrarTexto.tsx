@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import { Alert, AlertTitle } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import InfoTexto from "./InfoTexto";
 
 const style = {
   position: "absolute" as "absolute",
@@ -158,18 +159,20 @@ export default function ModalCadastrarTexto() {
                 </select>
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 font-medium mb-2">
-                  Conteúdo
-                </label>
-                <textarea
-                  id="conteudo"
-                  name="conteudo"
-                  rows="5"
-                  className="w-full h-1/3 resize-none  border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
-                  onChange={onChangeInput}
-                  value={content.conteudo}
-                  required
-                />
+                
+                <div className="relative">
+                  <InfoTexto className="absolute top-0 left-0 mb-4" />
+
+                  <textarea
+                    id="conteudo"
+                    name="conteudo"
+                    rows="5"
+                    className="w-full h-1/3 resize-none border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
+                    onChange={onChangeInput}
+                    value={content.conteudo}
+                    required
+                  />
+                </div>
               </div>
 
               <Button
