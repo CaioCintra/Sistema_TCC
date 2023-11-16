@@ -41,50 +41,50 @@ export default function ModalLote(props: any) {
   const onChangeInput = (e: any) =>
     setContent({ ...content, [e.target.name]: e.target.value });
 
-    const cadastrarAluno = async (e: any) => {
-        e.preventDefault();
-        setIsLoading(true);
-        try {
-          const textareaContent = content.conteudo;
-          const alunos = textareaContent.split('\n').map((line) => line.split(','));
-      
-          for (const aluno of alunos) {
-            const [ra, nome, email] = aluno.map((item) => item.trim());
-      
-            const response = await fetch("http://localhost:3333/alunos", {
-              method: "POST",
-              body: JSON.stringify({ ra, nome, email }),
-              headers: { "Content-Type": "application/json" },
-            });
-      
-            if (response.status === 500) {
-              setError("RA já cadastrado");
-            } else if (response.ok) {
-              await fetch("http://localhost:3333/tcc", {
-                method: "POST",
-                body: JSON.stringify({
-                  workspace: props.workspace.ativo,
-                  ra: parseInt(ra),
-                  etapa: "TCC1",
-                  titulo: "",
-                  orientador_id: 0,
-                  coorientador_id: 0,
-                  status: "Matriculado_TCC1",
-                }),
-                headers: { "Content-Type": "application/json" },
-              });
-            }
-          }
-      
-          handleClose();
-          limparFormulario();
-          location.reload();
-        } catch (err) {
-          console.log("Erro ao cadastrar aluno:", err);
-          setIsLoading(false);
-        }
-      };
-      
+const cadastrarAluno = async (e: any) => {
+  e.preventDefault();
+  setIsLoading(true);
+  try {
+    const textareaContent = content.conteudo;
+    const alunos = textareaContent.split('\n').map((line) => line.split(','));
+
+    for (const aluno of alunos) {
+      const [ra, nome, email] = aluno.map((item) => item.trim());
+
+      const response = await fetch("http://localhost:3333/alunos", {
+        method: "POST",
+        body: JSON.stringify({ ra, nome, email }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.status === 500) {
+        setError("RA já cadastrado");
+      } else if (response.ok) {
+        await fetch("http://localhost:3333/tcc", {
+          method: "POST",
+          body: JSON.stringify({
+            workspace: props.workspace.ativo,
+            ra: parseInt(ra),
+            etapa: "TCC1",
+            titulo: "",
+            orientador_id: 0,
+            coorientador_id: 0,
+            status: "Matriculado_TCC1",
+          }),
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+
+    handleClose();
+    limparFormulario();
+    location.reload();
+  } catch (err) {
+    console.log("Erro ao cadastrar aluno:", err);
+    setIsLoading(false);
+  }
+};
+
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
