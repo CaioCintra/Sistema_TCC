@@ -22,6 +22,7 @@ const style = {
 
 export default function ModalMatricula(props: any) {
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [content, setContent] = useState({
     ra: "",
@@ -42,6 +43,7 @@ export default function ModalMatricula(props: any) {
 
   const cadastrarAluno = async (e: any) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:3333/alunos", {
         method: "POST",
@@ -71,6 +73,7 @@ export default function ModalMatricula(props: any) {
       }
     } catch (err) {
       console.log("Erro ao cadastrar aluno:", err);
+      setIsLoading(false);
     }
   };
 
@@ -194,8 +197,9 @@ export default function ModalMatricula(props: any) {
                 type="submit"
                 variant="contained"
                 className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right bottom-0 right-0"
+                disabled={isLoading}
               >
-                Matricular
+                {isLoading ? "CARREGANDO..." : "  MATRICULAR  "}
               </Button>
             </form>
           </Box>

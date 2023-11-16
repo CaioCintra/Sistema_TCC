@@ -138,9 +138,13 @@ export default function DefinirOrientador() {
             required
           >
             {professor ? (
-              professor.map((professor: any) => (
-                <MenuItem value={professor.id}>{professor.nome}</MenuItem>
-              ))
+              professor
+                .filter((prof: any) => prof.departamento === "DACOM")
+                .map((prof: any) => (
+                  <MenuItem value={prof.id} key={prof.id}>
+                    {prof.nome}
+                  </MenuItem>
+                ))
             ) : (
               <></>
             )}
@@ -161,9 +165,13 @@ export default function DefinirOrientador() {
           >
             <MenuItem value="0">Não tenho coorientador</MenuItem>
             {professor ? (
-              professor.map((professor: any) => (
-                <MenuItem value={professor.id}>{professor.nome}</MenuItem>
-              ))
+              professor
+                .filter((prof: any) => prof.departamento === "DACOM")
+                .map((prof: any) => (
+                  <MenuItem value={prof.id} key={prof.id}>
+                    {prof.nome}
+                  </MenuItem>
+                ))
             ) : (
               <></>
             )}

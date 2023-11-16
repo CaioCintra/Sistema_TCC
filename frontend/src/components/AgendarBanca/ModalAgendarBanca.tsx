@@ -31,6 +31,7 @@ export default function ModalAgendarBanca(props: any) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const workspace = props.workspace.ativo;
 
@@ -167,7 +168,7 @@ export default function ModalAgendarBanca(props: any) {
 
   const cadastrarBanca = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     let bancaId;
     if (bancaExiste) {
       const response = await axios.put(
@@ -195,6 +196,7 @@ export default function ModalAgendarBanca(props: any) {
       bancaId = response.data.id;
       if (response.status === 500) {
         setError("Erro ao cadastrar banca");
+        setIsLoading(false);
       }
     }
 
@@ -219,6 +221,7 @@ export default function ModalAgendarBanca(props: any) {
       }
     } catch (error) {
       console.error("Erro ao atualizar status do aluno:", error);
+      setIsLoading(false);
     }
 
     handleClose();
@@ -434,8 +437,9 @@ export default function ModalAgendarBanca(props: any) {
                 type="submit"
                 variant="contained"
                 className="mt-3 uppercase bg-[var(--primary-color)] hover:bg-slate-900 float-right bottom-0 right-0"
+                disabled={isLoading}
               >
-                Agendar
+                {isLoading ? "CARREGANDO..." : "  AGENDAR  "}
               </Button>
             </form>
           </Box>

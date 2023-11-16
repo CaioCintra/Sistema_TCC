@@ -146,11 +146,15 @@ export default function ModalOrientador(props: any) {
                 >
                   <option value="0">Selecione um orientador</option>
                   {data ? (
-                    data.map((professor: any) => (
-                      <option value={professor.id} key={professor.id}>
-                        {professor.nome}
-                      </option>
-                    ))
+                    data
+                      .filter(
+                        (professor: any) => professor.departamento === "DACOM"
+                      )
+                      .map((professor: any) => (
+                        <option value={professor.id} key={professor.id}>
+                          {professor.nome}
+                        </option>
+                      ))
                   ) : (
                     <></>
                   )}
@@ -170,11 +174,15 @@ export default function ModalOrientador(props: any) {
                 >
                   <option value="0">Selecione um coorientador</option>
                   {data ? (
-                    data.map((professor: any) => (
-                      <option value={professor.id} key={professor.id}>
-                        {professor.nome}
-                      </option>
-                    ))
+                    data
+                      .filter(
+                        (professor: any) => professor.departamento === "DACOM"
+                      )
+                      .map((professor: any) => (
+                        <option value={professor.id} key={professor.id}>
+                          {professor.nome}
+                        </option>
+                      ))
                   ) : (
                     <></>
                   )}

@@ -33,8 +33,7 @@ export default function AgendarBanca() {
     ? data.filter(
         (aluno) =>
           aluno &&
-          (aluno.status === "Orientador_Definido" ||
-            aluno.status === "Banca_TCC1_Agendada") &&
+          (aluno.status === "Orientador_Definido") &&
           parseInt(aluno.workspace) === value.tela
       )
     : [];
