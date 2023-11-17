@@ -245,4 +245,48 @@ export async function rotasAlunos(app: FastifyInstance) {
       res.status(500).json({ error: "Erro ao buscar dados da API" });
     }
   });
+
+  app.get("/alunos/historico", async (req, res) => {
+    try {
+      const alunos = await prisma.aluno.findMany({
+        orderBy: {
+          nome: "asc",
+        },
+      });
+  
+      const alunosComTCCs = await Promise.all(
+        alunos.map(async (aluno) => {
+          const tccs = await prisma.tCC.findMany({
+            where: {
+              ra: aluno.ra,
+            },
+          });
+  
+          const alunoComTCC = {
+            ra: aluno.ra,
+            nome: aluno.nome,
+            email: aluno.email,
+            status: tccs.length > 0 ? tccs[0].status : null,
+            workspace: tccs.length > 0 ? tccs[0].workspace : null,
+          };
+  
+          return alunoComTCC;
+        })
+      );
+  
+      // Ordenar os alunosComTCCs com base no status personalizado
+      const statusPersonalizado = ["Matriculado_TCC1", "Orientador_Definido", "Banca_TCC1_Agendada","Banca_TCC1_Confirmada","Aprovado_TCC1","Reprovado_TCC1","Matriculado_TCC2", "Orientador_Definido_TCC2", "Banca_TCC2_Agendada","Banca_TCC2_Confirmada","Aprovado_TCC2","Reprovado_TCC2"];
+  
+      alunosComTCCs.sort((a, b) => {
+        const statusA = a.status || ""; // Tratar casos em que o status é nulo
+        const statusB = b.status || "";
+  
+        return statusPersonalizado.indexOf(statusA) - statusPersonalizado.indexOf(statusB);
+      });
+  
+      return alunosComTCCs;
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
+  });  
 }

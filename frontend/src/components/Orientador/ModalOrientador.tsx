@@ -64,6 +64,17 @@ export default function ModalOrientador(props: any) {
             headers: { "Content-Type": "application/json" },
           }
         );
+        await fetch("http://localhost:3333/historico", {
+          method: "POST",
+          body: JSON.stringify({
+            aluno: parseInt(props.ra),
+            workspace: props.workspace.ativo,
+            Etapa: "TCC1",
+            orientador: parseInt(orientador),
+            status_processo: "Orientador_Definido",
+          }),
+          headers: { "Content-Type": "application/json" },
+        });
         handleClose();
         location.reload();
       } catch (err) {

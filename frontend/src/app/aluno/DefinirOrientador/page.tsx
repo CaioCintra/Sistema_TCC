@@ -9,6 +9,7 @@ import FormControl from "@mui/material/FormControl";
 import { Button } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import CloseIcon from "@mui/icons-material/Close";
+import { workspaceService } from "@/components/Workspace";
 
 export default function DefinirOrientador() {
   const searchParams = useSearchParams();
@@ -23,6 +24,7 @@ export default function DefinirOrientador() {
   const [coorientador, setCoorientador] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [value, setValue] = useState(0);
 
   const handleChange1 = (event: SelectChangeEvent) => {
     setOrientador(event.target.value as string);
@@ -32,11 +34,11 @@ export default function DefinirOrientador() {
     setCoorientador(event.target.value as string);
   };
 
-  const workspace = 2;
-
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const workspaceValue = await workspaceService.getWorkspace();
+        setValue(workspaceValue);
         const ra = await axios.get(urlRA);
         const urlAluno = `http://localhost:3333/alunos/${ra.data.ra}`;
         const aluno = await axios.get(urlAluno);
@@ -52,7 +54,7 @@ export default function DefinirOrientador() {
         console.error("Erro na requisição:", error);
       }
       try {
-        const urlTCC = `http://localhost:3333/tcc/${aluno.ra}/${workspace}`;
+        const urlTCC = `http://localhost:3333/tcc/${aluno.ra}/${value.ativo}`;
         const tcc = await axios.get(urlTCC);
         setTCC(tcc.data[0]);
       } catch (error) {
@@ -82,6 +84,17 @@ export default function DefinirOrientador() {
         orientador_id: parseInt(orientador),
         coorientador_id: parseInt(coorientador),
         status: "Orientador_Definido",
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+    await fetch("http://localhost:3333/historico", {
+      method: "POST",
+      body: JSON.stringify({
+        aluno: parseInt(aluno.ra),
+        workspace: parseInt(value.ativo),
+        Etapa: "TCC1",
+        orientador: parseInt(orientador),
+        status_processo: "Orientador_Definido",
       }),
       headers: { "Content-Type": "application/json" },
     });

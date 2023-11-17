@@ -68,6 +68,17 @@ export default function ModalDefesa(props: any) {
           headers: { "Content-Type": "application/json" },
         }
       );
+      await fetch("http://localhost:3333/historico", {
+        method: "POST",
+        body: JSON.stringify({
+          aluno: parseInt(props.ra),
+          workspace: props.workspace.ativo,
+          Etapa: "TCC1",
+          orientador: props.orientador,
+          status_processo: "Aprovado_TCC1",
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
     } else {
       await fetch(
         `http://localhost:3333/tcc/${props.ra}/${props.workspace.ativo}`,
@@ -79,6 +90,17 @@ export default function ModalDefesa(props: any) {
           headers: { "Content-Type": "application/json" },
         }
       );
+      await fetch("http://localhost:3333/historico", {
+        method: "POST",
+        body: JSON.stringify({
+          aluno: parseInt(props.ra),
+          workspace: props.workspace.ativo,
+          Etapa: "TCC1",
+          orientador: props.orientador,
+          status_processo: "Reprovado_TCC1",
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
     }
     handleClose();
     location.reload();

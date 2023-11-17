@@ -5,8 +5,6 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
-import { Alert, AlertTitle } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
   position: "absolute" as "absolute",

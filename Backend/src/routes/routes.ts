@@ -9,6 +9,7 @@ import { rotasEmail } from "./email";
 import { rotasWorkspace } from "./workspace";
 import { rotasTCC } from "./TCC";
 import { rotasBancaProfessor } from "./bancaProfessor";
+import { rotasHistorico } from "./historico";
 
 export const registerRoutes = (app: any) => {
   app.register(rotasAlunos);
@@ -22,4 +23,5 @@ export const registerRoutes = (app: any) => {
   app.register(rotasWorkspace);
   app.register(rotasTCC);
   app.register(rotasBancaProfessor);
+  app.register(rotasHistorico);
 };
