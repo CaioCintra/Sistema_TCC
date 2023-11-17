@@ -153,7 +153,17 @@ export default function ModalAgendarBanca(props: any) {
       }),
       headers: { "Content-Type": "application/json" },
     });
-    console.log(banca.id);
+    await fetch("http://localhost:3333/historico", {
+      method: "POST",
+      body: JSON.stringify({
+        aluno: parseInt(props.ra),
+        workspace: workspace,
+        Etapa: "TCC1",
+        orientador: props.orientador,
+        status_processo: "Banca_TCC1_Confirmada",
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
     await fetch(`http://localhost:3333/bancas/${banca.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -206,6 +216,17 @@ export default function ModalAgendarBanca(props: any) {
         body: JSON.stringify({
           status: "Banca_TCC1_Agendada",
           titulo: content.tituloTrabalho,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+      await fetch("http://localhost:3333/historico", {
+        method: "POST",
+        body: JSON.stringify({
+          aluno: parseInt(props.ra),
+          workspace: workspace,
+          Etapa: "TCC1",
+          orientador: props.orientador,
+          status_processo: "Banca_TCC1_Agendada",
         }),
         headers: { "Content-Type": "application/json" },
       });

@@ -76,9 +76,9 @@ model Banca_Professor {
 model Instancias {
   id              Int      @id @default(autoincrement())
   aluno           Int
-  workspace       String
+  workspace       Int
   Etapa           Etapas
-  orientador      String
+  orientador      Int
   status_processo String
   timestamp       DateTime
   aluno_ra        Aluno    @relation(fields: [aluno], references: [ra])
@@ -107,6 +107,12 @@ enum Status {
   Banca_TCC1_Confirmada
   Aprovado_TCC1
   Reprovado_TCC1
+  Matriculado_TCC2
+  Orientador_Definido_TCC2
+  Banca_TCC2_Agendada
+  Banca_TCC2_Confirmada
+  Aprovado_TCC2
+  Reprovado_TCC2
 }
 
 enum Etapas {

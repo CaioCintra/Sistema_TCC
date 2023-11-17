@@ -120,6 +120,7 @@ export default function LinhaDefesa(props: any) {
           nome={props.nome}
           idBanca={props.idBanca}
           nota={props.nota}
+          orientador={props.orientador}
           observacao={props.observacao}
           workspace={props.workspace}
         />

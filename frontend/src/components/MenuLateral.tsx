@@ -81,7 +81,8 @@ export default function MenuLateral(props: any) {
   const [open, setOpen] = React.useState(true);
 
   const handleLogout = () => {
-    document.cookie = "TCC.token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      "TCC.token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     window.location.href = "/";
   };
 
@@ -134,17 +135,16 @@ export default function MenuLateral(props: any) {
               justifyContent: "flex-end",
               px: [1],
             }}
-            >
-            <Workspace/>
-            
+          >
+            <Workspace />
+
             <IconButton onClick={toggleDrawer}>
               <ChevronLeftIcon />
             </IconButton>
-
           </Toolbar>
 
           <Divider />
-            
+
           <Box
             sx={{
               width: "100%",
@@ -152,12 +152,14 @@ export default function MenuLateral(props: any) {
               bgcolor: "var(--secondary-color)",
             }}
           >
-            <ListItemButton className="h-16">
-              <ListItemIcon>
-                <BarChartRoundedIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
+            <a href="/admin/dashboard/">
+              <ListItemButton className="h-16">
+                <ListItemIcon>
+                  <BarChartRoundedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dashboard" />
+              </ListItemButton>
+            </a>
             <Divider />
           </Box>
           <text className="pt-4 text-xl font-bold text-center justify-center align-middle text-[#4F4F4F]">

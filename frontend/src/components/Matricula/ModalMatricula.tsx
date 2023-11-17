@@ -67,6 +67,17 @@ export default function ModalMatricula(props: any) {
           }),
           headers: { "Content-Type": "application/json" },
         });
+        await fetch("http://localhost:3333/historico", {
+          method: "POST",
+          body: JSON.stringify({
+            aluno: parseInt(content.ra),
+            workspace: props.workspace.ativo,
+            Etapa: "TCC1",
+            orientador: 0,
+            status_processo: "Matriculado_TCC1",
+          }),
+          headers: { "Content-Type": "application/json" },
+        });
         handleClose();
         limparFormulario();
         location.reload();

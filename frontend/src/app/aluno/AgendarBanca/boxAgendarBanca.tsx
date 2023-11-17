@@ -133,6 +133,17 @@ export default function BoxAgendarBanca(props: any) {
       body: JSON.stringify({ status: "Orientador_Definido" }),
       headers: { "Content-Type": "application/json" },
     });
+    await fetch("http://localhost:3333/historico", {
+      method: "POST",
+      body: JSON.stringify({
+        aluno: parseInt(props.ra),
+        workspace: workspace,
+        Etapa: "TCC1",
+        orientador: props.orientador,
+        status_processo: "Orientador_Definido",
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
     limparFormulario();
     location.reload();
   };
@@ -179,6 +190,17 @@ export default function BoxAgendarBanca(props: any) {
         }),
         headers: { "Content-Type": "application/json" },
       });
+      await fetch("http://localhost:3333/historico", {
+        method: "POST",
+        body: JSON.stringify({
+          aluno: parseInt(props.ra),
+          workspace: workspace,
+          Etapa: "TCC1",
+          orientador: props.orientador,
+          status_processo: "Banca_TCC1_Agendada",
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
       await axios.delete(`http://localhost:3333/bancas_professores/${bancaId}`);
       for (let i = 0; i < selectedProfessores.length; i++) {
         const professorBancaResponse = await axios.post(
@@ -192,8 +214,6 @@ export default function BoxAgendarBanca(props: any) {
     } catch (error) {
       console.error("Erro ao atualizar status do aluno:", error);
     }
-
-    handleClose();
     limparFormulario();
     window.location.href = `/aluno/DadosConfirmados?token=${props.token}`;
   };
