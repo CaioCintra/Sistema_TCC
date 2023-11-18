@@ -144,7 +144,7 @@ export async function rotasTCC(app: FastifyInstance) {
       const updatedTCC = await prisma.tCC.updateMany({
         where: {
           ra: Number(ra),
-          workspace: Number(workspace)
+          workspace: Number(workspace),
         },
         data: updatedTCCData,
       });
@@ -173,5 +173,42 @@ export async function rotasTCC(app: FastifyInstance) {
       },
     });
   });
-}
 
+  app.get("/tcc/count/:workspace", async (request) => {
+    const paramsSchema = z.object({
+      workspace: z.string(),
+    });
+  
+    const { workspace } = paramsSchema.parse(request.params);
+  
+    try {
+      const tccCountTCC1 = await prisma.tCC.count({
+        where: {
+          workspace: Number(workspace),
+          etapa: "TCC1",
+        },
+      });
+  
+      const tccCountTCC2 = await prisma.tCC.count({
+        where: {
+          workspace: Number(workspace),
+          etapa: "TCC2",
+        },
+      });
+  
+      const tccCountTotal = tccCountTCC1 + tccCountTCC2;
+  
+      return {
+        tcc1Count: tccCountTCC1,
+        tcc2Count: tccCountTCC2,
+        totalCount: tccCountTotal,
+      };
+    } catch (error) {
+      console.error(error);
+      throw new Error(
+        "Erro ao obter a contagem de TCCs para o workspace fornecido."
+      );
+    }
+  });
+  
+}

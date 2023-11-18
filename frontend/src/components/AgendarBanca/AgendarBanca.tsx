@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Pagination } from "@mui/material";
 import LinhaBanca from "./LinhaBanca";
 import { workspaceService } from "../Workspace";
 
 export default function AgendarBanca() {
   const [data, setData] = useState(null);
   const [value, setValue] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,18 +30,10 @@ export default function AgendarBanca() {
     ? data.filter(
         (aluno) =>
           aluno &&
-          (aluno.status === "Orientador_Definido") &&
+          aluno.status === "Orientador_Definido" &&
           parseInt(aluno.workspace) === value.tela
       )
     : [];
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (event, page) => {
-    setCurrentPage(page);
-  };
 
   if (data === null) {
     return null;
@@ -63,7 +52,7 @@ export default function AgendarBanca() {
           <p className="">Ações</p>
         </div>
         <div className="h-[20rem]">
-          {currentItems.map((aluno) => (
+          {filteredData.map((aluno) => (
             <LinhaBanca
               key={aluno.ra}
               ra={aluno.ra}
@@ -79,14 +68,6 @@ export default function AgendarBanca() {
             />
           ))}
         </div>
-        <Pagination
-          className="grid place-items-center"
-          color="grey"
-          count={Math.ceil(filteredData.length / itemsPerPage)}
-          shape="rounded"
-          page={currentPage}
-          onChange={handlePageChange}
-        />
       </div>
     </div>
   );
