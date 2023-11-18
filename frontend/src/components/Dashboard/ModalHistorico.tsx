@@ -18,7 +18,7 @@ const style = {
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 5,
-  overflowY: "auto", // Adicionado overflowY para permitir rolagem vertical
+  overflowY: "auto",
 };
 
 export default function ModalHistorico(props: any) {

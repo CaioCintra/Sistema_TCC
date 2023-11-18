@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Pagination } from "@mui/material";
 import LinhaBanca from "./LinhaBanca";
 import { workspaceService } from "../Workspace";
 
 export default function ConfirmarBanca() {
   const [data, setData] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
   const [value, setValue] = useState(0);
-  const itemsPerPage = 4;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,20 +36,13 @@ export default function ConfirmarBanca() {
       )
     : [];
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
-
-  const handlePageChange = (event, page) => {
-    setCurrentPage(page);
-  };
-
   if (data === null) {
     return null;
   }
 
   return (
     <div>
+      <text className="mt-3 mb-3 text-2xl font-bold">Confirmar Banca</text>
       <div className="mt-4 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
           <p className="w-[21%]">Nome</p>
@@ -64,7 +54,7 @@ export default function ConfirmarBanca() {
           <p className="">Ações</p>
         </div>
         <div className="h-[20rem]">
-          {currentItems.map((aluno) => (
+          {filteredData.map((aluno) => (
             <LinhaBanca
               key={aluno.ra}
               ra={aluno.ra}
@@ -80,14 +70,6 @@ export default function ConfirmarBanca() {
             />
           ))}
         </div>
-        <Pagination
-          className="grid place-items-center"
-          color="grey"
-          count={Math.ceil(filteredData.length / itemsPerPage)}
-          shape="rounded"
-          page={currentPage}
-          onChange={handlePageChange}
-        />
       </div>
     </div>
   );
