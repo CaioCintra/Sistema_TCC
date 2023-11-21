@@ -1,6 +1,7 @@
 import { WorkspaceService } from "@/services/workspace";
 import * as React from "react";
 import { useEffect, useState } from "react";
+import WorkspaceEdit from "./WorkspaceEdit";
 
 export const workspaceService = new WorkspaceService();
 export default function Workspace() {
@@ -36,10 +37,10 @@ export default function Workspace() {
 
 
   return (
-    <div className="left-0 mr-14">
+    <div className="mr-5">
       <select
         placeholder="Workspace"
-        className="w-full bg-[var(--secondary-color)] border-gray-300 px-3 py-2 rounded-md focus:ring-gray-400 text-xl"
+        className="bg-[var(--secondary-color)] border-gray-300 px-3 py-2 rounded-md focus:ring-gray-400 text-xl"
         onChange={changeWorkspace}
         value={value.tela}
       >
@@ -53,6 +54,7 @@ export default function Workspace() {
           <></>
         )}
       </select>
+      <WorkspaceEdit/>
     </div>
   );
 }
