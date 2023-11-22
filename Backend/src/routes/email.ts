@@ -29,8 +29,9 @@ export async function rotasEmail(app: FastifyInstance) {
       corpo: String;
     };
 
-    var ra = emailData.ra.toString(); // Converte para string
+    var ra = emailData.ra.toString();
     const to = emailData.email;
+    console.log(to);
     const aluno = emailData.nome;
     var body = emailData.corpo;
     var subject = emailData.assunto;
@@ -79,6 +80,49 @@ export async function rotasEmail(app: FastifyInstance) {
         from: `Sistema TCC <${process.env.USERMAIL}>`,
         to: `${to}`,
         subject: `${subject}`,
+        text: `${body}`,
+      })
+      .then(() => console.log("Email enviado"))
+      .catch((err: any) => console.log("Email não enviado: ", err));
+  });
+
+  app.post("/email/pratcc", async (request) => {
+    let transport = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.USERMAIL,
+        pass: process.env.PASSMAIL,
+      },
+    });
+
+    const emailData = request.body as {
+      ra: String;
+      nome: String;
+      email: String;
+      professor: String;
+      emailProfessor: String;
+      departamento: String;
+      celular: String;
+    };
+
+    var ra = emailData.ra.toString();
+    const to = process.env.EMAILPRATCC;
+    const aluno = emailData.nome;
+    const email = emailData.email;
+    var body = `Requisição de professor:
+    Feita pelo aluno ${aluno} com o RA: ${ra} e email: ${email}.
+    Professor: ${emailData.professor};
+    Email: ${emailData.emailProfessor};
+    Departamento: ${emailData.departamento};
+    Celular: ${emailData.celular} `;
+
+    transport
+      .sendMail({
+        from: `Sistema TCC <${process.env.USERMAIL}>`,
+        to: `${to}`,
+        subject: `Requisição de professor`,
         text: `${body}`,
       })
       .then(() => console.log("Email enviado"))

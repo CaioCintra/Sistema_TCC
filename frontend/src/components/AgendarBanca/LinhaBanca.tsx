@@ -106,7 +106,7 @@ export default function LinhaBanca(props: any) {
       <p>{props.local ? props.local : "-"}</p>
       <div />
       <div className="inline-flex ml-auto">
-        <ModalEmail ra={props.ra} workspace={props.workspace} />
+        <ModalEmail ra={props.ra} nome={props.nome} email={props.email} workspace={props.workspace} />
         <ModalAgendarBanca
           ra={props.ra}
           nome={props.nome}
