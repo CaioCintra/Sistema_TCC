@@ -274,11 +274,10 @@ export async function rotasAlunos(app: FastifyInstance) {
         })
       );
   
-      // Ordenar os alunosComTCCs com base no status personalizado
       const statusPersonalizado = ["Matriculado_TCC1", "Orientador_Definido", "Banca_TCC1_Agendada","Banca_TCC1_Confirmada","Aprovado_TCC1","Reprovado_TCC1","Matriculado_TCC2", "Orientador_Definido_TCC2", "Banca_TCC2_Agendada","Banca_TCC2_Confirmada","Aprovado_TCC2","Reprovado_TCC2"];
   
       alunosComTCCs.sort((a, b) => {
-        const statusA = a.status || ""; // Tratar casos em que o status é nulo
+        const statusA = a.status || "";
         const statusB = b.status || "";
   
         return statusPersonalizado.indexOf(statusA) - statusPersonalizado.indexOf(statusB);
