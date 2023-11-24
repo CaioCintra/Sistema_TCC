@@ -52,7 +52,7 @@ export default function LinhaOrientador(props: any) {
       <div />
       <div>
         <div className="inline-flex">
-          <ModalEmail ra={props.ra} nome={props.nome} email={props.email} workspace={props.workspace} />
+          <ModalEmail ra={props.ra} nome={props.nome} email={props.email} workspace={props.workspace} padrao={"Falta Orientador"} />
           <ModalOrientador
             ra={props.ra}
             nome={props.nome}
