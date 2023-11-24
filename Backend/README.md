@@ -11,6 +11,8 @@ O backend deste projeto foi desenvolvido com as seguintes tecnologias:
 
 ## Instalação
 
+Garanta que em seu sistema estejam instalados o Node e o npm.
+
 Acesse a pasta Backend execute o seguinte comando para instalar:
 ```console
 npm install
