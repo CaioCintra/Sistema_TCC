@@ -2,7 +2,10 @@
 
 Este sistema tem como objetivo facilitar o trabalho do Professor responsável pelas atividades de TCC, fornecendo interfaces que farão o que ele já costumava fazer de uma forma mais simples e automática.
 
-O sistema é dividido em backend para o funcionamento e frontend para a execução de telas.
+O sistema será estruturado em frontend e backend, o frontend sendo a camada de
+aplicação, onde ficarão as telas, o produto que irá comunicar-se diretamente com o usuário,
+enquanto o backend fará a parte funcional do sistema, ele irá manipular o banco de dados e
+enviar todas as informações necessárias para o frontend.
 
 Clique abaixo para ver mais sobre cada uma:
 
