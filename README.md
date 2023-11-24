@@ -1,40 +1,14 @@
 # Sistema_TCC
 
-## Executar
+Este sistema tem como o objetivo facilitar o trabalho do Professor responsável pelas atividades de TCC, fornecendo interfaces que farão o que ele ja costumava fazer de uma forma mais simples e automática.
 
-Garanta que em seu sistema estejam instalados o Node e o npm.
+O sistema é dividido em backend para o funcionamento e frontend para a execução de telas.
 
-Em seguida, tanto na pasta raíz do projeto quanto nas pastas backend e frontend insira o comando:
-```console
-npm install
-```
-## Executar back e front simultaneamente
+Clique abaixo para ver mais sobre cada uma:
 
-Para executar o projeto como um todo, vá até a pasta raiz do projeto e digite o comando:
-```console
-npm start
-```
+[Backend](Backend/README.md)
 
-## Executar separadamente
-
-### Backend (Servidor)
-
-Vá até a pasta raiz do projeto e digite o comando:
-```console
-cd Backend/
-npm run dev
-```
-
-### Frontend (Telas)
-
-Vá até a pasta raiz do projeto e digite o comando:
-```console
-cd frontend/
-npm run dev
-```
-
-## Acessar
-Quando o sistema estiver executando acesse em seu navegador o endereço para acessar o sistema, o padrão é http://localhost:3000
+[Frontend](frontend/README.md)
 
 # Fluxo
 
