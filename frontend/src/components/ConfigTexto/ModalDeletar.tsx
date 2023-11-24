@@ -26,11 +26,11 @@ export default function ModalMatricula(props: any) {
       await fetch(`http://localhost:3333/textos/${props.texto}`, {
         method: "DELETE",
       });
-      handleClose()
-      location.reload()
     } catch (err) {
       console.log("Erro ao remover texto");
     }
+    handleClose();
+    location.reload();
   };
 
   const [open, setOpen] = React.useState(false);
@@ -39,11 +39,19 @@ export default function ModalMatricula(props: any) {
 
   return (
     <>
-      <Tooltip title="Remover">
-        <IconButton>
-          <RemoveCircleOutlineIcon onClick={handleOpen} />
-        </IconButton>
-      </Tooltip>
+      {props.texto === "Falta Orientador" || props.texto === "Agendar Banca" ? (
+        <Tooltip title="Remover">
+          <IconButton disabled>
+            <RemoveCircleOutlineIcon onClick={handleOpen} />
+          </IconButton>
+        </Tooltip>
+      ) : (
+        <Tooltip title="Remover">
+          <IconButton>
+            <RemoveCircleOutlineIcon onClick={handleOpen}/>
+          </IconButton>
+        </Tooltip>
+      )}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

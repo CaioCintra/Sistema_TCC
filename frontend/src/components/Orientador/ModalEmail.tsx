@@ -61,6 +61,16 @@ export default function ModalEmail(props: any) {
         }
         const data = await response.json();
         setData(data);
+
+        const defaultTemplate = props.padrao;
+        const defaultText = data.find(
+          (texto) => texto.nome === defaultTemplate
+        );
+        setContent({
+          template: defaultText.assunto,
+          assunto: defaultTemplate,
+          corpo: defaultText.conteudo,
+        });
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
