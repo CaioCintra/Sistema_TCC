@@ -1,5 +1,8 @@
 # Frontend Sistema_TCC
 
+Clique para voltar para as 
+[Informações gerais](../README.md)
+
 ## Tecnologias:
 O frontend deste projeto foi desenvolvido com as seguintes tecnologias:
 
