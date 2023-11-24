@@ -1,7 +1,7 @@
 # Backend Sistema_TCC
 
 Clique para voltar para as 
-[Informações gerais](../READ.me)
+[Informações gerais](../README.md)
 
 ## Tecnologias:
 O backend deste projeto foi desenvolvido com as seguintes tecnologias:
