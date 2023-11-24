@@ -51,7 +51,7 @@ export default function AgendarBanca() {
           <p className="w-[19%]">Local</p>
           <p className="">Ações</p>
         </div>
-        <div className="h-[20rem]">
+        <div>
           {filteredData.map((aluno) => (
             <LinhaBanca
               key={aluno.ra}
