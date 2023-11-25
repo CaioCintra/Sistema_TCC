@@ -305,11 +305,11 @@ export default function BoxAgendarBanca(props: any) {
               +
             </button>
             <Button
+              href={`/aluno/RequisitarProfessor?token=${props.token}`}
               variant="contained"
-              className="uppercase bg-[var(--primary-color)] ml-4 hover:bg-slate-900 float-right h-10"
-              href="../admin/cadastroProfessor"
+              className="font-medium h-14 w-auto mt-8 bg-[var(--primary-color)] hover:bg-slate-900"
             >
-              Cadastrar Professor
+              MEU PROFESSOR NÃO ESTÁ NA LISTA
             </Button>
           </div>
           <div className="mb-4">

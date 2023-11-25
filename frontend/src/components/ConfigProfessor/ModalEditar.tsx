@@ -25,7 +25,7 @@ export default function ModalEditar(props: any) {
     nome: props.nome,
     email: props.email,
     departamento: props.departamento,
-    telefone: props.telefone,
+    telefone: props.celular,
   });
 
   function limparFormulario() {
@@ -33,7 +33,7 @@ export default function ModalEditar(props: any) {
       nome: props.nome,
       email: props.email,
       departamento: props.departamento,
-      telefone: props.telefone,
+      telefone: props.celular,
     });
   }
 
@@ -127,8 +127,7 @@ export default function ModalEditar(props: any) {
                 <label className="block text-gray-700 font-medium mb-2">
                   Departamento
                 </label>
-                <input
-                  type="text"
+                <select
                   id="departamento"
                   name="departamento"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
@@ -136,7 +135,10 @@ export default function ModalEditar(props: any) {
                   value={content.departamento}
                   placeholder={props.departamento}
                   required
-                />
+                >
+                  <option value="DACOM">DACOM</option>
+                  <option value="Externo">Externo</option>
+                </select>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
@@ -152,7 +154,7 @@ export default function ModalEditar(props: any) {
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                   onChange={onChangeInput}
                   value={content.telefone}
-                  placeholder={props.telefone}
+                  placeholder={props.celular}
                   required
                 />
               </div>

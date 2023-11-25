@@ -15,7 +15,6 @@ export const registerRoutes = (app: any) => {
   app.register(rotasAlunos);
   app.register(rotasProfessores);
   app.register(rotasTextos);
-  app.register(rotasPeriodos);
   app.register(rotasLogin);
   app.register(rotasAlunoAuth);
   app.register(rotasBanca);

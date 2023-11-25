@@ -162,15 +162,17 @@ export default function ModalCadastrarProfessor() {
                 <label className="block text-gray-700 font-medium mb-2">
                   Departamento
                 </label>
-                <input
-                  type="text"
+                <select
                   id="departamento"
                   name="departamento"
                   className="w-full border border-gray-300 px-3 py-2 rounded-md focus:ring focus:ring-gray-400"
                   onChange={onChangeInput}
                   value={content.departamento}
                   required
-                />
+                >
+                  <option value="DACOM">DACOM</option>
+                  <option value="Externo">Externo</option>
+                </select>
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 font-medium mb-2">
