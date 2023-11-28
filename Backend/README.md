@@ -21,6 +21,12 @@ Acesse a pasta Backend execute o seguinte comando para instalar:
 npm install
 ```
 
+Caso for usar outro banco de dados que não o hospedado no servidor, execute o comando a seguir para incluir as migrations e assim criar as tabelas:
+
+```console
+npx prisma migrate dev
+```
+
 ## Execução
 
 Para executar o backend, acesse a pasta Backend e use o comando a seguir:
