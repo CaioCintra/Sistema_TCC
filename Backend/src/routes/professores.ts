@@ -16,14 +16,14 @@ export async function rotasProfessores(app: FastifyInstance) {
 
   app.get("/professores/:id", async (request) => {
     const paramsSchema = z.object({
-      id: z.string(), // Altere para z.string()
+      id: z.string(),
     });
 
     const { id } = paramsSchema.parse(request.params);
 
     const professor = await prisma.professor.findUniqueOrThrow({
       where: {
-        id: Number(id), // Certifique-se de converter para número aqui
+        id: Number(id),
       },
     });
 

@@ -145,6 +145,18 @@ export default function ModalAgendarBanca(props: any) {
     location.reload();
   };
 
+  const requisitarConfirmacao = async () => {
+    await fetch(`http://localhost:3333/email/orientador`, {
+      method: "POST",
+      body: JSON.stringify({
+        ra: props.ra,
+        nome: props.nome,
+        orientador: props.orientador,
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
+  };
+
   const confirmarBanca = async () => {
     await fetch(`http://localhost:3333/tcc/${props.ra}/${workspace}`, {
       method: "PUT",
@@ -443,14 +455,24 @@ export default function ModalAgendarBanca(props: any) {
                 Excluir Banca
               </Button>
               {props.status === "Banca_TCC1_Agendada" ? (
-                <Button
-                  variant="contained"
-                  color="success"
-                  className="mt-3 uppercase bg-green-500 float-left bottom-0 left-5"
-                  onClick={confirmarBanca}
-                >
-                  Confirmar Banca
-                </Button>
+                <>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    className="mt-3 uppercase bg-green-500 float-left bottom-0 left-5"
+                    onClick={confirmarBanca}
+                  >
+                    Confirmar Banca
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    className="mt-3 uppercase bg-[var(--primary-color)] ml-5 hover:bg-slate-900 float-left bottom-0 left-5"
+                    onClick={requisitarConfirmacao}
+                  >
+                    Requisitar Confirmação
+                  </Button>
+                </>
               ) : (
                 <></>
               )}

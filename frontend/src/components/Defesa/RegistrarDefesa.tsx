@@ -27,7 +27,7 @@ export default function RegistrarDefesa() {
 
   return (
     <div>
-      <text className="text-2xl font-bold">Definir Orientador TCC1</text>
+      <text className="text-2xl font-bold">Registrar Defesa TCC1</text>
       <div className="m-10 mt-20 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
           <text className="w-[17rem]">Nome</text>
@@ -55,6 +55,8 @@ export default function RegistrarDefesa() {
                   nota={aluno.nota}
                   observacao={aluno.observacao}
                   idBanca={aluno.id}
+                  titulo={aluno.titulo}
+                  etapa={aluno.etapa}
                   workspace={value}
                 />
               ) : (
