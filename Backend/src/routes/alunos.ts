@@ -181,7 +181,12 @@ export async function rotasAlunos(app: FastifyInstance) {
     }
   });
 
-  app.get("/alunos/banca", async (req, res) => {
+  app.get("/alunos/banca/ws/:workspace", async (request, res) => {
+    const paramsSchema = z.object({
+      workspace: z.string(),
+    });
+
+    const { workspace } = paramsSchema.parse(request.params);
     try {
       const alunos = await prisma.aluno.findMany({
         orderBy: {
@@ -194,11 +199,13 @@ export async function rotasAlunos(app: FastifyInstance) {
           const banca = await prisma.banca.findMany({
             where: {
               ra: aluno.ra,
+              workspace: Number(workspace),
             },
           });
           const tccs = await prisma.tCC.findMany({
             where: {
               ra: aluno.ra,
+              workspace: Number(workspace), // Adicione o filtro por workspace aqui
             },
           });
           if (banca.length > 0) {
@@ -213,7 +220,6 @@ export async function rotasAlunos(app: FastifyInstance) {
               observacao: banca[0].observacao,
               status_confirmacao: banca[0].status_confirmacao,
               titulo: tccs[0].titulo,
-              etapa: tccs[0].etapa,
               status: tccs.length > 0 ? tccs[0].status : null,
               orientador: tccs.length > 0 ? tccs[0].orientador_id : null,
               coorientador: tccs.length > 0 ? tccs[0].coorientador_id : null,
@@ -260,7 +266,7 @@ export async function rotasAlunos(app: FastifyInstance) {
         },
         where: {
           ra: Number(ra),
-        }
+        },
       });
 
       const alunosComBancas = await Promise.all(

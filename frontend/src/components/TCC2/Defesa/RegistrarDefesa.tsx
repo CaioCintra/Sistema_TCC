@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import LinhaDefesa from "./LinhaDefesa";
-import { workspaceService } from "../Workspace";
+import { workspaceService } from "@/components/Workspace";
 
 export default function RegistrarDefesa() {
   const [data, setData] = useState(null);
@@ -27,7 +27,7 @@ export default function RegistrarDefesa() {
 
   return (
     <div>
-      <text className="text-2xl font-bold">Registrar Defesa TCC1</text>
+      <text className="text-2xl font-bold">Registrar Defesa TCC2</text>
       <div className="m-10 mt-20 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
           <text className="w-[17rem]">Nome</text>
@@ -41,9 +41,9 @@ export default function RegistrarDefesa() {
         <div>
           {data ? (
             data.map((aluno: any) =>
-              (aluno.status == "Banca_TCC1_Confirmada" ||
-                aluno.status == "Aprovado_TCC1" ||
-                aluno.status == "Reprovado_TCC1") &&
+              (aluno.status == "Banca_TCC2_Confirmada" ||
+                aluno.status == "Aprovado_TCC2" ||
+                aluno.status == "Reprovado_TCC2") &&
               parseInt(aluno.workspace) === value.tela ? (
                 <LinhaDefesa
                   ra={aluno.ra}

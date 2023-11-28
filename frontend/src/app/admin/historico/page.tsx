@@ -29,8 +29,6 @@ export default function Historico() {
     fetchData();
   }, []);
 
-  // ...
-
   return (
     <div>
       <text className="text-2xl font-bold">Histórico</text>
