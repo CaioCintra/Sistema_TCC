@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/contexts/AuthContext";
 import React, { useEffect } from "react";
-import { getAPIClient } from "@/services/axios";
 import { useSearchParams } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -50,13 +49,6 @@ export default function RootLayout({
 
     verifyToken();
   }, [token]);
-
-  const apiClient = getAPIClient();
-  try {
-    apiClient.get("/alunos");
-  } catch (error) {
-    console.error("Erro ao obter dados:", error);
-  }
 
   return (
     <AuthProvider>
