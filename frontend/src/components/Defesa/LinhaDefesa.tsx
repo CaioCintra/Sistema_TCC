@@ -1,10 +1,8 @@
-import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import LabelStatus from "../LabelStatus";
-import EditIcon from "@mui/icons-material/Edit";
-import FeedIcon from "@mui/icons-material/Feed";
 import { useEffect, useState } from "react";
 import ModalDefesa from "./ModalDefesa";
+import ModalDeclaracoes from "./ModalDeclaracoes";
 
 export default function LinhaDefesa(props: any) {
   useEffect(() => {
@@ -98,7 +96,7 @@ export default function LinhaDefesa(props: any) {
         {props.coorientador == 0 ? "" : " / " + data2}
       </p>
       <p className="w-[13rem]">
-      <LabelStatus status={props.status}></LabelStatus>
+        <LabelStatus status={props.status}></LabelStatus>
       </p>
       <p className="w-28 ml-11">{date}</p>
       <p className="w-[6rem] ml-7">
@@ -110,11 +108,17 @@ export default function LinhaDefesa(props: any) {
         </p>
       </Tooltip>
       <div className="inline-flex">
-        <Tooltip title="Declarações">
-          <IconButton>
-            <FeedIcon />
-          </IconButton>
-        </Tooltip>
+        <ModalDeclaracoes
+          ra={props.ra}
+          nome={props.nome}
+          idBanca={props.idBanca}
+          orientador={props.orientador}
+          coorientador={props.coorientador}
+          workspace={props.workspace}
+          etapa={props.etapa}
+          titulo={props.titulo}
+          data={props.data}
+        />
         <ModalDefesa
           ra={props.ra}
           nome={props.nome}

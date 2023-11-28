@@ -213,6 +213,7 @@ export async function rotasAlunos(app: FastifyInstance) {
               observacao: banca[0].observacao,
               status_confirmacao: banca[0].status_confirmacao,
               titulo: tccs[0].titulo,
+              etapa: tccs[0].etapa,
               status: tccs.length > 0 ? tccs[0].status : null,
               orientador: tccs.length > 0 ? tccs[0].orientador_id : null,
               coorientador: tccs.length > 0 ? tccs[0].coorientador_id : null,
