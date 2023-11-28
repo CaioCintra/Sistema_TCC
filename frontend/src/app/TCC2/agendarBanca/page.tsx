@@ -1,13 +1,16 @@
 "use client";
-import DefinirOrientador from "@/components/Orientador/DefinirOrientador";
+import AgendarBanca from "@/components/TCC2/AgendarBanca/AgendarBanca";
+import ConfirmarBanca from "@/components/TCC2/AgendarBanca/ConfirmarBanca";
 import { Box } from "@mui/material";
 
 import React from "react";
 
-export default function definirOrientadorTCC1() {
+export default function agendarBancaTCC2() {
   return (
     <Box>
-      <DefinirOrientador></DefinirOrientador>
+      <text className="text-2xl font-bold">Agendar Banca TCC2</text>
+      <AgendarBanca></AgendarBanca>
+      <ConfirmarBanca></ConfirmarBanca>
     </Box>
   );
 }

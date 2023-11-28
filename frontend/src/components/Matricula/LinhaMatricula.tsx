@@ -10,8 +10,14 @@ export default function LinhaMatricula(props: any) {
       <LabelStatus className="w-1/4" status={props.status}></LabelStatus>
       <div />
       <div className="inline-flex">
-        <ModalEditar ra={props.ra} nome={props.nome} status={props.status} email={props.email} workspace={props.workspace}/>
-        <ModalDeletar aluno={props.ra} workspace={props.workspace}/>
+        <ModalEditar
+          ra={props.ra}
+          nome={props.nome}
+          status={props.status}
+          email={props.email}
+          workspace={props.workspace}
+        />
+        <ModalDeletar aluno={props.ra} workspace={props.workspace} />
       </div>
     </div>
   );

@@ -47,7 +47,7 @@ model TCC {
   titulo          String?
   orientador_id   Int?
   coorientador_id Int?
-  status          Status    @default(Matriculado_TCC1)
+  status          Status
   aluno_ra        Aluno     @relation(fields: [ra], references: [ra])
   workspace_id    Workspace @relation(fields: [workspace], references: [id])
 }

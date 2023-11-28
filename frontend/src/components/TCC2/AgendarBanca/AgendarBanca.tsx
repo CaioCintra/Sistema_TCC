@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LinhaBanca from "./LinhaBanca";
-import { workspaceService } from "../Workspace";
+import { workspaceService } from "../../Workspace";
 
 export default function AgendarBanca() {
   const [data, setData] = useState(null);
@@ -11,7 +11,6 @@ export default function AgendarBanca() {
       try {
         const workspaceValue = await workspaceService.getWorkspace();
         setValue(workspaceValue);
-        console.log(value);
         const response = await fetch(`http://localhost:3333/alunos/banca/ws/${workspaceValue.tela}`);
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
@@ -31,7 +30,7 @@ export default function AgendarBanca() {
     ? data.filter(
         (aluno) =>
           aluno &&
-          aluno.status === "Orientador_Definido" &&
+          aluno.status === "Orientador_Definido_TCC2" &&
           parseInt(aluno.workspace) === value.tela
       )
     : [];

@@ -1,8 +1,8 @@
+import LinhaOrientador from "./LinhaOrientador";
 import { useEffect, useState } from "react";
-import LinhaDefesa from "./LinhaDefesa";
-import { workspaceService } from "../Workspace";
+import { workspaceService } from "@/components/Workspace";
 
-export default function RegistrarDefesa() {
+export default function DefinirOrientador() {
   const [data, setData] = useState(null);
   const [value, setValue] = useState(0);
 
@@ -11,7 +11,7 @@ export default function RegistrarDefesa() {
       try {
         const workspaceValue = await workspaceService.getWorkspace();
         setValue(workspaceValue);
-        const response = await fetch(`http://localhost:3333/alunos/banca/ws/${workspaceValue.tela}`);
+        const response = await fetch("http://localhost:3333/alunos/orientador");
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }
@@ -24,40 +24,30 @@ export default function RegistrarDefesa() {
 
     fetchData();
   }, []);
-
   return (
     <div>
-      <text className="text-2xl font-bold">Registrar Defesa TCC1</text>
       <div className="m-10 mt-20 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
-          <text className="w-[17rem]">Nome</text>
-          <text className="w-[19rem]">Orientador</text>
-          <text className="w-[19rem]">Status</text>
-          <text className="w-[11rem]">Data</text>
-          <text className="w-[8rem]">Nota</text>
-          <text className="w-[35rem]">Observação</text>
+          <text className="w-[13%]">RA</text>
+          <text className="w-[26%]">Nome</text>
+          <text className="w-[20%]">Status</text>
+          <text className="w-[36%]">Orientador</text>
           <text className="">Ações</text>
         </div>
         <div>
           {data ? (
             data.map((aluno: any) =>
-              (aluno.status == "Banca_TCC1_Confirmada" ||
-                aluno.status == "Aprovado_TCC1" ||
-                aluno.status == "Reprovado_TCC1") &&
+              (aluno.status == "Matriculado_TCC2" ||
+                aluno.status == "Orientador_Definido_TCC2") &&
               parseInt(aluno.workspace) === value.tela ? (
-                <LinhaDefesa
+                <LinhaOrientador
                   ra={aluno.ra}
                   nome={aluno.nome}
                   status={aluno.status}
                   orientador={aluno.orientador}
                   coorientador={aluno.coorientador}
-                  data={aluno.data}
-                  nota={aluno.nota}
-                  observacao={aluno.observacao}
-                  idBanca={aluno.id}
-                  titulo={aluno.titulo}
-                  etapa={aluno.etapa}
                   workspace={value}
+                  email={aluno.email}
                 />
               ) : (
                 <></>

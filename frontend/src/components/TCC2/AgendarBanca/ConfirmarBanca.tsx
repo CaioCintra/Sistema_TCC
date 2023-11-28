@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LinhaBanca from "./LinhaBanca";
-import { workspaceService } from "../Workspace";
+import { workspaceService } from "../../Workspace";
 
-export default function AgendarBanca() {
+export default function ConfirmarBanca() {
   const [data, setData] = useState(null);
   const [value, setValue] = useState(0);
 
@@ -11,7 +11,6 @@ export default function AgendarBanca() {
       try {
         const workspaceValue = await workspaceService.getWorkspace();
         setValue(workspaceValue);
-        console.log(value);
         const response = await fetch(`http://localhost:3333/alunos/banca/ws/${workspaceValue.tela}`);
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
@@ -31,7 +30,8 @@ export default function AgendarBanca() {
     ? data.filter(
         (aluno) =>
           aluno &&
-          aluno.status === "Orientador_Definido" &&
+          (aluno.status === "Banca_TCC2_Agendada" ||
+            aluno.status === "Banca_TCC2_Confirmada") &&
           parseInt(aluno.workspace) === value.tela
       )
     : [];
@@ -42,6 +42,7 @@ export default function AgendarBanca() {
 
   return (
     <div>
+      <text className="mt-3 mb-3 text-2xl font-bold">Confirmar Banca</text>
       <div className="mt-4 items-center space-y-1">
         <div className="px-6 flex font-extrabold">
           <p className="w-[21%]">Nome</p>
@@ -52,7 +53,7 @@ export default function AgendarBanca() {
           <p className="w-[19%]">Local</p>
           <p className="">Ações</p>
         </div>
-        <div>
+        <div className="h-[20rem]">
           {filteredData.map((aluno) => (
             <LinhaBanca
               key={aluno.ra}

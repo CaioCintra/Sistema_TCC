@@ -1,13 +1,13 @@
 "use client";
-import MatricularTCC from "@/components/Matricula/MatricularTCC";
+import MatricularTCC from "@/components/TCC2/Matricula/MatricularTCC";
 import { Box } from "@mui/material";
 
 import React from "react";
 
-export default function matricularTCC1() {
+export default function matricularTCC2() {
   return (
     <Box>
-      <MatricularTCC></MatricularTCC>;
+      <MatricularTCC></MatricularTCC>
     </Box>
   );
 }
