@@ -70,23 +70,13 @@ export default function ModalAgendarBanca(props: any) {
       } catch (error) {
         console.error("Erro na requisição:", error);
       }
-      if (bancaExiste) {
-        setContent({
-          aluno: props.ra,
-          tituloTrabalho: props.titulo,
-          data: props.data,
-          horario: props.hora,
-          local: props.local,
-        });
-      } else {
-        setContent({
-          aluno: props.ra,
-          tituloTrabalho: props.titulo,
-          data: "",
-          horario: "",
-          local: props.local,
-        });
-      }
+      setContent({
+        aluno: props.ra,
+        tituloTrabalho: props.titulo,
+        data: props.titulo? props.data : "",
+        horario: props.hora,
+        local: props.local,
+      });
     };
     fetchData();
   }, [props.data, props.ra]);
@@ -123,7 +113,7 @@ export default function ModalAgendarBanca(props: any) {
     setContent({
       aluno: props.ra,
       tituloTrabalho: props.titulo,
-      data: props.data,
+      data: props.titulo? props.data : "",
       horario: props.hora,
       local: props.local,
     });
