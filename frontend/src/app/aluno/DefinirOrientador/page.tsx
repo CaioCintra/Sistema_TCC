@@ -36,34 +36,30 @@ export default function DefinirOrientador() {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const workspaceValue = await workspaceService.getWorkspace();
-        setValue(workspaceValue);
-        const ra = await axios.get(urlRA);
-        const urlAluno = `http://localhost:3333/alunos/${ra.data.ra}`;
-        const aluno = await axios.get(urlAluno);
-        setAluno(aluno.data);
-      } catch (error) {
-        console.error("Erro na requisição:", error);
-      }
-      try {
-        const urlProfessor = `http://localhost:3333/professores`;
-        const professor = await axios.get(urlProfessor);
-        setProfessores(professor.data);
-      } catch (error) {
-        console.error("Erro na requisição:", error);
-      }
-      try {
-        const urlTCC = `http://localhost:3333/tcc/${aluno.ra}/${value.ativo}`;
-        const tcc = await axios.get(urlTCC);
-        setTCC(tcc.data[0]);
-      } catch (error) {
-        console.error("Erro na requisição:", error);
-      }
+      const workspaceValue = await workspaceService.getWorkspace();
+      setValue(workspaceValue);
+      const ra = await axios.get(urlRA);
+      console.log("ra", ra);
+      const urlAluno = `http://localhost:3333/alunos/${ra.data.ra}`;
+      const alunos = await axios.get(urlAluno);
+      console.log("aluno", alunos);
+      setAluno(alunos.data);
+      const urlProfessor = `http://localhost:3333/professores`;
+      const professor = await axios.get(urlProfessor);
+      setProfessores(professor.data);
+
+      const urlTCC = `http://localhost:3333/tcc/${alunos.data.ra}/${value.ativo}`;
+      const tccs = await axios.get(urlTCC);
+      setTCC(tccs.data[0]);
+
+      console.log(tccs.data[0]);
+      console.log("fdlsikafjsdlkfjsad");
+      console.log(ra.data.ra);
+      console.log(workspaceValue.ativo);
     };
 
     fetchData();
-  }, [urlRA]);
+  }, [urlRA, value.ativo]);
 
   const handleSubmit = async () => {
     if (orientador === "") {
@@ -74,36 +70,40 @@ export default function DefinirOrientador() {
       setError("Orientador igual a coorientador");
       return;
     }
-    setIsLoading(true);
     console.log(tccAluno);
-    const response = await fetch(`http://localhost:3333/tcc/${tccAluno.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        etapa: "TCC1",
-        titulo: "",
-        orientador_id: parseInt(orientador),
-        coorientador_id: parseInt(coorientador),
-        status: "Orientador_Definido",
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-    await fetch("http://localhost:3333/historico", {
-      method: "POST",
-      body: JSON.stringify({
-        aluno: parseInt(aluno.ra),
-        workspace: parseInt(value.ativo),
-        Etapa: "TCC1",
-        orientador: parseInt(orientador),
-        status_processo: "Orientador_Definido",
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-    if (response.ok) {
-      setIsLoading(false);
-      window.location.href = `/aluno/DadosConfirmados?token=${token}`;
-    } else {
-      setError("Erro ao editar o campo");
-      setIsLoading(false);
+    console.log(aluno);
+    console.log(value);
+    if (tccAluno) {
+      setIsLoading(true);
+      const response = await fetch(`http://localhost:3333/tcc/${tccAluno.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          etapa: "TCC1",
+          titulo: "",
+          orientador_id: parseInt(orientador),
+          coorientador_id: parseInt(coorientador),
+          status: "Orientador_Definido",
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+      await fetch("http://localhost:3333/historico", {
+        method: "POST",
+        body: JSON.stringify({
+          aluno: parseInt(aluno.ra),
+          workspace: parseInt(value.ativo),
+          Etapa: "TCC1",
+          orientador: parseInt(orientador),
+          status_processo: "Orientador_Definido",
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.ok) {
+        setIsLoading(false);
+        window.location.href = `/aluno/DadosConfirmados?token=${token}`;
+      } else {
+        setError("Erro ao editar o campo");
+        setIsLoading(false);
+      }
     }
   };
 
