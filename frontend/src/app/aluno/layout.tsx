@@ -8,10 +8,6 @@ import { useSearchParams } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Sistema TCC",
-  description: "Sistema TCC",
-};
 
 export default function RootLayout({
   children,

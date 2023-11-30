@@ -10,10 +10,6 @@ import { getAPIClient } from "@/services/axios";
 
 const inter = Inter({ subsets: ["latin"] });
 let token: any;
-export const metadata: Metadata = {
-  title: "Sistema TCC",
-  description: "Sistema TCC",
-};
 
 export default function RootLayout({
   children,
