@@ -39,10 +39,8 @@ export default function DefinirOrientador() {
       const workspaceValue = await workspaceService.getWorkspace();
       setValue(workspaceValue);
       const ra = await axios.get(urlRA);
-      console.log("ra", ra);
       const urlAluno = `http://localhost:3333/alunos/${ra.data.ra}`;
       const alunos = await axios.get(urlAluno);
-      console.log("aluno", alunos);
       setAluno(alunos.data);
       const urlProfessor = `http://localhost:3333/professores`;
       const professor = await axios.get(urlProfessor);
@@ -51,11 +49,6 @@ export default function DefinirOrientador() {
       const urlTCC = `http://localhost:3333/tcc/${alunos.data.ra}/${value.ativo}`;
       const tccs = await axios.get(urlTCC);
       setTCC(tccs.data[0]);
-
-      console.log(tccs.data[0]);
-      console.log("fdlsikafjsdlkfjsad");
-      console.log(ra.data.ra);
-      console.log(workspaceValue.ativo);
     };
 
     fetchData();
@@ -70,9 +63,6 @@ export default function DefinirOrientador() {
       setError("Orientador igual a coorientador");
       return;
     }
-    console.log(tccAluno);
-    console.log(aluno);
-    console.log(value);
     if (tccAluno) {
       setIsLoading(true);
       const response = await fetch(`http://localhost:3333/tcc/${tccAluno.id}`, {
