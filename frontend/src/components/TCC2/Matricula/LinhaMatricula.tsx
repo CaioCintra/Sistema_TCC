@@ -67,11 +67,19 @@ export default function LinhaMatricula(props: any) {
         <LabelStatus className="w-1/4" status={props.status}></LabelStatus>
         <div />
         <div className="inline-flex">
-          <Tooltip title="Matricular em TCC2">
-            <IconButton>
-              <HowToRegIcon onClick={matricularTCC2} />
+          {props.workspace.ativo === props.workspace.tela ? (
+            <Tooltip title="Matricular em TCC2">
+              <IconButton>
+                <HowToRegIcon onClick={matricularTCC2} />
+              </IconButton>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Matricular em TCC2">
+            <IconButton disabled>
+              <HowToRegIcon/>
             </IconButton>
           </Tooltip>
+          )}
         </div>
       </div>
     </>
