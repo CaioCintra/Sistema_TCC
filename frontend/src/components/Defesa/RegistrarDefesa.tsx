@@ -11,7 +11,9 @@ export default function RegistrarDefesa() {
       try {
         const workspaceValue = await workspaceService.getWorkspace();
         setValue(workspaceValue);
-        const response = await fetch(`http://localhost:3333/alunos/banca/ws/${workspaceValue.tela}`);
+        const response = await fetch(
+          `http://localhost:3333/alunos/banca/ws/${workspaceValue.tela}`
+        );
         if (!response.ok) {
           throw new Error("Erro ao buscar dados da API");
         }
@@ -51,6 +53,7 @@ export default function RegistrarDefesa() {
                   status={aluno.status}
                   orientador={aluno.orientador}
                   coorientador={aluno.coorientador}
+                  local={aluno.local}
                   data={aluno.data}
                   nota={aluno.nota}
                   observacao={aluno.observacao}

@@ -115,6 +115,7 @@ export default function LinhaDefesa(props: any) {
           orientador={props.orientador}
           coorientador={props.coorientador}
           workspace={props.workspace}
+          local={props.local}
           etapa={props.etapa}
           titulo={props.titulo}
           data={props.data}
