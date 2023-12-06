@@ -5,7 +5,7 @@
 <p align="center">
     Trabalho de Conclusão do Curso de Bacharelado em Ciência da Computação.<br>
     Caio José de Paula Cintra<br>
-    Orientador: Prof. Rafael Liberto<br>
+    Orientador: Prof. Rafael Liberato<br>
     <i>Dezembro de 2023</i> 
 </p>
 <br>
