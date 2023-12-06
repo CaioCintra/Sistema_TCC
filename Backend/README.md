@@ -56,6 +56,17 @@ npm -v
 
 ## Instalação
 
+Clone o sistema:<br/>
+```console
+git clone https://github.com/CaioCintra/Sistema_TCC.git
+```
+Ou instale diretamente pelo Github em https://github.com/CaioCintra/Sistema_TCC<br/>
+
+Acesse a pasta do arquivo
+```console
+cd Sistema_TCC/
+```
+
 Backend:<br/>
 Acesse a pasta Backend<br/>
 ```console
