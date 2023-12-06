@@ -10,14 +10,21 @@
 </p>
 <br>
 
-<p align="center">
-  <a href="#introdução">Introdução</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#processo">Processo</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#arquitetura">Arquitetura</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#instalação">Instalação</a>
-</p>
 
 Este sistema foi desenvolvido para auxiliar O Professor Responsável pelas Atividades do TCC (PRATCC) no acompanhamento dos Trabalhos de Conclusão de Curso (TCC) no Bacharelado em Ciência da Computação da Universidade Tecnológica Federal do Paraná (UTFPR).
+
+<p align="center"><b>
+<h1>Sumário</h1>
+    
+<ul>
+<li><a href="#introdução">Introdução</a><br/><br/></li>
+<li><a href="#processo">Processo</a><br/><br/></li>
+<li><a href="#arquitetura">Arquitetura</a><br/><br/></li>
+<li><a href="#backend">Backend</a><br/><br/></li>
+<li><a href="#frontend">Frontend</a><br/><br/></li>
+<li><a href="#instalação">Instalação</a><br/><br/></li>
+</ul>
+</b></p>
 
 # Introdução
 
