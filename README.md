@@ -23,8 +23,9 @@ Este sistema foi desenvolvido para auxiliar O Professor Responsável pelas Ativi
 <li><a href="#arquitetura">Arquitetura</a><br/><br/></li>
 <li><a href="#tecnologias">Tecnologias</a><br/><br/></li>
 <li><a href="#Variaveisdeambiente">Variáveis de ambiente</a><br/><br/></li>
-<li><a href="#banco de dados">Frontend</a><br/><br/></li>
-<li><a href="#rotas">Frontend</a><br/><br/></li>
+<li><a href="#banco de dados">Banco de dados</a><br/><br/></li>
+<li><a href="#rotas">Rotas</a><br/><br/></li>
+<li><a href="#telas">Telas</a><br/><br/></li>
 </ul>
 </b></p>
 
