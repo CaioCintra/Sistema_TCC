@@ -14,7 +14,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 1100,
-  height: 500,
+  height: 560,
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 5,
@@ -164,6 +164,11 @@ export default function ModalLote(props: any) {
               Insira os dados do aluno separados por vírgula para matricular,
               divida cada aluno por quebra de linha, contendo respectivamente
               RA, nome e e-mail.
+              <br />
+              Ex: <br />
+              7654321,Nome,email@email.com
+              <br />
+              1234567,Nome2,email@email2.com
             </p>
 
             <form onSubmit={cadastrarAluno} id="form">
